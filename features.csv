@@ -1,0 +1,82 @@
+category,feature_name,description,source,availability,derived,role
+Property,year_built,Year the structure was built,PortlandMaps Taxlots (YEARBUILT),now,N,feature
+Property,property_age,Current year minus year_built,Derived from Taxlots,now,Y,feature
+Property,building_sqft,Total building square footage,PortlandMaps Taxlots (BLDGSQFT),now,N,feature
+Property,bedrooms,Number of bedrooms,PortlandMaps Taxlots (BEDROOMS),now,N,feature
+Property,floors,Number of floors,PortlandMaps Taxlots (FLOORS),now,N,feature
+Property,units,Number of dwelling units on parcel,PortlandMaps Taxlots (UNITS),now,N,feature
+Property,lot_size_sqft,Lot area in square feet,PortlandMaps Taxlots (A_T_SQFT),now,N,feature
+Property,lot_acres,Lot area in acres,PortlandMaps Taxlots (A_T_ACRES),now,N,feature
+Property,frontage,Street frontage in feet,PortlandMaps Taxlots (FRONTAGE),now,N,feature
+Property,property_class,Property/land-use classification,PortlandMaps Taxlots (PROP_CODE/PRPCD_DESC/LANDUSE),now,N,feature
+Valuation,total_assessed_value,Most recent total assessed value,PortlandMaps Taxlots (TOTALVAL1),now,N,feature
+Valuation,land_value,Land assessed value,PortlandMaps Taxlots (LANDVAL1),now,N,feature
+Valuation,building_value,Improvement assessed value,PortlandMaps Taxlots (BLDGVAL1),now,N,feature
+Valuation,assessed_value_3yr_ago,Total assessed value three years prior,PortlandMaps Taxlots (TOTALVAL3),now,N,feature
+Valuation,assessed_value_trend_pct,Percent change in assessed value over 3 yrs (decline = distress),Derived from Taxlots,now,Y,feature
+Valuation,last_sale_price,Most recent recorded sale price,PortlandMaps Taxlots (SALEPRICE),now,N,feature
+Valuation,last_sale_date,Most recent recorded sale date,PortlandMaps Taxlots (SALEDATE),now,N,feature
+Valuation,tenure_years,Years since last sale (ownership duration),Derived from Taxlots,now,Y,feature
+Valuation,appreciation_since_purchase,Current value divided by last sale price,Derived from Taxlots,now,Y,feature
+Valuation,estimated_equity,Current value minus outstanding loan balance,Derived (needs recorded lien data),bulk,Y,feature
+Valuation,loan_to_value,Outstanding loan balance divided by current value,Derived (needs recorded lien data),bulk,Y,feature
+Ownership,owner_name,Primary owner name,PortlandMaps Taxlots (OWNER1/2/3),now,N,identity
+Ownership,owner_mailing_address,Owner mailing address,PortlandMaps Taxlots (OWNERADDR/CITY/STATE/ZIP),now,N,identity
+Ownership,owner_occupied_flag,Owner mailing address equals site address,Derived from Taxlots,now,Y,feature
+Ownership,absentee_owner_flag,Owner mailing address differs from site (absentee),Derived from Taxlots,now,Y,feature
+Ownership,out_of_state_owner_flag,Owner state is not Oregon,Derived from Taxlots (OWNERSTATE),now,Y,feature
+Ownership,owner_is_entity_flag,Owner name contains LLC/INC/CORP/TRUST,Derived from Taxlots,now,Y,feature
+Ownership,portfolio_size,Count of parcels with same owner/mailing address,Derived from Taxlots,now,Y,feature
+TaxDelinquency,tax_delinquent_flag,Any unpaid/past-due property tax,Multnomah County Assessment & Taxation (multcoproptax),bulk,N,feature
+TaxDelinquency,tax_delinquent_amount,Total past-due property tax amount,Multnomah County A&T,bulk,N,feature
+TaxDelinquency,delinquent_years_count,Number of years/cycles behind on tax,Multnomah County A&T,bulk,N,feature
+TaxDelinquency,tax_delinquency_velocity,Rate of growth in delinquent balance over time,Derived from A&T history,bulk,Y,feature
+TaxDelinquency,in_tax_foreclosure_flag,Parcel is in county tax-foreclosure process,Multnomah County A&T,bulk,N,feature
+TaxDelinquency,annual_tax_amount,Current-year property tax billed,Multnomah County A&T,bulk,N,feature
+TaxDelinquency,tax_amount_yoy_consistency,Whether annual tax owed stays within ~3% year over year,Derived from A&T history,bulk,Y,feature
+RecordedDocs,notice_of_default_flag,Notice of Default recorded against parcel,County Recording / Public Notices Oregon,bulk,N,label
+RecordedDocs,notice_of_default_date,Date NOD was recorded (defines prediction window),County Recording / Public Notices Oregon,bulk,N,label
+RecordedDocs,foreclosure_sale_notice_flag,Trustee/sheriff sale notice published (late competitor signal),Public Notices Oregon,scrape,N,label
+RecordedDocs,lis_pendens_flag,Pending legal action recorded against title,County Recording,bulk,N,feature
+RecordedDocs,open_lien_count,Number of active liens on title,County Recording,bulk,N,feature
+RecordedDocs,federal_tax_lien_flag,IRS tax lien recorded,County Recording,bulk,N,feature
+RecordedDocs,state_tax_lien_flag,Oregon state tax lien recorded,County Recording,bulk,N,feature
+RecordedDocs,mechanics_lien_flag,Contractor/mechanics lien recorded,County Recording,bulk,N,feature
+RecordedDocs,water_sewer_lien_flag,Recorded water/sewer lien against property,County Recording / Portland Water Bureau,bulk,N,feature
+RecordedDocs,mortgage_count,Number of deeds of trust on record,County Recording,bulk,N,feature
+RecordedDocs,has_second_mortgage_flag,More than one active deed of trust,Derived from County Recording,bulk,Y,feature
+RecordedDocs,origination_loan_amount,Original loan amount from recorded deed of trust,County Recording,bulk,N,feature
+RecordedDocs,loan_age_years,Years since loan origination,Derived from County Recording,bulk,Y,feature
+CodeEnforcement,code_violation_count,Total code violations on the property,PortlandMaps BDS / Portland code enforcement,now,N,feature
+CodeEnforcement,open_code_violation_flag,Any unresolved code violation,PortlandMaps BDS / Portland code enforcement,now,N,feature
+CodeEnforcement,days_since_last_violation,Days since most recent code violation,Derived,now,Y,feature
+CodeEnforcement,nuisance_complaint_count,Number of nuisance complaints,Portland code enforcement,scrape,N,feature
+CodeEnforcement,abandoned_vehicle_report_flag,Abandoned vehicle reports at address,Portland PBOT / code enforcement,scrape,N,feature
+CodeEnforcement,demolition_permit_flag,Demolition permit filed,PortlandMaps BDS_Permit,now,N,feature
+Permits,recent_permit_count,Building permits in last N years,PortlandMaps BDS_Permit,now,N,feature
+Permits,permit_total_value,Total declared value of recent permits,PortlandMaps BDS_Permit,now,N,feature
+Permits,no_maintenance_permits_flag,No permits filed in X years (neglect proxy),Derived from BDS_Permit,now,Y,feature
+LifeEvents,probate_filing_flag,Probate case opened (likely owner death),Oregon Judicial Dept (OECI/OJCIN),scrape,N,feature
+LifeEvents,divorce_filing_flag,Dissolution-of-marriage case filed,Oregon Judicial Dept,scrape,N,feature
+LifeEvents,obituary_match_flag,Owner name matched in recent obituary,Obituary aggregators (scrape),scrape,N,feature
+LifeEvents,bankruptcy_flag,Bankruptcy filing for owner,PACER,vendor,N,feature
+LifeEvents,bankruptcy_chapter,Chapter 7 / 11 / 13,PACER,vendor,N,feature
+LifeEvents,owner_age_estimate,Estimated owner age (elderly = inheritance/distress risk),Skip-trace vendor,vendor,N,feature
+MarketContext,census_tract,Census tract identifier,ArcGIS (Census/Metro),now,N,context
+MarketContext,neighborhood,Neighborhood name,ArcGIS / City of Portland,now,N,context
+MarketContext,zoning_code,Zoning designation,PortlandMaps BPS_Zoning_Code_Layers,now,N,feature
+MarketContext,opportunity_zone_flag,Parcel falls in opportunity-mapping area,Portland HB opportunity mapping,now,Y,context
+MarketContext,area_foreclosure_rate,Historical foreclosure rate for tract/neighborhood,Derived,now,Y,context
+MarketContext,area_median_value,Median assessed value for neighborhood,Derived from Taxlots,now,Y,context
+BusinessRegistry,owner_entity_status,Active/dissolved/delinquent status of owning entity,Oregon SOS Business Registry,bulk,N,feature
+BusinessRegistry,entity_dissolution_flag,Owning LLC/corp is dissolved or inactive,Oregon SOS Business Registry,bulk,Y,feature
+BusinessRegistry,entity_registered_agent,Registered agent linking entity to a person,Oregon SOS Business Registry,bulk,N,identity
+Contact,owner_phone,Owner phone number,Skip-trace vendor (GLBA permissible purpose),vendor,N,output
+Contact,owner_email,Owner email address,Skip-trace vendor,vendor,N,output
+Contact,relatives_associates,Related people / associates,Skip-trace vendor,vendor,N,output
+Contact,current_mailing_address,Verified current owner address,Skip-trace vendor,vendor,N,output
+Excluded,water_shutoff_flag,Water service shutoff (NOT public; only recorded liens usable),Portland Water Bureau,excluded,N,feature
+Excluded,energy_shutoff_flag,PGE/Pacific Power disconnect (NOT public),PGE / Pacific Power,excluded,N,feature
+Excluded,credit_score,Consumer credit score (FCRA-regulated; cannot use/resell),Credit bureau,excluded,N,feature
+Excluded,income_salary,Owner income/salary (not lawfully obtainable for this use),n/a,excluded,N,feature
+Excluded,medical_payments,Medical/debt payment history (privacy-protected),n/a,excluded,N,feature
