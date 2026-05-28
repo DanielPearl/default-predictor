@@ -1,0 +1,10 @@
+name: default-predictor
+region: nyc
+static_sites:
+  - name: web
+    github:
+      repo: DanielPearl/default-predictor
+      branch: main
+      deploy_on_push: true
+    source_dir: /
+    index_document: index.html
