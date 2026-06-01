@@ -1,3 +1,6 @@
 Secret Keys/
 .DS_Store
 .claude/
+data/
+__pycache__/
+*.pyc
