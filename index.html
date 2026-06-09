@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Default Predictor — Feature List</title>
+  <title>Default Predictor - Feature List</title>
   <style>
     :root {
       --bg: #0d1117;
@@ -66,13 +66,15 @@
     .role { color: var(--muted); font-size: .78rem; }
     .yes { color: #4ade80; }
     .muted { color: var(--muted); }
+    td a { color: var(--accent); text-decoration: none; }
+    td a:hover { text-decoration: underline; }
     #count { color: var(--muted); font-size: .85rem; margin-bottom: .5rem; }
     .err { color: #f87171; padding: 1rem; }
   </style>
 </head>
 <body>
   <header>
-    <h1>Default Predictor — Feature List</h1>
+    <h1>Default Predictor - Feature List</h1>
     <p class="sub">Multnomah County pre-foreclosure model. Features that will populate the model, by source and availability.</p>
     <div class="stats" id="stats"></div>
   </header>
@@ -125,6 +127,43 @@
       return rows.map(r => Object.fromEntries(header.map((h, i) => [h, r[i] ?? ''])));
     }
 
+    // Map a source name (or one segment of a combined source) to its site.
+    // First matching pattern wins. Sources with no single site (skip-trace
+    // vendors, "n/a", credit bureau) stay as plain text.
+    const SOURCE_LINKS = [
+      [/multcoproptax|assessment ?& ?taxation|a&t/i, 'https://multcoproptax.com'],
+      [/county recording|recorded doc|multcorecords/i, 'https://multco.us/recording'],
+      [/public notices oregon/i, 'https://www.publicnoticeoregon.com'],
+      [/portlandmaps|taxlots|bds|bps_zoning/i, 'https://www.portlandmaps.com'],
+      [/opportunity mapping/i, 'https://www.portland.gov/phb/opportunity-mapping'],
+      [/city of portland/i, 'https://www.portland.gov'],
+      [/pbot/i, 'https://www.portland.gov/transportation'],
+      [/code enforcement/i, 'https://www.portland.gov/bds/code-enforcement'],
+      [/water bureau/i, 'https://www.portland.gov/water'],
+      [/\bpge\b/i, 'https://portlandgeneral.com'],
+      [/pacific power/i, 'https://www.pacificpower.net'],
+      [/oregon judicial|oeci|ojcin/i, 'https://www.courts.oregon.gov'],
+      [/pacer/i, 'https://pacer.uscourts.gov'],
+      [/sos business registry|business registry|oregon sos/i, 'https://sos.oregon.gov/business/Pages/find.aspx'],
+      [/obituar/i, 'https://www.legacy.com'],
+      [/census/i, 'https://www.census.gov'],
+      [/metro/i, 'https://rlisdiscovery.oregonmetro.gov'],
+      [/arcgis/i, 'https://www.arcgis.com'],
+    ];
+    const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    function sourceUrl(seg) {
+      for (const [re, url] of SOURCE_LINKS) if (re.test(seg)) return url;
+      return null;
+    }
+    function linkifySource(source) {
+      // Split only on " / " (spaces both sides) so inner slashes like
+      // "(Census/Metro)" or "(OECI/OJCIN)" stay intact.
+      return source.split(/\s+\/\s+/).map(seg => {
+        const u = sourceUrl(seg);
+        return u ? `<a href="${u}" target="_blank" rel="noopener noreferrer">${esc(seg)}</a>` : esc(seg);
+      }).join(' / ');
+    }
+
     let DATA = [], sortKey = null, sortAsc = true;
 
     function uniq(key) { return [...new Set(DATA.map(d => d[key]).filter(Boolean))].sort(); }
@@ -164,7 +203,7 @@
           <td><code>${d.feature_name}</code></td>
           <td>${d.category}</td>
           <td>${d.description}</td>
-          <td class="muted">${d.source}</td>
+          <td class="muted">${linkifySource(d.source)}</td>
           <td><span class="badge av-${d.availability}">${d.availability}</span></td>
           <td>${d.derived === 'Y' ? '<span class="yes">✓</span>' : '<span class="muted">—</span>'}</td>
           <td class="role">${d.role}</td>
