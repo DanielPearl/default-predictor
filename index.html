@@ -192,7 +192,7 @@
       }).join(' / ');
     }
 
-    let DATA = [], sortKey = null, sortAsc = true;
+    let DATA = [], sortKey = 'source', sortAsc = true;
 
     function uniq(key) { return [...new Set(DATA.map(d => d[key]).filter(Boolean))].sort(); }
     function fill(sel, vals) {
