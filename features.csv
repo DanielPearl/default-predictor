@@ -16,31 +16,6 @@ Property,lot_size_sqft,Lot size in square feet,Portland Maps,N,Y
 Property,lot_acres,Lot size in acres,Portland Maps,N,N
 Property,frontage,Width of the lot along the street in feet,Portland Maps,N,N
 Property,account_status,Status code of the tax account,Portland Maps,N,Y
-Valuation,total_assessed_value,Most recent assessed value of the property (2025 roll),Portland Maps,N,Y
-Valuation,assessed_value_mid,Assessed value from the 2024 roll,Portland Maps,N,Y
-Valuation,assessed_value_prior,Assessed value from the 2023 roll,Portland Maps,N,N
-Valuation,assessed_value_trend_pct,Percent change in assessed value since the prior roll; a drop can signal distress,Portland Maps,Y,Y
-Valuation,land_value,Assessed value of the land alone,Portland Maps,N,Y
-Valuation,building_value,Assessed value of the building alone,Portland Maps,N,Y
-Valuation,land_share_pct,Land value as a share of total; a high share flags teardown or redevelopment,Portland Maps,Y,Y
-Valuation,price_per_sqft,Assessed value per square foot of building,Portland Maps,Y,Y
-Valuation,value_per_lot_sqft,Assessed value per square foot of land,Portland Maps,Y,Y
-Valuation,last_sale_price,Price the property last sold for,Portland Maps,N,Y
-Valuation,last_sale_date,Date the property last sold,Portland Maps,N,Y
-Valuation,tenure_years,How long the current owner has held the property,Portland Maps,Y,Y
-Valuation,appreciation_since_purchase,Current value divided by the last sale price; a rough equity gauge,Portland Maps,Y,Y
-Valuation,tax_code,Tax district code for the parcel,Portland Maps,N,Y
-Valuation,estimated_equity,Current value minus the estimated loan balance,Multnomah County,Y,N
-Valuation,loan_to_value,Estimated loan balance divided by current value,Multnomah County,Y,N
-Ownership,owner_name,Name of the owner on record,Portland Maps,N,Y
-Ownership,owner_mailing_address,Owner mailing address including city state and ZIP,Portland Maps,N,Y
-Ownership,owner_occupied_flag,Whether the owner lives at the property,Portland Maps,Y,Y
-Ownership,absentee_owner_flag,Whether the owner lives somewhere other than the property,Portland Maps,Y,Y
-Ownership,out_of_state_owner_flag,Whether the owner mailing address is outside Oregon,Portland Maps,Y,Y
-Ownership,owner_is_entity_flag,Whether the owner is a company or trust rather than a person,Portland Maps,Y,Y
-Ownership,owner_count,Number of owners on title; three or more can signal inherited or joint ownership,Portland Maps,Y,Y
-Ownership,portfolio_size,How many parcels this owner holds in the county,Portland Maps,Y,N
-Ownership,related_accounts,Number of tax accounts linked to this one (condo or portfolio),Portland Maps,Y,Y
 Location,neighborhood,Neighborhood the property is in,Portland Maps,N,Y
 Location,council_district,City council district,Portland Maps,N,Y
 Location,school_district,School district serving the property,Portland Maps,N,Y
@@ -56,51 +31,76 @@ Location,census_tract,Census tract the parcel falls in,Census,N,N
 Location,opportunity_zone_flag,Whether the parcel is in a housing opportunity area,City of Portland,N,N
 Location,area_foreclosure_rate,Historical foreclosure rate for the neighborhood,Portland Maps,Y,N
 Location,area_median_value,Median assessed value in the neighborhood,Portland Maps,Y,N
-Hazard,flood_zone,Whether the parcel is in a FEMA flood zone,Portland Maps,N,Y
-Hazard,landslide_hazard,Whether the parcel is in a landslide hazard area,Portland Maps,N,Y
-Hazard,liquefaction_hazard,Earthquake liquefaction risk rating,Portland Maps,N,Y
-Hazard,steep_slope,Whether the parcel sits on a steep slope,Portland Maps,N,Y
-Hazard,hazard_count,Number of natural-hazard flags on the parcel,Portland Maps,Y,Y
-Taxes & Liens,tax_delinquent_flag,Whether any property tax is past due,Multnomah County,N,N
-Taxes & Liens,tax_delinquent_amount,Total past-due property tax,Multnomah County,N,N
-Taxes & Liens,delinquent_years_count,How many years the owner is behind on tax,Multnomah County,N,N
-Taxes & Liens,tax_delinquency_velocity,How fast the unpaid balance is growing,Multnomah County,Y,N
-Taxes & Liens,in_tax_foreclosure_flag,Whether the parcel is in county tax foreclosure,Multnomah County,N,N
-Taxes & Liens,annual_tax_amount,Property tax billed this year,Multnomah County,N,N
-Taxes & Liens,tax_amount_consistency,Whether the yearly tax bill stays roughly steady,Multnomah County,Y,N
-Taxes & Liens,notice_of_default_flag,Whether a Notice of Default has been recorded,Multnomah County,N,N
-Taxes & Liens,notice_of_default_date,Date a Notice of Default was recorded,Multnomah County,N,N
-Taxes & Liens,foreclosure_sale_notice_flag,Whether a trustee or sheriff sale has been published,Public Notices Oregon,N,N
-Taxes & Liens,lis_pendens_flag,Whether a pending lawsuit is recorded against the title,Multnomah County,N,N
-Taxes & Liens,open_lien_count,Number of active liens on the title,Multnomah County,N,N
-Taxes & Liens,federal_tax_lien_flag,Whether the IRS has recorded a lien,Multnomah County,N,N
-Taxes & Liens,state_tax_lien_flag,Whether Oregon has recorded a tax lien,Multnomah County,N,N
-Taxes & Liens,mechanics_lien_flag,Whether a contractor lien is recorded,Multnomah County,N,N
-Taxes & Liens,water_sewer_lien_flag,Whether a water or sewer lien is recorded,Multnomah County,N,N
-Taxes & Liens,mortgage_count,Number of mortgages recorded on the property,Multnomah County,N,N
-Taxes & Liens,has_second_mortgage_flag,Whether more than one mortgage is active,Multnomah County,Y,N
-Taxes & Liens,origination_loan_amount,Original amount of the recorded mortgage,Multnomah County,N,N
-Taxes & Liens,loan_age_years,Years since the mortgage was originated,Multnomah County,Y,N
-Permits & Code,recent_permit_count,Number of building permits on record,Portland Maps,N,Y
-Permits & Code,last_permit_year,Year of the most recent permit,Portland Maps,N,Y
-Permits & Code,years_since_permit,Years since the last building permit,Portland Maps,Y,Y
-Permits & Code,permit_total_value,Total declared value of recent permits,Portland Maps,N,N
-Permits & Code,no_maintenance_permits_flag,No recent permits which can signal neglect,Portland Maps,Y,N
-Permits & Code,code_violation_count,Number of code-enforcement cases on the property,Portland Maps,N,Y
-Permits & Code,open_code_violation_flag,Whether any code violation is unresolved,Portland Maps,N,N
-Permits & Code,days_since_last_violation,Days since the most recent code violation,Portland Maps,Y,N
-Permits & Code,nuisance_complaint_count,Number of nuisance complaints,Portland Maps,N,N
-Permits & Code,abandoned_vehicle_report_flag,Whether abandoned vehicles were reported,Portland Maps,N,N
-Permits & Code,demolition_permit_flag,Whether a demolition permit was filed,Portland Maps,N,N
-Legal & Life Events,probate_filing_flag,Whether a probate case was opened (often follows an owner death),Oregon Judicial Dept,N,N
-Legal & Life Events,divorce_filing_flag,Whether a divorce case was filed,Oregon Judicial Dept,N,N
-Legal & Life Events,obituary_match_flag,Whether the owner name appears in a recent obituary,Obituary records,N,N
-Legal & Life Events,bankruptcy_flag,Whether the owner has filed for bankruptcy,PACER,N,N
-Legal & Life Events,bankruptcy_chapter,Bankruptcy chapter filed (7 / 11 / 13),PACER,N,N
-Legal & Life Events,owner_age_estimate,Estimated age of the owner,Skip-trace vendor,N,N
-Legal & Life Events,owner_entity_status,Whether the owning company is active or dissolved,Oregon Secretary of State,N,N
-Legal & Life Events,entity_dissolution_flag,Whether the owning company is dissolved or inactive,Oregon Secretary of State,Y,N
-Legal & Life Events,entity_registered_agent,Registered agent that links a company to a person,Oregon Secretary of State,N,N
+Value,total_assessed_value,Most recent assessed value of the property (2025 roll),Portland Maps,N,Y
+Value,assessed_value_mid,Assessed value from the 2024 roll,Portland Maps,N,Y
+Value,assessed_value_prior,Assessed value from the 2023 roll,Portland Maps,N,N
+Value,assessed_value_trend_pct,Percent change in assessed value since the prior roll; a drop can signal distress,Portland Maps,Y,Y
+Value,land_value,Assessed value of the land alone,Portland Maps,N,Y
+Value,building_value,Assessed value of the building alone,Portland Maps,N,Y
+Value,land_share_pct,Land value as a share of total; a high share flags teardown or redevelopment,Portland Maps,Y,Y
+Value,price_per_sqft,Assessed value per square foot of building,Portland Maps,Y,Y
+Value,value_per_lot_sqft,Assessed value per square foot of land,Portland Maps,Y,Y
+Value,last_sale_price,Price the property last sold for,Portland Maps,N,Y
+Value,last_sale_date,Date the property last sold,Portland Maps,N,Y
+Value,tenure_years,How long the current owner has held the property,Portland Maps,Y,Y
+Value,appreciation_since_purchase,Current value divided by the last sale price; a rough equity gauge,Portland Maps,Y,Y
+Value,estimated_equity,Current value minus the estimated loan balance,Multnomah County,Y,N
+Value,loan_to_value,Estimated loan balance divided by current value,Multnomah County,Y,N
+Taxes,tax_code,Tax district code for the parcel,Portland Maps,N,Y
+Taxes,tax_delinquent_flag,Whether any property tax is past due,Multnomah County,N,N
+Taxes,tax_delinquent_amount,Total past-due property tax,Multnomah County,N,N
+Taxes,delinquent_years_count,How many years the owner is behind on tax,Multnomah County,N,N
+Taxes,tax_delinquency_velocity,How fast the unpaid balance is growing,Multnomah County,Y,N
+Taxes,in_tax_foreclosure_flag,Whether the parcel is in county tax foreclosure,Multnomah County,N,N
+Taxes,annual_tax_amount,Property tax billed this year,Multnomah County,N,N
+Taxes,tax_amount_consistency,Whether the yearly tax bill stays roughly steady,Multnomah County,Y,N
+Ownership,owner_name,Name of the owner on record,Portland Maps,N,Y
+Ownership,owner_mailing_address,Owner mailing address including city state and ZIP,Portland Maps,N,Y
+Ownership,owner_occupied_flag,Whether the owner lives at the property,Portland Maps,Y,Y
+Ownership,absentee_owner_flag,Whether the owner lives somewhere other than the property,Portland Maps,Y,Y
+Ownership,out_of_state_owner_flag,Whether the owner mailing address is outside Oregon,Portland Maps,Y,Y
+Ownership,owner_is_entity_flag,Whether the owner is a company or trust rather than a person,Portland Maps,Y,Y
+Ownership,owner_count,Number of owners on title; three or more can signal inherited or joint ownership,Portland Maps,Y,Y
+Ownership,portfolio_size,How many parcels this owner holds in the county,Portland Maps,Y,N
+Ownership,related_accounts,Number of tax accounts linked to this one (condo or portfolio),Portland Maps,Y,Y
+Ownership,owner_entity_status,Whether the owning company is active or dissolved,Oregon Secretary of State,N,N
+Ownership,entity_dissolution_flag,Whether the owning company is dissolved or inactive,Oregon Secretary of State,Y,N
+Ownership,entity_registered_agent,Registered agent that links a company to a person,Oregon Secretary of State,N,N
+Loans & Liens,notice_of_default_flag,Whether a Notice of Default has been recorded,Multnomah County,N,N
+Loans & Liens,notice_of_default_date,Date a Notice of Default was recorded,Multnomah County,N,N
+Loans & Liens,foreclosure_sale_notice_flag,Whether a trustee or sheriff sale has been published,Public Notices Oregon,N,N
+Loans & Liens,lis_pendens_flag,Whether a pending lawsuit is recorded against the title,Multnomah County,N,N
+Loans & Liens,open_lien_count,Number of active liens on the title,Multnomah County,N,N
+Loans & Liens,federal_tax_lien_flag,Whether the IRS has recorded a lien,Multnomah County,N,N
+Loans & Liens,state_tax_lien_flag,Whether Oregon has recorded a tax lien,Multnomah County,N,N
+Loans & Liens,mechanics_lien_flag,Whether a contractor lien is recorded,Multnomah County,N,N
+Loans & Liens,water_sewer_lien_flag,Whether a water or sewer lien is recorded,Multnomah County,N,N
+Loans & Liens,mortgage_count,Number of mortgages recorded on the property,Multnomah County,N,N
+Loans & Liens,has_second_mortgage_flag,Whether more than one mortgage is active,Multnomah County,Y,N
+Loans & Liens,origination_loan_amount,Original amount of the recorded mortgage,Multnomah County,N,N
+Loans & Liens,loan_age_years,Years since the mortgage was originated,Multnomah County,Y,N
+Permits & Violations,recent_permit_count,Number of building permits on record,Portland Maps,N,Y
+Permits & Violations,last_permit_year,Year of the most recent permit,Portland Maps,N,Y
+Permits & Violations,years_since_permit,Years since the last building permit,Portland Maps,Y,Y
+Permits & Violations,permit_total_value,Total declared value of recent permits,Portland Maps,N,N
+Permits & Violations,no_maintenance_permits_flag,No recent permits which can signal neglect,Portland Maps,Y,N
+Permits & Violations,code_violation_count,Number of code-enforcement cases on the property,Portland Maps,N,Y
+Permits & Violations,open_code_violation_flag,Whether any code violation is unresolved,Portland Maps,N,N
+Permits & Violations,days_since_last_violation,Days since the most recent code violation,Portland Maps,Y,N
+Permits & Violations,nuisance_complaint_count,Number of nuisance complaints,Portland Maps,N,N
+Permits & Violations,abandoned_vehicle_report_flag,Whether abandoned vehicles were reported,Portland Maps,N,N
+Permits & Violations,demolition_permit_flag,Whether a demolition permit was filed,Portland Maps,N,N
+Risk,flood_zone,Whether the parcel is in a FEMA flood zone,Portland Maps,N,Y
+Risk,landslide_hazard,Whether the parcel is in a landslide hazard area,Portland Maps,N,Y
+Risk,liquefaction_hazard,Earthquake liquefaction risk rating,Portland Maps,N,Y
+Risk,steep_slope,Whether the parcel sits on a steep slope,Portland Maps,N,Y
+Risk,hazard_count,Number of natural-hazard flags on the parcel,Portland Maps,Y,Y
+Life Events,probate_filing_flag,Whether a probate case was opened (often follows an owner death),Oregon Judicial Dept,N,N
+Life Events,divorce_filing_flag,Whether a divorce case was filed,Oregon Judicial Dept,N,N
+Life Events,obituary_match_flag,Whether the owner name appears in a recent obituary,Obituary records,N,N
+Life Events,bankruptcy_flag,Whether the owner has filed for bankruptcy,PACER,N,N
+Life Events,bankruptcy_chapter,Bankruptcy chapter filed (7 / 11 / 13),PACER,N,N
+Life Events,owner_age_estimate,Estimated age of the owner,Skip-trace vendor,N,N
 Contact,owner_phone,Owner phone number,Skip-trace vendor,N,N
 Contact,owner_email,Owner email address,Skip-trace vendor,N,N
 Contact,relatives_associates,Known relatives or associates,Skip-trace vendor,N,N
