@@ -69,6 +69,8 @@ def main():
         appreciation = round(current / sale, 2) if sale else None
         sqft = int(r["BLDGSQFT"]) if r["BLDGSQFT"] else None
         ppsf = round(current / sqft) if sqft else None
+        lot = int(r["A_T_SQFT"]) if r["A_T_SQFT"] else None
+        val_per_lot = round(current / lot) if lot else None
         # Count owner names across OWNER1-3 (names within a field split on "&").
         names = []
         for f in ("OWNER1", "OWNER2", "OWNER3"):
@@ -88,13 +90,17 @@ def main():
             "age": age,
             "sqft": sqft,
             "units": int(r["UNITS"]) if r["UNITS"] else None,
-            "lot_sqft": int(r["A_T_SQFT"]) if r["A_T_SQFT"] else None,
+            "lot_sqft": lot,
+            "land_use": r["LANDUSE"] or "",
+            "site_zip": (r["SITEZIP"] or "")[:5],
             "land_value": int(land) if land else None,
             "building_value": int(bldg) if bldg else None,
             "land_share_pct": land_share,
             "assessed_value": int(current),
             "assessed_value_prior": int(prior),
+            "assessed_value_mid": int(r["TOTALVAL2"]) if r["TOTALVAL2"] else None,
             "price_per_sqft": ppsf,
+            "value_per_lot_sqft": val_per_lot,
             "value_trend_pct": trend,
             "tax_code": r["TAXCODE"] or "",
             "last_sale_date": r["SALEDATE"],

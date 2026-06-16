@@ -78,6 +78,20 @@ Contact,owner_phone,Owner phone number,Skip-trace vendor (GLBA permissible purpo
 Contact,owner_email,Owner email address,Skip-trace vendor,vendor,N,output
 Contact,relatives_associates,Related people / associates,Skip-trace vendor,vendor,N,output
 Contact,current_mailing_address,Verified current owner address,Skip-trace vendor,vendor,N,output
+Valuation,assessed_value_mid,Total assessed value middle year (2024 roll),PortlandMaps Taxlots (TOTALVAL2),now,N,feature
+Valuation,value_per_lot_sqft,Current assessed value per lot square foot,Derived from Taxlots,now,Y,feature
+Hazard,flood_zone,In a FEMA special flood hazard area,PortlandMaps Detail API,bulk,N,feature
+Hazard,landslide_hazard,In a potential landslide hazard area,PortlandMaps Detail API,bulk,N,feature
+Hazard,liquefaction_hazard,Earthquake liquefaction hazard zone rating,PortlandMaps Detail API,bulk,N,feature
+Hazard,steep_slope,Parcel on a steep slope,PortlandMaps Detail API,bulk,N,feature
+Hazard,hazard_count,Count of natural-hazard flags on the parcel,Derived from Detail API,bulk,Y,feature
+MarketContext,latitude,Parcel centroid latitude,Derived from Detail geometry,bulk,Y,context
+MarketContext,longitude,Parcel centroid longitude,Derived from Detail geometry,bulk,Y,context
+MarketContext,elevation_ft,Ground elevation in feet,PortlandMaps Detail API,bulk,N,context
+MarketContext,crime_area,Area crime incident count,PortlandMaps Detail API,bulk,N,context
+MarketContext,commercial_zone,Parcel in a commercial/employment/industrial zone,Derived from Detail zoning,bulk,Y,feature
+Ownership,related_accounts,Count of linked tax accounts (condo/portfolio),PortlandMaps Detail API,bulk,Y,feature
+Permits,years_since_permit,Years since the last building permit,Derived from Permit API,bulk,Y,feature
 Excluded,water_shutoff_flag,Water service shutoff (NOT public; only recorded liens usable),Portland Water Bureau,excluded,N,feature
 Excluded,energy_shutoff_flag,PGE/Pacific Power disconnect (NOT public),PGE / Pacific Power,excluded,N,feature
 Excluded,credit_score,Consumer credit score (FCRA-regulated; cannot use/resell),Credit bureau,excluded,N,feature

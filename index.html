@@ -272,6 +272,10 @@
     const fmtPct = v => v == null ? '—' : v + '%';
     const fmtMult = v => v == null ? '—' : v + '×';
     const fmtEnforce = v => !v ? '<span class="muted">0</span>' : `<span class="badge flag-oos">${v}</span>`;
+    const fmtRisk = v => v === 'Yes' ? '<span class="badge flag-oos">Yes</span>' : '<span class="muted">No</span>';
+    const fmtFlagY = v => v === 'Yes' ? '<span class="badge flag-absentee">Yes</span>' : '<span class="muted">No</span>';
+    const fmtHazard = v => !v ? '<span class="muted">0</span>' : `<span class="badge flag-oos">${v}</span>`;
+    const fmtLiq = v => !v ? '—' : /high/i.test(v) ? `<span class="badge flag-oos">${esc(v)}</span>` : `<span class="muted">${esc(v)}</span>`;
     function fmtTrend(v) {
       if (v == null) return '—';
       const cls = v < 0 ? 'neg' : v > 0 ? 'pos' : '';
@@ -297,24 +301,46 @@
       ['Owner ZIP', 'owner_zip', 'num', fmtNum],
       ['Occupancy', 'occupancy', '', fmtOccupancy],
       ['Owner type', 'owner_type', '', fmtOwnerType],
+      ['Neighborhood', 'neighborhood', '', v => esc(v || '—')],
+      ['Council', 'council_district', 'num', fmtNum],
+      ['School district', 'school_district', '', v => esc(v || '—')],
+      ['Elementary', 'elementary_school', '', v => esc(v || '—')],
+      ['Nearest park', 'nearest_park', '', v => esc(v || '—')],
+      ['Latitude', 'latitude', 'num', fmtNum],
+      ['Longitude', 'longitude', 'num', fmtNum],
+      ['Elev (ft)', 'elevation_ft', 'num', fmtNum],
       ['Year built', 'year_built', 'num', fmtNum],
       ['Age', 'age', 'num', fmtNum],
       ['Bldg sqft', 'sqft', 'num', fmtCount],
       ['Baths', 'bathrooms', 'num', fmtNum],
       ['Units', 'units', 'num', fmtNum],
       ['Lot sqft', 'lot_sqft', 'num', fmtCount],
+      ['Land use', 'land_use', '', v => esc(v || '—')],
+      ['Site ZIP', 'site_zip', 'num', fmtNum],
       ['Zoning', 'zoning', '', v => esc(v || '—')],
-      ['Neighborhood', 'neighborhood', '', v => esc(v || '—')],
-      ['Council', 'council_district', 'num', fmtNum],
+      ['Commercial zone', 'commercial_zone', '', fmtFlagY],
+      ['Urban svc', 'urban_service', '', v => esc(v || '—')],
+      ['Flood zone', 'flood_zone', '', fmtRisk],
+      ['Landslide', 'landslide', '', fmtRisk],
+      ['Steep slope', 'steep_slope', '', fmtRisk],
+      ['Liquefaction', 'liquefaction', '', fmtLiq],
+      ['Hazards', 'hazard_count', 'num', fmtHazard],
+      ['Crime (area)', 'crime_area', 'num', fmtCount],
+      ['Fire dist (ft)', 'fire_dist_ft', 'num', fmtCount],
       ['Land val (’23)', 'land_value', 'num', fmtMoney],
       ['Bldg val (’23)', 'building_value', 'num', fmtMoney],
       ['Land share', 'land_share_pct', 'num', fmtPct],
+      ['Assessed (’24)', 'assessed_value_mid', 'num', fmtMoney],
       ['Assessed', 'assessed_value', 'num', fmtMoney],
       ['$/sqft', 'price_per_sqft', 'num', fmtMoney],
+      ['$/lot sqft', 'value_per_lot_sqft', 'num', fmtMoney],
       ['Value trend', 'value_trend_pct', 'num', fmtTrend],
       ['Permits', 'permit_count', 'num', fmtNum],
       ['Last permit', 'last_permit_year', 'num', fmtNum],
+      ['Yrs since permit', 'years_since_permit', 'num', fmtNum],
       ['Code cases', 'enforcement_count', 'num', fmtEnforce],
+      ['Related accts', 'related_accounts', 'num', fmtNum],
+      ['Acct status', 'account_status', '', v => esc(v || '—')],
       ['Tax code', 'tax_code', '', v => esc(v || '—')],
       ['Last sale', 'last_sale_date', 'num', fmtNum],
       ['Tenure (yrs)', 'tenure_years', 'num', fmtNum],
