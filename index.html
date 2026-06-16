@@ -269,6 +269,8 @@
     const fmtMoney = v => v == null ? '—' : '$' + v.toLocaleString();
     const fmtNum = v => (v == null || v === '') ? '—' : v;
     const fmtCount = v => v == null ? '—' : v.toLocaleString();
+    const fmtPct = v => v == null ? '—' : v + '%';
+    const fmtMult = v => v == null ? '—' : v + '×';
     function fmtTrend(v) {
       if (v == null) return '—';
       const cls = v < 0 ? 'neg' : v > 0 ? 'pos' : '';
@@ -285,19 +287,26 @@
       : `<span class="muted">${esc(v || '—')}</span>`;
 
     const PROP_COLS = [
+      ['Property ID', 'property_id', 'addr', v => esc(v || '')],
       ['Address', 'address', 'addr', v => esc(v || '')],
       ['Owner', 'owner', '', v => esc(v || '')],
+      ['Owner city', 'owner_city', '', v => esc(v || '')],
+      ['State', 'owner_state', '', fmtState],
       ['Occupancy', 'occupancy', '', fmtOccupancy],
       ['Owner type', 'owner_type', '', fmtOwnerType],
-      ['State', 'owner_state', '', fmtState],
       ['Year built', 'year_built', 'num', fmtNum],
       ['Age', 'age', 'num', fmtNum],
-      ['Sqft', 'sqft', 'num', fmtCount],
+      ['Bldg sqft', 'sqft', 'num', fmtCount],
+      ['Units', 'units', 'num', fmtNum],
+      ['Lot sqft', 'lot_sqft', 'num', fmtCount],
+      ['Land val (’23)', 'land_value', 'num', fmtMoney],
+      ['Land share', 'land_share_pct', 'num', fmtPct],
       ['Assessed', 'assessed_value', 'num', fmtMoney],
       ['Value trend', 'value_trend_pct', 'num', fmtTrend],
       ['Last sale', 'last_sale_date', 'num', fmtNum],
       ['Tenure (yrs)', 'tenure_years', 'num', fmtNum],
       ['Sale price', 'last_sale_price', 'num', fmtMoney],
+      ['Apprec.', 'appreciation', 'num', fmtMult],
     ];
 
     function renderProperties() {
