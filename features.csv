@@ -18,6 +18,7 @@ Valuation,last_sale_price,Most recent recorded sale price,PortlandMaps Taxlots (
 Valuation,last_sale_date,Most recent recorded sale date,PortlandMaps Taxlots (SALEDATE),now,N,feature
 Valuation,tenure_years,Years since last sale (ownership duration),Derived from Taxlots,now,Y,feature
 Valuation,appreciation_since_purchase,Current value divided by last sale price,Derived from Taxlots,now,Y,feature
+Valuation,price_per_sqft,Current assessed value per building square foot,Derived from Taxlots,now,Y,feature
 Valuation,estimated_equity,Current value minus outstanding loan balance,Derived (needs recorded lien data),bulk,Y,feature
 Valuation,loan_to_value,Outstanding loan balance divided by current value,Derived (needs recorded lien data),bulk,Y,feature
 Ownership,owner_name,Primary owner name,PortlandMaps Taxlots (OWNER1/2/3),now,N,identity
@@ -27,6 +28,7 @@ Ownership,absentee_owner_flag,Owner mailing address differs from site (absentee)
 Ownership,out_of_state_owner_flag,Owner state is not Oregon,Derived from Taxlots (OWNERSTATE),now,Y,feature
 Ownership,owner_is_entity_flag,Owner name contains LLC/INC/CORP/TRUST,Derived from Taxlots,now,Y,feature
 Ownership,portfolio_size,Count of parcels with same owner/mailing address,Derived from Taxlots,now,Y,feature
+Ownership,owner_count,Number of owners on title (3+ suggests heirs or joint ownership),Derived from Taxlots,now,Y,feature
 TaxDelinquency,tax_delinquent_flag,Any unpaid/past-due property tax,Multnomah County Assessment & Taxation (multcoproptax),bulk,N,feature
 TaxDelinquency,tax_delinquent_amount,Total past-due property tax amount,Multnomah County A&T,bulk,N,feature
 TaxDelinquency,delinquent_years_count,Number of years/cycles behind on tax,Multnomah County A&T,bulk,N,feature

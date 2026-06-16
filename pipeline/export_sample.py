@@ -67,24 +67,36 @@ def main():
         land_share = round(land / (land + bldg) * 100) if land and bldg else None
         sale = r["SALEPRICE"]
         appreciation = round(current / sale, 2) if sale else None
+        sqft = int(r["BLDGSQFT"]) if r["BLDGSQFT"] else None
+        ppsf = round(current / sqft) if sqft else None
+        # Count owner names across OWNER1-3 (names within a field split on "&").
+        names = []
+        for f in ("OWNER1", "OWNER2", "OWNER3"):
+            if r[f]:
+                names += [n for n in r[f].split("&") if n.strip()]
         out.append({
             "property_id": r["PROPERTYID"] or "",
             "address": norm(r["SITEADDR"]),
             "owner": r["OWNER1"],
+            "owner_count": len(names) or None,
             "owner_city": (r["OWNERCITY"] or "").title(),
             "owner_state": r["OWNERSTATE"] or "",
+            "owner_zip": (r["OWNERZIP"] or "")[:5],
             "occupancy": "Owner-occupied" if owner_occ else "Absentee",
             "owner_type": "Entity" if ENTITY_RE.search(r["OWNER1"] or "") else "Individual",
             "year_built": r["YEARBUILT"] or "",
             "age": age,
-            "sqft": int(r["BLDGSQFT"]) if r["BLDGSQFT"] else None,
+            "sqft": sqft,
             "units": int(r["UNITS"]) if r["UNITS"] else None,
             "lot_sqft": int(r["A_T_SQFT"]) if r["A_T_SQFT"] else None,
             "land_value": int(land) if land else None,
+            "building_value": int(bldg) if bldg else None,
             "land_share_pct": land_share,
             "assessed_value": int(current),
             "assessed_value_prior": int(prior),
+            "price_per_sqft": ppsf,
             "value_trend_pct": trend,
+            "tax_code": r["TAXCODE"] or "",
             "last_sale_date": r["SALEDATE"],
             "tenure_years": tenure_years(r["SALEDATE"]),
             "last_sale_price": int(sale) if sale else None,
