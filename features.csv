@@ -2,6 +2,8 @@ category,feature_name,description,source,derived,used
 Property,property_id,County tax-account number identifying the parcel,Portland Maps,N,Y
 Property,site_address,Street address of the property,Portland Maps,N,Y
 Property,property_class,What the property is used for (e.g. single-family residential),Portland Maps,N,Y
+Property,zoning_code,Zoning designation for the parcel,Portland Maps,N,Y
+Property,commercial_zone,Whether the parcel is in a commercial employment or industrial zone,Portland Maps,Y,Y
 Property,land_use,Land-use code for the parcel,Portland Maps,N,Y
 Property,year_built,Year the home was built,Portland Maps,N,Y
 Property,property_age,How old the building is in years,Portland Maps,Y,Y
