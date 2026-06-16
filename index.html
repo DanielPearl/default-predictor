@@ -271,6 +271,7 @@
     const fmtCount = v => v == null ? '—' : v.toLocaleString();
     const fmtPct = v => v == null ? '—' : v + '%';
     const fmtMult = v => v == null ? '—' : v + '×';
+    const fmtEnforce = v => !v ? '<span class="muted">0</span>' : `<span class="badge flag-oos">${v}</span>`;
     function fmtTrend(v) {
       if (v == null) return '—';
       const cls = v < 0 ? 'neg' : v > 0 ? 'pos' : '';
@@ -299,14 +300,21 @@
       ['Year built', 'year_built', 'num', fmtNum],
       ['Age', 'age', 'num', fmtNum],
       ['Bldg sqft', 'sqft', 'num', fmtCount],
+      ['Baths', 'bathrooms', 'num', fmtNum],
       ['Units', 'units', 'num', fmtNum],
       ['Lot sqft', 'lot_sqft', 'num', fmtCount],
+      ['Zoning', 'zoning', '', v => esc(v || '—')],
+      ['Neighborhood', 'neighborhood', '', v => esc(v || '—')],
+      ['Council', 'council_district', 'num', fmtNum],
       ['Land val (’23)', 'land_value', 'num', fmtMoney],
       ['Bldg val (’23)', 'building_value', 'num', fmtMoney],
       ['Land share', 'land_share_pct', 'num', fmtPct],
       ['Assessed', 'assessed_value', 'num', fmtMoney],
       ['$/sqft', 'price_per_sqft', 'num', fmtMoney],
       ['Value trend', 'value_trend_pct', 'num', fmtTrend],
+      ['Permits', 'permit_count', 'num', fmtNum],
+      ['Last permit', 'last_permit_year', 'num', fmtNum],
+      ['Code cases', 'enforcement_count', 'num', fmtEnforce],
       ['Tax code', 'tax_code', '', v => esc(v || '—')],
       ['Last sale', 'last_sale_date', 'num', fmtNum],
       ['Tenure (yrs)', 'tenure_years', 'num', fmtNum],

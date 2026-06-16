@@ -25,7 +25,14 @@
   "last_sale_date": "11/01/2016",
   "tenure_years": 9.6,
   "last_sale_price": 1150000,
-  "appreciation": 1.23
+  "appreciation": 1.23,
+  "bathrooms": 4.0,
+  "zoning": "R10",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 9,
+  "last_permit_year": 2017,
+  "enforcement_count": 0
  },
  {
   "property_id": "R171735",
@@ -53,7 +60,14 @@
   "last_sale_date": "06/03/2024",
   "tenure_years": 2.0,
   "last_sale_price": 1900000,
-  "appreciation": 1.02
+  "appreciation": 1.02,
+  "bathrooms": 5.5,
+  "zoning": "R10",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 9,
+  "last_permit_year": 2026,
+  "enforcement_count": 0
  },
  {
   "property_id": "R171738",
@@ -81,7 +95,14 @@
   "last_sale_date": "05/01/1997",
   "tenure_years": 29.1,
   "last_sale_price": 399000,
-  "appreciation": 2.08
+  "appreciation": 2.08,
+  "bathrooms": 2.5,
+  "zoning": "R10",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 0,
+  "last_permit_year": null,
+  "enforcement_count": 0
  },
  {
   "property_id": "R171729",
@@ -109,7 +130,14 @@
   "last_sale_date": "07/25/2014",
   "tenure_years": 11.9,
   "last_sale_price": 940000,
-  "appreciation": 1.24
+  "appreciation": 1.24,
+  "bathrooms": 3.5,
+  "zoning": "R10",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 6,
+  "last_permit_year": 2022,
+  "enforcement_count": 0
  },
  {
   "property_id": "R171730",
@@ -137,7 +165,14 @@
   "last_sale_date": "05/12/2022",
   "tenure_years": 4.1,
   "last_sale_price": 1875000,
-  "appreciation": 0.79
+  "appreciation": 0.79,
+  "bathrooms": 5.5,
+  "zoning": "R10",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 3,
+  "last_permit_year": 2019,
+  "enforcement_count": 0
  },
  {
   "property_id": "R171731",
@@ -165,7 +200,14 @@
   "last_sale_date": "10/02/2015",
   "tenure_years": 10.7,
   "last_sale_price": 675000,
-  "appreciation": 1.22
+  "appreciation": 1.22,
+  "bathrooms": null,
+  "zoning": "R10",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 2,
+  "last_permit_year": 2020,
+  "enforcement_count": 0
  },
  {
   "property_id": "R171681",
@@ -193,7 +235,14 @@
   "last_sale_date": "07/19/2018",
   "tenure_years": 7.9,
   "last_sale_price": 260000,
-  "appreciation": 3.49
+  "appreciation": 3.49,
+  "bathrooms": 3.5,
+  "zoning": "R10",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 9,
+  "last_permit_year": 2015,
+  "enforcement_count": 0
  },
  {
   "property_id": "R171680",
@@ -221,7 +270,14 @@
   "last_sale_date": "05/04/2022",
   "tenure_years": 4.1,
   "last_sale_price": 530000,
-  "appreciation": 1.0
+  "appreciation": 1.0,
+  "bathrooms": 2.0,
+  "zoning": "R10",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 3,
+  "last_permit_year": 2022,
+  "enforcement_count": 0
  },
  {
   "property_id": "R171682",
@@ -249,7 +305,14 @@
   "last_sale_date": "03/10/2022",
   "tenure_years": 4.3,
   "last_sale_price": 700000,
-  "appreciation": 1.1
+  "appreciation": 1.1,
+  "bathrooms": 2.5,
+  "zoning": "R10",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 6,
+  "last_permit_year": 2023,
+  "enforcement_count": 0
  },
  {
   "property_id": "R171740",
@@ -277,7 +340,14 @@
   "last_sale_date": "03/13/2025",
   "tenure_years": 1.3,
   "last_sale_price": 225000,
-  "appreciation": 3.22
+  "appreciation": 3.22,
+  "bathrooms": 3.5,
+  "zoning": "R10",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 7,
+  "last_permit_year": 2013,
+  "enforcement_count": 0
  },
  {
   "property_id": "R314262",
@@ -305,7 +375,14 @@
   "last_sale_date": "05/20/2025",
   "tenure_years": 1.1,
   "last_sale_price": 1108000,
-  "appreciation": 0.34
+  "appreciation": 0.34,
+  "bathrooms": 1.0,
+  "zoning": "CE",
+  "neighborhood": "Bridgeton",
+  "council_district": "2",
+  "permit_count": 17,
+  "last_permit_year": 2025,
+  "enforcement_count": 0
  },
  {
   "property_id": "R262888",
@@ -333,7 +410,14 @@
   "last_sale_date": "11/29/2017",
   "tenure_years": 8.5,
   "last_sale_price": 300000,
-  "appreciation": 1.36
+  "appreciation": 1.36,
+  "bathrooms": 2.5,
+  "zoning": "CM2",
+  "neighborhood": "Bridgeton",
+  "council_district": "2",
+  "permit_count": 1,
+  "last_permit_year": 2020,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213402",
@@ -361,7 +445,14 @@
   "last_sale_date": "04/30/2024",
   "tenure_years": 2.1,
   "last_sale_price": 100000,
-  "appreciation": 2.67
+  "appreciation": 2.67,
+  "bathrooms": null,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 2,
+  "last_permit_year": 2013,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213400",
@@ -389,7 +480,14 @@
   "last_sale_date": "05/23/2013",
   "tenure_years": 13.1,
   "last_sale_price": 185606,
-  "appreciation": 2.36
+  "appreciation": 2.36,
+  "bathrooms": 2.5,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 4,
+  "last_permit_year": 2026,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213397",
@@ -417,7 +515,14 @@
   "last_sale_date": "06/30/2021",
   "tenure_years": 5.0,
   "last_sale_price": 395000,
-  "appreciation": 1.02
+  "appreciation": 1.02,
+  "bathrooms": 2.5,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 1,
+  "last_permit_year": 2004,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213396",
@@ -445,7 +550,14 @@
   "last_sale_date": "07/29/2022",
   "tenure_years": 3.9,
   "last_sale_price": 458700,
-  "appreciation": 0.9
+  "appreciation": 0.9,
+  "bathrooms": 2.5,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 1,
+  "last_permit_year": 2004,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213395",
@@ -473,7 +585,14 @@
   "last_sale_date": "12/05/2001",
   "tenure_years": 24.5,
   "last_sale_price": 120000,
-  "appreciation": 2.66
+  "appreciation": 2.66,
+  "bathrooms": 2.0,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 0,
+  "last_permit_year": null,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213394",
@@ -501,7 +620,14 @@
   "last_sale_date": "02/01/2024",
   "tenure_years": 2.4,
   "last_sale_price": 511000,
-  "appreciation": 0.71
+  "appreciation": 0.71,
+  "bathrooms": 2.5,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 1,
+  "last_permit_year": 2003,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213320",
@@ -529,7 +655,14 @@
   "last_sale_date": "09/04/2015",
   "tenure_years": 10.8,
   "last_sale_price": 235000,
-  "appreciation": 1.62
+  "appreciation": 1.62,
+  "bathrooms": 2.0,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 2,
+  "last_permit_year": 2004,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213322",
@@ -557,7 +690,14 @@
   "last_sale_date": "03/24/2006",
   "tenure_years": 20.2,
   "last_sale_price": 260000,
-  "appreciation": 1.64
+  "appreciation": 1.64,
+  "bathrooms": 2.5,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 2,
+  "last_permit_year": 2004,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213323",
@@ -585,7 +725,14 @@
   "last_sale_date": "07/27/2009",
   "tenure_years": 16.9,
   "last_sale_price": 192000,
-  "appreciation": 2.08
+  "appreciation": 2.08,
+  "bathrooms": 2.5,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 4,
+  "last_permit_year": 2008,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213325",
@@ -613,7 +760,14 @@
   "last_sale_date": "04/19/2013",
   "tenure_years": 13.2,
   "last_sale_price": 180000,
-  "appreciation": 2.36
+  "appreciation": 2.36,
+  "bathrooms": 2.5,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 3,
+  "last_permit_year": 2019,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213327",
@@ -641,7 +795,14 @@
   "last_sale_date": "01/16/2018",
   "tenure_years": 8.4,
   "last_sale_price": 283000,
-  "appreciation": 1.4
+  "appreciation": 1.4,
+  "bathrooms": 2.5,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 2,
+  "last_permit_year": 2004,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213364",
@@ -669,7 +830,14 @@
   "last_sale_date": "06/16/2023",
   "tenure_years": 3.0,
   "last_sale_price": 434900,
-  "appreciation": 1.02
+  "appreciation": 1.02,
+  "bathrooms": 2.5,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 6,
+  "last_permit_year": 2025,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213361",
@@ -697,7 +865,14 @@
   "last_sale_date": "04/16/2004",
   "tenure_years": 22.2,
   "last_sale_price": 175449,
-  "appreciation": 2.23
+  "appreciation": 2.23,
+  "bathrooms": 2.0,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 3,
+  "last_permit_year": 2025,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213362",
@@ -725,7 +900,14 @@
   "last_sale_date": "01/27/2004",
   "tenure_years": 22.4,
   "last_sale_price": 175500,
-  "appreciation": 2.14
+  "appreciation": 2.14,
+  "bathrooms": 2.5,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 1,
+  "last_permit_year": 2004,
+  "enforcement_count": 0
  },
  {
   "property_id": "R314258",
@@ -753,7 +935,14 @@
   "last_sale_date": "08/02/1999",
   "tenure_years": 26.9,
   "last_sale_price": 531000,
-  "appreciation": 0.42
+  "appreciation": 0.42,
+  "bathrooms": null,
+  "zoning": "CE",
+  "neighborhood": "Bridgeton",
+  "council_district": "2",
+  "permit_count": 1,
+  "last_permit_year": 2015,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213340",
@@ -781,7 +970,14 @@
   "last_sale_date": "04/10/2008",
   "tenure_years": 18.2,
   "last_sale_price": 219900,
-  "appreciation": 1.83
+  "appreciation": 1.83,
+  "bathrooms": 2.5,
+  "zoning": "CE",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 2,
+  "last_permit_year": 2004,
+  "enforcement_count": 0
  },
  {
   "property_id": "R314266",
@@ -809,7 +1005,14 @@
   "last_sale_date": "03/30/2011",
   "tenure_years": 15.2,
   "last_sale_price": 444444,
-  "appreciation": 2.12
+  "appreciation": 2.12,
+  "bathrooms": 3.5,
+  "zoning": "R10",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 11,
+  "last_permit_year": 2015,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213339",
@@ -837,7 +1040,14 @@
   "last_sale_date": "05/17/2004",
   "tenure_years": 22.1,
   "last_sale_price": 163800,
-  "appreciation": 2.44
+  "appreciation": 2.44,
+  "bathrooms": 2.5,
+  "zoning": "CE",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 5,
+  "last_permit_year": 2024,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213338",
@@ -865,7 +1075,14 @@
   "last_sale_date": "09/20/2004",
   "tenure_years": 21.7,
   "last_sale_price": 170880,
-  "appreciation": 2.35
+  "appreciation": 2.35,
+  "bathrooms": 2.5,
+  "zoning": "CE",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 2,
+  "last_permit_year": 2004,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213337",
@@ -893,7 +1110,14 @@
   "last_sale_date": "11/12/2013",
   "tenure_years": 12.6,
   "last_sale_price": 197500,
-  "appreciation": 2.21
+  "appreciation": 2.21,
+  "bathrooms": 2.5,
+  "zoning": "CE",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 1,
+  "last_permit_year": 2004,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213336",
@@ -921,7 +1145,14 @@
   "last_sale_date": "06/25/2021",
   "tenure_years": 5.0,
   "last_sale_price": 365000,
-  "appreciation": 1.04
+  "appreciation": 1.04,
+  "bathrooms": 2.0,
+  "zoning": "CE",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 3,
+  "last_permit_year": 2009,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213335",
@@ -949,7 +1180,14 @@
   "last_sale_date": "04/22/2026",
   "tenure_years": 0.2,
   "last_sale_price": 365000,
-  "appreciation": 1.0
+  "appreciation": 1.0,
+  "bathrooms": 2.5,
+  "zoning": "CE",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 2,
+  "last_permit_year": 2004,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213334",
@@ -977,7 +1215,14 @@
   "last_sale_date": "02/23/2005",
   "tenure_years": 21.3,
   "last_sale_price": 186950,
-  "appreciation": 2.26
+  "appreciation": 2.26,
+  "bathrooms": 3.0,
+  "zoning": "CE",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 2,
+  "last_permit_year": 2005,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213331",
@@ -1005,7 +1250,14 @@
   "last_sale_date": "09/11/2023",
   "tenure_years": 2.8,
   "last_sale_price": 460000,
-  "appreciation": 0.82
+  "appreciation": 0.82,
+  "bathrooms": 2.5,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 2,
+  "last_permit_year": 2026,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213330",
@@ -1033,7 +1285,14 @@
   "last_sale_date": "11/24/2009",
   "tenure_years": 16.6,
   "last_sale_price": 193600,
-  "appreciation": 1.95
+  "appreciation": 1.95,
+  "bathrooms": 2.5,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 2,
+  "last_permit_year": 2003,
+  "enforcement_count": 0
  },
  {
   "property_id": "R314252",
@@ -1061,7 +1320,14 @@
   "last_sale_date": "08/20/2002",
   "tenure_years": 23.8,
   "last_sale_price": 220000,
-  "appreciation": 2.47
+  "appreciation": 2.47,
+  "bathrooms": 2.5,
+  "zoning": "R10",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 10,
+  "last_permit_year": 2025,
+  "enforcement_count": 1
  },
  {
   "property_id": "R213329",
@@ -1089,7 +1355,14 @@
   "last_sale_date": "08/14/2009",
   "tenure_years": 16.8,
   "last_sale_price": 207472,
-  "appreciation": 1.74
+  "appreciation": 1.74,
+  "bathrooms": 2.0,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 3,
+  "last_permit_year": 2009,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213328",
@@ -1117,7 +1390,14 @@
   "last_sale_date": "01/23/2020",
   "tenure_years": 6.4,
   "last_sale_price": 320000,
-  "appreciation": 1.16
+  "appreciation": 1.16,
+  "bathrooms": 2.5,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 2,
+  "last_permit_year": 2004,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213366",
@@ -1145,7 +1425,14 @@
   "last_sale_date": "08/23/2017",
   "tenure_years": 8.8,
   "last_sale_price": 271000,
-  "appreciation": 1.41
+  "appreciation": 1.41,
+  "bathrooms": 2.0,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 2,
+  "last_permit_year": 2004,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213367",
@@ -1173,7 +1460,14 @@
   "last_sale_date": "03/21/2024",
   "tenure_years": 2.2,
   "last_sale_price": 415000,
-  "appreciation": 1.05
+  "appreciation": 1.05,
+  "bathrooms": 2.5,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 3,
+  "last_permit_year": 2008,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213369",
@@ -1201,7 +1495,14 @@
   "last_sale_date": "11/13/2013",
   "tenure_years": 12.6,
   "last_sale_price": 205000,
-  "appreciation": 2.2
+  "appreciation": 2.2,
+  "bathrooms": 2.5,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 3,
+  "last_permit_year": 2004,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213371",
@@ -1229,7 +1530,14 @@
   "last_sale_date": "11/01/2016",
   "tenure_years": 9.6,
   "last_sale_price": 273000,
-  "appreciation": 1.5
+  "appreciation": 1.5,
+  "bathrooms": 2.5,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 2,
+  "last_permit_year": 2004,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213377",
@@ -1257,7 +1565,14 @@
   "last_sale_date": "01/26/2023",
   "tenure_years": 3.4,
   "last_sale_price": 430000,
-  "appreciation": 0.99
+  "appreciation": 0.99,
+  "bathrooms": 2.5,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 4,
+  "last_permit_year": 2016,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213378",
@@ -1285,7 +1600,14 @@
   "last_sale_date": "12/12/2015",
   "tenure_years": 10.5,
   "last_sale_price": 240000,
-  "appreciation": 1.76
+  "appreciation": 1.76,
+  "bathrooms": 2.5,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 2,
+  "last_permit_year": 2014,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213351",
@@ -1313,7 +1635,14 @@
   "last_sale_date": "04/27/2011",
   "tenure_years": 15.1,
   "last_sale_price": 188950,
-  "appreciation": 2.22
+  "appreciation": 2.22,
+  "bathrooms": 2.5,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 3,
+  "last_permit_year": 2006,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213352",
@@ -1341,7 +1670,14 @@
   "last_sale_date": "07/02/2010",
   "tenure_years": 16.0,
   "last_sale_price": 195000,
-  "appreciation": 1.87
+  "appreciation": 1.87,
+  "bathrooms": 2.5,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 2,
+  "last_permit_year": 2004,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213354",
@@ -1369,7 +1705,14 @@
   "last_sale_date": "07/08/2004",
   "tenure_years": 21.9,
   "last_sale_price": 164750,
-  "appreciation": 2.38
+  "appreciation": 2.38,
+  "bathrooms": 2.0,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 5,
+  "last_permit_year": 2024,
+  "enforcement_count": 0
  },
  {
   "property_id": "R314268",
@@ -1397,7 +1740,14 @@
   "last_sale_date": "04/01/2009",
   "tenure_years": 17.2,
   "last_sale_price": 605000,
-  "appreciation": 2.05
+  "appreciation": 2.05,
+  "bathrooms": 2.5,
+  "zoning": "R10",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 3,
+  "last_permit_year": 2024,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213355",
@@ -1425,7 +1775,14 @@
   "last_sale_date": "06/25/2004",
   "tenure_years": 22.0,
   "last_sale_price": 178100,
-  "appreciation": 2.0
+  "appreciation": 2.0,
+  "bathrooms": 2.0,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 4,
+  "last_permit_year": 2024,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213358",
@@ -1453,7 +1810,14 @@
   "last_sale_date": "09/17/2015",
   "tenure_years": 10.7,
   "last_sale_price": 230000,
-  "appreciation": 1.76
+  "appreciation": 1.76,
+  "bathrooms": 2.0,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 2,
+  "last_permit_year": 2004,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213359",
@@ -1481,7 +1845,14 @@
   "last_sale_date": "07/15/2022",
   "tenure_years": 3.9,
   "last_sale_price": 437000,
-  "appreciation": 0.91
+  "appreciation": 0.91,
+  "bathrooms": 2.0,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 2,
+  "last_permit_year": 2004,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213318",
@@ -1509,7 +1880,14 @@
   "last_sale_date": "05/06/2022",
   "tenure_years": 4.1,
   "last_sale_price": 445000,
-  "appreciation": 0.99
+  "appreciation": 0.99,
+  "bathrooms": 2.5,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 3,
+  "last_permit_year": 2024,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213317",
@@ -1537,7 +1915,14 @@
   "last_sale_date": "03/26/2013",
   "tenure_years": 13.2,
   "last_sale_price": 160000,
-  "appreciation": 2.65
+  "appreciation": 2.65,
+  "bathrooms": 2.5,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 3,
+  "last_permit_year": 2004,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213316",
@@ -1565,7 +1950,14 @@
   "last_sale_date": "05/19/2023",
   "tenure_years": 3.1,
   "last_sale_price": 390000,
-  "appreciation": 1.04
+  "appreciation": 1.04,
+  "bathrooms": 2.0,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 1,
+  "last_permit_year": 2004,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213315",
@@ -1593,7 +1985,14 @@
   "last_sale_date": "11/02/2016",
   "tenure_years": 9.6,
   "last_sale_price": 257500,
-  "appreciation": 1.64
+  "appreciation": 1.64,
+  "bathrooms": 2.5,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 4,
+  "last_permit_year": 2019,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213314",
@@ -1621,7 +2020,14 @@
   "last_sale_date": "07/01/2004",
   "tenure_years": 22.0,
   "last_sale_price": 179950,
-  "appreciation": 2.32
+  "appreciation": 2.32,
+  "bathrooms": 2.5,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 4,
+  "last_permit_year": 2026,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213313",
@@ -1649,7 +2055,14 @@
   "last_sale_date": "03/24/2026",
   "tenure_years": 0.2,
   "last_sale_price": 350000,
-  "appreciation": 1.26
+  "appreciation": 1.26,
+  "bathrooms": 2.5,
+  "zoning": "CM1",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 2,
+  "last_permit_year": 2004,
+  "enforcement_count": 0
  },
  {
   "property_id": "R213343",
@@ -1677,6 +2090,13 @@
   "last_sale_date": "11/21/2017",
   "tenure_years": 8.6,
   "last_sale_price": 290810,
-  "appreciation": 1.38
+  "appreciation": 1.38,
+  "bathrooms": 2.5,
+  "zoning": "CE",
+  "neighborhood": "East Columbia",
+  "council_district": "2",
+  "permit_count": 5,
+  "last_permit_year": 2009,
+  "enforcement_count": 0
  }
 ]

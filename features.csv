@@ -3,6 +3,7 @@ Property,year_built,Year the structure was built,PortlandMaps Taxlots (YEARBUILT
 Property,property_age,Current year minus year_built,Derived from Taxlots,now,Y,feature
 Property,building_sqft,Total building square footage,PortlandMaps Taxlots (BLDGSQFT),now,N,feature
 Property,bedrooms,Number of bedrooms (blank in taxlot layer; needs Assessor/Detail API),PortlandMaps Assessor API,bulk,N,feature
+Property,bathrooms,Number of bathrooms (full + half/2),PortlandMaps Detail API,bulk,N,feature
 Property,floors,Number of floors,PortlandMaps Taxlots (FLOORS),now,N,feature
 Property,units,Number of dwelling units on parcel,PortlandMaps Taxlots (UNITS),now,N,feature
 Property,lot_size_sqft,Lot area in square feet,PortlandMaps Taxlots (A_T_SQFT),now,N,feature
