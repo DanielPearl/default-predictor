@@ -69,6 +69,13 @@
     td a { color: var(--accent); text-decoration: none; }
     td a:hover { text-decoration: underline; }
     #count { color: var(--muted); font-size: .85rem; margin-bottom: .5rem; }
+    .grouprow td {
+      background: #11161d; font-weight: 600; font-size: .95rem;
+      border-top: 2px solid var(--accent); padding-top: .7rem; padding-bottom: .7rem;
+    }
+    .grouprow a { color: var(--accent); text-decoration: none; }
+    .grouprow a:hover { text-decoration: underline; }
+    .gcount { color: var(--muted); font-weight: 400; font-size: .78rem; margin-left: .6rem; }
     .err { color: #f87171; padding: 1rem; }
     .tabs { display: flex; gap: .4rem; margin-top: 1rem; }
     .tab {
@@ -117,7 +124,6 @@
             <th data-key="feature_name">Feature</th>
             <th data-key="category">Category</th>
             <th data-key="description">Description</th>
-            <th data-key="source">Source</th>
             <th data-key="derived">Derived</th>
             <th data-key="used">Used</th>
           </tr>
@@ -227,15 +233,30 @@
         });
       }
       document.getElementById('count').textContent = `${rows.length} of ${DATA.length} features`;
-      document.getElementById('rows').innerHTML = rows.map(d => `
-        <tr>
-          <td><code>${d.feature_name}</code></td>
-          <td>${d.category}</td>
-          <td>${d.description}</td>
-          <td class="muted">${linkifySource(d.source)}</td>
-          <td>${d.derived === 'Y' ? check : dash}</td>
-          <td>${d.used === 'Y' ? check : dash}</td>
-        </tr>`).join('');
+
+      // Group rows by source; order groups by feature count (largest first).
+      const groups = new Map();
+      rows.forEach(d => { if (!groups.has(d.source)) groups.set(d.source, []); groups.get(d.source).push(d); });
+      const ordered = [...groups.entries()].sort((a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0]));
+
+      document.getElementById('rows').innerHTML = ordered.map(([src, items]) => {
+        items.sort((a, b) => {
+          const k = sortKey || 'feature_name';
+          const x = (a[k] || '').toLowerCase(), y = (b[k] || '').toLowerCase();
+          return (x < y ? -1 : x > y ? 1 : 0) * (sortKey && !sortAsc ? -1 : 1);
+        });
+        const used = items.filter(d => d.used === 'Y').length;
+        return `<tr class="grouprow"><td colspan="5">${linkifySource(src)}` +
+          `<span class="gcount">${items.length} features · ${used} used</span></td></tr>` +
+          items.map(d => `
+            <tr>
+              <td><code>${d.feature_name}</code></td>
+              <td>${d.category}</td>
+              <td>${d.description}</td>
+              <td>${d.derived === 'Y' ? check : dash}</td>
+              <td>${d.used === 'Y' ? check : dash}</td>
+            </tr>`).join('');
+      }).join('');
     }
 
     document.querySelectorAll('th[data-key]').forEach(th => th.addEventListener('click', () => {
