@@ -104,6 +104,7 @@
       <div class="controls">
         <input id="search" type="text" placeholder="Search features, descriptions, sources…">
         <select id="filter-category"><option value="">All categories</option></select>
+        <select id="filter-source"><option value="">All sources</option></select>
         <select id="filter-used">
           <option value="">All features</option>
           <option value="Y">Used in table</option>
@@ -215,9 +216,11 @@
     function render() {
       const q = document.getElementById('search').value.toLowerCase();
       const fc = document.getElementById('filter-category').value;
+      const fs = document.getElementById('filter-source').value;
       const fu = document.getElementById('filter-used').value;
       let rows = DATA.filter(d =>
         (!fc || d.category === fc) &&
+        (!fs || d.source === fs) &&
         (!fu || d.used === fu) &&
         (!q || [d.feature_name, d.description, d.source].join(' ').toLowerCase().includes(q)));
       if (sortKey) {
@@ -243,7 +246,7 @@
       if (sortKey === k) sortAsc = !sortAsc; else { sortKey = k; sortAsc = true; }
       render();
     }));
-    ['search', 'filter-category', 'filter-used']
+    ['search', 'filter-category', 'filter-source', 'filter-used']
       .forEach(id => document.getElementById(id).addEventListener('input', render));
 
     fetch('features.csv')
@@ -251,6 +254,7 @@
       .then(text => {
         DATA = parseCSV(text);
         fill('filter-category', uniq('category'));
+        fill('filter-source', uniq('source'));
         renderStats();
         render();
       })
