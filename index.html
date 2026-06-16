@@ -88,8 +88,16 @@
     .flag-entity { background: #3a1b34; color: #f472b6; }
     #prop-count { color: var(--muted); font-size: .85rem; margin-bottom: .5rem; }
     #prop-table th.jump:hover { color: var(--accent); text-decoration: underline; }
-    @keyframes flashrow { 0% { background: rgba(88,166,255,.35); } 100% { background: transparent; } }
-    tr.flash td { animation: flashrow 2.5s ease-out; }
+    .def-popup {
+      position: absolute; z-index: 50; max-width: 320px;
+      background: var(--panel); border: 1px solid var(--accent); border-radius: 8px;
+      padding: .7rem .85rem; box-shadow: 0 6px 24px rgba(0,0,0,.5); font-size: .85rem;
+    }
+    .def-popup[hidden] { display: none; }
+    .def-name { font-weight: 600; margin-bottom: .3rem; }
+    .def-desc { line-height: 1.45; }
+    .def-src { color: var(--muted); font-size: .78rem; margin-top: .4rem; }
+    .def-src a { color: var(--accent); }
   </style>
 </head>
 <body>
@@ -375,24 +383,36 @@
     };
     const colFeature = key => COL_FEATURE[key] || key;
 
-    function jumpToFeature(name) {
-      document.querySelector('.tab[data-tab="features"]').click();
-      document.getElementById('search').value = '';
-      ['filter-category', 'filter-source', 'filter-used'].forEach(id => document.getElementById(id).value = '');
-      render();
-      const row = document.querySelector(`#rows tr[data-feature="${name}"]`);
-      if (row) {
-        row.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        row.classList.add('flash');
-        setTimeout(() => row.classList.remove('flash'), 2500);
+    let defPopup = null;
+    function showDefinition(name, anchor) {
+      if (!defPopup) {
+        defPopup = document.createElement('div');
+        defPopup.className = 'def-popup';
+        defPopup.hidden = true;
+        document.body.appendChild(defPopup);
+        document.addEventListener('click', e => {
+          if (!defPopup.contains(e.target) && !e.target.closest('#prop-table th.jump')) defPopup.hidden = true;
+        });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') defPopup.hidden = true; });
       }
+      const feat = DATA.find(d => d.feature_name === name);
+      if (!feat) { defPopup.hidden = true; return; }
+      defPopup.innerHTML =
+        `<div class="def-name">${prettyName(feat.feature_name)}</div>` +
+        `<div class="def-desc">${esc(feat.description)}</div>` +
+        `<div class="def-src">Source: ${linkifySource(feat.source)}</div>`;
+      defPopup.hidden = false;
+      const r = anchor.getBoundingClientRect();
+      const maxLeft = document.documentElement.clientWidth - defPopup.offsetWidth - 10;
+      defPopup.style.top = (r.bottom + window.scrollY + 6) + 'px';
+      defPopup.style.left = Math.min(r.left + window.scrollX, maxLeft + window.scrollX) + 'px';
     }
 
     function renderProperties() {
       document.querySelector('#prop-table thead').innerHTML =
         '<tr>' + PROP_COLS.map(c => `<th class="${c[2]} jump" data-feature="${colFeature(c[1])}">${c[0]}</th>`).join('') + '</tr>';
       document.querySelectorAll('#prop-table th.jump').forEach(th =>
-        th.addEventListener('click', () => jumpToFeature(th.dataset.feature)));
+        th.addEventListener('click', () => showDefinition(th.dataset.feature, th)));
       document.querySelector('#prop-table tbody').innerHTML = PROPS.map(p =>
         '<tr>' + PROP_COLS.map(c => `<td class="${c[2]}">${c[3](p[c[1]])}</td>`).join('') + '</tr>').join('');
       document.getElementById('prop-count').textContent = `${PROPS.length} sample properties`;
