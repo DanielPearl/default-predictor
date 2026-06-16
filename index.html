@@ -70,37 +70,69 @@
     td a:hover { text-decoration: underline; }
     #count { color: var(--muted); font-size: .85rem; margin-bottom: .5rem; }
     .err { color: #f87171; padding: 1rem; }
+    .tabs { display: flex; gap: .4rem; margin-top: 1rem; }
+    .tab {
+      background: transparent; color: var(--muted); border: 1px solid var(--border);
+      border-bottom: none; border-radius: 8px 8px 0 0; padding: .55rem 1.1rem;
+      font-size: .9rem; cursor: pointer;
+    }
+    .tab:hover { color: var(--text); }
+    .tab.active { background: var(--panel); color: var(--text); border-color: var(--accent); }
+    .tablewrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; }
+    #prop-table td.num, #prop-table th.num { text-align: right; white-space: nowrap; }
+    #prop-table td.addr { white-space: nowrap; }
+    .neg { color: #f87171; }
+    .pos { color: #4ade80; }
+    .flag-absentee { background: #3a341b; color: #fbbf24; }
+    .flag-oos { background: #3a1b1b; color: #f87171; }
+    .flag-entity { background: #3a1b34; color: #f472b6; }
+    #prop-count { color: var(--muted); font-size: .85rem; margin-bottom: .5rem; }
   </style>
 </head>
 <body>
   <header>
-    <h1>Default Predictor - Feature List</h1>
-    <p class="sub">Multnomah County pre-foreclosure model. Features that will populate the model, by source and availability.</p>
-    <div class="stats" id="stats"></div>
+    <h1>Default Predictor</h1>
+    <p class="sub">Multnomah County pre-foreclosure model.</p>
+    <div class="tabs">
+      <button class="tab active" data-tab="features">Features</button>
+      <button class="tab" data-tab="properties">Properties</button>
+    </div>
   </header>
   <div class="wrap">
-    <div class="controls">
-      <input id="search" type="text" placeholder="Search features, descriptions, sources…">
-      <select id="filter-category"><option value="">All categories</option></select>
-      <select id="filter-availability"><option value="">All availability</option></select>
-      <select id="filter-role"><option value="">All roles</option></select>
-    </div>
-    <div id="count"></div>
-    <table>
-      <thead>
-        <tr>
-          <th data-key="feature_name">Feature</th>
-          <th data-key="category">Category</th>
-          <th data-key="description">Description</th>
-          <th data-key="source">Source</th>
-          <th data-key="availability">Availability</th>
-          <th data-key="derived">Derived</th>
-          <th data-key="role">Role</th>
-        </tr>
-      </thead>
-      <tbody id="rows"></tbody>
-    </table>
-    <div id="error"></div>
+    <section id="tab-features">
+      <div class="stats" id="stats"></div>
+      <div class="controls">
+        <input id="search" type="text" placeholder="Search features, descriptions, sources…">
+        <select id="filter-category"><option value="">All categories</option></select>
+        <select id="filter-availability"><option value="">All availability</option></select>
+        <select id="filter-role"><option value="">All roles</option></select>
+      </div>
+      <div id="count"></div>
+      <table>
+        <thead>
+          <tr>
+            <th data-key="feature_name">Feature</th>
+            <th data-key="category">Category</th>
+            <th data-key="description">Description</th>
+            <th data-key="source">Source</th>
+            <th data-key="availability">Availability</th>
+            <th data-key="derived">Derived</th>
+            <th data-key="role">Role</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <div id="error"></div>
+    </section>
+
+    <section id="tab-properties" hidden>
+      <p class="sub">Sample of real Multnomah residential properties with the features we can compute today from the taxlot base. Distress signals (absentee or out-of-state owner, value decline) are highlighted.</p>
+      <div id="prop-count"></div>
+      <div class="tablewrap">
+        <table id="prop-table"><thead></thead><tbody></tbody></table>
+      </div>
+      <div id="prop-error"></div>
+    </section>
   </div>
 
   <script>
@@ -231,6 +263,69 @@
       .catch(e => {
         document.getElementById('error').innerHTML = `<p class="err">Could not load features.csv (${e.message}). Make sure it sits next to index.html.</p>`;
       });
+
+    /* ---- Properties tab ---- */
+    let PROPS = null;
+    const fmtMoney = v => v == null ? '—' : '$' + v.toLocaleString();
+    const fmtNum = v => (v == null || v === '') ? '—' : v;
+    const fmtCount = v => v == null ? '—' : v.toLocaleString();
+    function fmtTrend(v) {
+      if (v == null) return '—';
+      const cls = v < 0 ? 'neg' : v > 0 ? 'pos' : '';
+      return `<span class="${cls}">${v > 0 ? '+' : ''}${v}%</span>`;
+    }
+    const fmtOccupancy = v => v === 'Absentee'
+      ? '<span class="badge flag-absentee">Absentee</span>'
+      : '<span class="muted">Owner-occupied</span>';
+    const fmtOwnerType = v => v === 'Entity'
+      ? '<span class="badge flag-entity">Entity</span>'
+      : '<span class="muted">Individual</span>';
+    const fmtState = v => (v && v !== 'OR')
+      ? `<span class="badge flag-oos">${esc(v)}</span>`
+      : `<span class="muted">${esc(v || '—')}</span>`;
+
+    const PROP_COLS = [
+      ['Address', 'address', 'addr', v => esc(v || '')],
+      ['Owner', 'owner', '', v => esc(v || '')],
+      ['Occupancy', 'occupancy', '', fmtOccupancy],
+      ['Owner type', 'owner_type', '', fmtOwnerType],
+      ['State', 'owner_state', '', fmtState],
+      ['Year built', 'year_built', 'num', fmtNum],
+      ['Age', 'age', 'num', fmtNum],
+      ['Sqft', 'sqft', 'num', fmtCount],
+      ['Assessed', 'assessed_value', 'num', fmtMoney],
+      ['Value trend', 'value_trend_pct', 'num', fmtTrend],
+      ['Last sale', 'last_sale_date', 'num', fmtNum],
+      ['Tenure (yrs)', 'tenure_years', 'num', fmtNum],
+      ['Sale price', 'last_sale_price', 'num', fmtMoney],
+    ];
+
+    function renderProperties() {
+      document.querySelector('#prop-table thead').innerHTML =
+        '<tr>' + PROP_COLS.map(c => `<th class="${c[2]}">${c[0]}</th>`).join('') + '</tr>';
+      document.querySelector('#prop-table tbody').innerHTML = PROPS.map(p =>
+        '<tr>' + PROP_COLS.map(c => `<td class="${c[2]}">${c[3](p[c[1]])}</td>`).join('') + '</tr>').join('');
+      document.getElementById('prop-count').textContent = `${PROPS.length} sample properties`;
+    }
+
+    function loadProperties() {
+      if (PROPS) return;
+      fetch('properties_sample.json')
+        .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(d => { PROPS = d; renderProperties(); })
+        .catch(e => {
+          document.getElementById('prop-error').innerHTML =
+            `<p class="err">Could not load properties_sample.json (${e.message}).</p>`;
+        });
+    }
+
+    document.querySelectorAll('.tab').forEach(btn => btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(b => b.classList.toggle('active', b === btn));
+      const tab = btn.dataset.tab;
+      document.getElementById('tab-features').hidden = tab !== 'features';
+      document.getElementById('tab-properties').hidden = tab !== 'properties';
+      if (tab === 'properties') loadProperties();
+    }));
   </script>
 </body>
 </html>

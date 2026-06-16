@@ -2,18 +2,18 @@ category,feature_name,description,source,availability,derived,role
 Property,year_built,Year the structure was built,PortlandMaps Taxlots (YEARBUILT),now,N,feature
 Property,property_age,Current year minus year_built,Derived from Taxlots,now,Y,feature
 Property,building_sqft,Total building square footage,PortlandMaps Taxlots (BLDGSQFT),now,N,feature
-Property,bedrooms,Number of bedrooms,PortlandMaps Taxlots (BEDROOMS),now,N,feature
+Property,bedrooms,Number of bedrooms (blank in taxlot layer; needs Assessor/Detail API),PortlandMaps Assessor API,bulk,N,feature
 Property,floors,Number of floors,PortlandMaps Taxlots (FLOORS),now,N,feature
 Property,units,Number of dwelling units on parcel,PortlandMaps Taxlots (UNITS),now,N,feature
 Property,lot_size_sqft,Lot area in square feet,PortlandMaps Taxlots (A_T_SQFT),now,N,feature
 Property,lot_acres,Lot area in acres,PortlandMaps Taxlots (A_T_ACRES),now,N,feature
 Property,frontage,Street frontage in feet,PortlandMaps Taxlots (FRONTAGE),now,N,feature
 Property,property_class,Property/land-use classification,PortlandMaps Taxlots (PROP_CODE/PRPCD_DESC/LANDUSE),now,N,feature
-Valuation,total_assessed_value,Most recent total assessed value,PortlandMaps Taxlots (TOTALVAL1),now,N,feature
+Valuation,total_assessed_value,Most recent total assessed value (2025 roll),PortlandMaps Taxlots (TOTALVAL3),now,N,feature
 Valuation,land_value,Land assessed value,PortlandMaps Taxlots (LANDVAL1),now,N,feature
 Valuation,building_value,Improvement assessed value,PortlandMaps Taxlots (BLDGVAL1),now,N,feature
-Valuation,assessed_value_3yr_ago,Total assessed value three years prior,PortlandMaps Taxlots (TOTALVAL3),now,N,feature
-Valuation,assessed_value_trend_pct,Percent change in assessed value over 3 yrs (decline = distress),Derived from Taxlots,now,Y,feature
+Valuation,assessed_value_prior,Total assessed value from the prior roll (2023),PortlandMaps Taxlots (TOTALVAL1),now,N,feature
+Valuation,assessed_value_trend_pct,Percent change in assessed value latest vs prior roll (decline = distress),Derived from Taxlots,now,Y,feature
 Valuation,last_sale_price,Most recent recorded sale price,PortlandMaps Taxlots (SALEPRICE),now,N,feature
 Valuation,last_sale_date,Most recent recorded sale date,PortlandMaps Taxlots (SALEDATE),now,N,feature
 Valuation,tenure_years,Years since last sale (ownership duration),Derived from Taxlots,now,Y,feature
