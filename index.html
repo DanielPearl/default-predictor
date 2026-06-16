@@ -193,6 +193,18 @@
       }).join(' / ');
     }
 
+    // Display a snake_case feature_name as a readable label, matching the
+    // Property table column style (e.g. building_sqft -> "Building sqft").
+    const ACRONYMS = { id: 'ID', zip: 'ZIP', yoy: 'YoY', fema: 'FEMA', irs: 'IRS', pge: 'PGE' };
+    function prettyName(name) {
+      const s = name.replace(/_flag$/, '').replace(/_pct$/, '').replace(/_/g, ' ').trim();
+      return s.split(' ').map((w, i) => {
+        const lw = w.toLowerCase();
+        if (ACRONYMS[lw]) return ACRONYMS[lw];
+        return i === 0 ? lw.charAt(0).toUpperCase() + lw.slice(1) : lw;
+      }).join(' ');
+    }
+
     let DATA = [], sortKey = 'source', sortAsc = true;
 
     function uniq(key) { return [...new Set(DATA.map(d => d[key]).filter(Boolean))].sort(); }
@@ -232,7 +244,7 @@
       document.getElementById('count').textContent = `${rows.length} of ${DATA.length} features`;
       document.getElementById('rows').innerHTML = rows.map(d => `
         <tr>
-          <td><code>${d.feature_name}</code></td>
+          <td title="${d.feature_name}">${prettyName(d.feature_name)}</td>
           <td>${d.category}</td>
           <td>${d.description}</td>
           <td class="muted">${linkifySource(d.source)}</td>
