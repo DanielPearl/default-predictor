@@ -104,8 +104,11 @@
       <div class="controls">
         <input id="search" type="text" placeholder="Search features, descriptions, sources…">
         <select id="filter-category"><option value="">All categories</option></select>
-        <select id="filter-availability"><option value="">All availability</option></select>
-        <select id="filter-role"><option value="">All roles</option></select>
+        <select id="filter-used">
+          <option value="">All features</option>
+          <option value="Y">Used in table</option>
+          <option value="N">Not used</option>
+        </select>
       </div>
       <div id="count"></div>
       <table>
@@ -115,9 +118,8 @@
             <th data-key="category">Category</th>
             <th data-key="description">Description</th>
             <th data-key="source">Source</th>
-            <th data-key="availability">Availability</th>
             <th data-key="derived">Derived</th>
-            <th data-key="role">Role</th>
+            <th data-key="used">Used</th>
           </tr>
         </thead>
         <tbody id="rows"></tbody>
@@ -163,24 +165,18 @@
     // First matching pattern wins. Sources with no single site (skip-trace
     // vendors, "n/a", credit bureau) stay as plain text.
     const SOURCE_LINKS = [
-      [/multcoproptax|assessment ?& ?taxation|a&t/i, 'https://multcoproptax.com'],
-      [/county recording|recorded doc|multcorecords/i, 'https://multco.us/recording'],
+      [/portland maps/i, 'https://www.portlandmaps.com'],
+      [/multnomah county/i, 'https://www.multco.us/dart'],
       [/public notices oregon/i, 'https://www.publicnoticeoregon.com'],
-      [/portlandmaps|taxlots|bds|bps_zoning/i, 'https://www.portlandmaps.com'],
-      [/opportunity mapping/i, 'https://www.portland.gov/phb/opportunity-mapping'],
-      [/city of portland/i, 'https://www.portland.gov'],
-      [/pbot/i, 'https://www.portland.gov/transportation'],
-      [/code enforcement/i, 'https://www.portland.gov/bds/code-enforcement'],
+      [/oregon judicial/i, 'https://www.courts.oregon.gov'],
+      [/oregon secretary of state/i, 'https://sos.oregon.gov/business/Pages/find.aspx'],
+      [/pacer/i, 'https://pacer.uscourts.gov'],
       [/water bureau/i, 'https://www.portland.gov/water'],
+      [/city of portland/i, 'https://www.portland.gov'],
       [/\bpge\b/i, 'https://portlandgeneral.com'],
       [/pacific power/i, 'https://www.pacificpower.net'],
-      [/oregon judicial|oeci|ojcin/i, 'https://www.courts.oregon.gov'],
-      [/pacer/i, 'https://pacer.uscourts.gov'],
-      [/sos business registry|business registry|oregon sos/i, 'https://sos.oregon.gov/business/Pages/find.aspx'],
       [/obituar/i, 'https://www.legacy.com'],
       [/census/i, 'https://www.census.gov'],
-      [/metro/i, 'https://rlisdiscovery.oregonmetro.gov'],
-      [/arcgis/i, 'https://www.arcgis.com'],
     ];
     const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     function sourceUrl(seg) {
@@ -205,23 +201,24 @@
     }
 
     function renderStats() {
-      const byAv = {};
-      DATA.forEach(d => byAv[d.availability] = (byAv[d.availability] || 0) + 1);
-      const order = ['now', 'bulk', 'scrape', 'vendor', 'excluded'];
-      const cells = [`<div class="stat"><b>${DATA.length}</b>total features</div>`];
-      order.forEach(a => { if (byAv[a]) cells.push(`<div class="stat"><b>${byAv[a]}</b><span class="badge av-${a}">${a}</span></div>`); });
-      document.getElementById('stats').innerHTML = cells.join('');
+      const used = DATA.filter(d => d.used === 'Y').length;
+      const cats = new Set(DATA.map(d => d.category)).size;
+      document.getElementById('stats').innerHTML =
+        `<div class="stat"><b>${DATA.length}</b>features</div>` +
+        `<div class="stat"><b>${used}</b>used in table</div>` +
+        `<div class="stat"><b>${cats}</b>categories</div>`;
     }
+
+    const check = '<span class="yes">✓</span>';
+    const dash = '<span class="muted">—</span>';
 
     function render() {
       const q = document.getElementById('search').value.toLowerCase();
       const fc = document.getElementById('filter-category').value;
-      const fa = document.getElementById('filter-availability').value;
-      const fr = document.getElementById('filter-role').value;
+      const fu = document.getElementById('filter-used').value;
       let rows = DATA.filter(d =>
         (!fc || d.category === fc) &&
-        (!fa || d.availability === fa) &&
-        (!fr || d.role === fr) &&
+        (!fu || d.used === fu) &&
         (!q || [d.feature_name, d.description, d.source].join(' ').toLowerCase().includes(q)));
       if (sortKey) {
         rows = [...rows].sort((a, b) => {
@@ -236,9 +233,8 @@
           <td>${d.category}</td>
           <td>${d.description}</td>
           <td class="muted">${linkifySource(d.source)}</td>
-          <td><span class="badge av-${d.availability}">${d.availability}</span></td>
-          <td>${d.derived === 'Y' ? '<span class="yes">✓</span>' : '<span class="muted">—</span>'}</td>
-          <td class="role">${d.role}</td>
+          <td>${d.derived === 'Y' ? check : dash}</td>
+          <td>${d.used === 'Y' ? check : dash}</td>
         </tr>`).join('');
     }
 
@@ -247,7 +243,7 @@
       if (sortKey === k) sortAsc = !sortAsc; else { sortKey = k; sortAsc = true; }
       render();
     }));
-    ['search', 'filter-category', 'filter-availability', 'filter-role']
+    ['search', 'filter-category', 'filter-used']
       .forEach(id => document.getElementById(id).addEventListener('input', render));
 
     fetch('features.csv')
@@ -255,8 +251,6 @@
       .then(text => {
         DATA = parseCSV(text);
         fill('filter-category', uniq('category'));
-        fill('filter-availability', ['now', 'bulk', 'scrape', 'vendor', 'excluded'].filter(a => DATA.some(d => d.availability === a)));
-        fill('filter-role', uniq('role'));
         renderStats();
         render();
       })
