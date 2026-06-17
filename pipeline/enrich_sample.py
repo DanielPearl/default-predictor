@@ -45,15 +45,18 @@ TYPE_TO_VIOLATION = {"Vacant": "violation_vacant", "Summary Abatement": "violati
                      "Zoning": "violation_zoning", "Motor Vehicle": "violation_vehicle"}
 
 def classify_violations(records):
-    flags = {k: "No" for k in VIOLATION_RULES}
+    counts = {k: 0 for k in VIOLATION_RULES}
     for r in records:
         text = " ".join([r.get("type") or "", r.get("work") or "", r.get("description") or ""]).lower()
+        matched = set()
         if r.get("type") in TYPE_TO_VIOLATION:
-            flags[TYPE_TO_VIOLATION[r["type"]]] = "Yes"
+            matched.add(TYPE_TO_VIOLATION[r["type"]])
         for cat, kws in VIOLATION_RULES.items():
             if any(k in text for k in kws):
-                flags[cat] = "Yes"
-    return flags
+                matched.add(cat)
+        for cat in matched:
+            counts[cat] += 1
+    return counts
 MERCATOR = 20037508.342789244
 
 
