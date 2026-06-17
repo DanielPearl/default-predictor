@@ -4,3 +4,4 @@ Secret Keys/
 data/
 __pycache__/
 *.pyc
+properties_sample.json
