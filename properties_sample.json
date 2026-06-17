@@ -67,7 +67,8 @@
   "deed_date": "11/02/2016",
   "instrument_num": "2016137902",
   "improvements": 1,
-  "exemption": "24"
+  "exemption": "24",
+  "annual_tax_amount": 16692
  },
  {
   "property_id": "R171735",
@@ -137,7 +138,8 @@
   "deed_date": "06/05/2024",
   "instrument_num": "2024032953",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 36549
  },
  {
   "property_id": "R171738",
@@ -207,7 +209,8 @@
   "deed_date": "",
   "instrument_num": "97075516",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 14766
  },
  {
   "property_id": "R171729",
@@ -277,7 +280,8 @@
   "deed_date": "07/30/2014",
   "instrument_num": "2014073814",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 20956
  },
  {
   "property_id": "R171730",
@@ -347,7 +351,8 @@
   "deed_date": "05/13/2022",
   "instrument_num": "2022049340",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 25504
  },
  {
   "property_id": "R171731",
@@ -417,7 +422,8 @@
   "deed_date": "10/05/2015",
   "instrument_num": "2015127136",
   "improvements": 2,
-  "exemption": "18"
+  "exemption": "18",
+  "annual_tax_amount": 14600
  },
  {
   "property_id": "R171681",
@@ -487,7 +493,8 @@
   "deed_date": "07/23/2018",
   "instrument_num": "2018077059",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 7295
  },
  {
   "property_id": "R171680",
@@ -557,7 +564,8 @@
   "deed_date": "05/06/2022",
   "instrument_num": "2022047227",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5531
  },
  {
   "property_id": "R171682",
@@ -627,7 +635,8 @@
   "deed_date": "03/11/2022",
   "instrument_num": "2022026561",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 12490
  },
  {
   "property_id": "R171740",
@@ -697,7 +706,8 @@
   "deed_date": "04/10/2025",
   "instrument_num": "2025021129",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 13235
  },
  {
   "property_id": "R314262",
@@ -767,7 +777,8 @@
   "deed_date": "05/22/2025",
   "instrument_num": "2025031900",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 6930
  },
  {
   "property_id": "R262888",
@@ -837,7 +848,8 @@
   "deed_date": "11/30/2017",
   "instrument_num": "2017144427",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 6284
  },
  {
   "property_id": "R213402",
@@ -907,7 +919,8 @@
   "deed_date": "05/01/2024",
   "instrument_num": "2024025064",
   "improvements": 2,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 2456
  },
  {
   "property_id": "R213400",
@@ -977,7 +990,8 @@
   "deed_date": "05/28/2013",
   "instrument_num": "2013071524",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 6025
  },
  {
   "property_id": "R213397",
@@ -1047,7 +1061,8 @@
   "deed_date": "07/02/2021",
   "instrument_num": "2021102821",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 4732
  },
  {
   "property_id": "R213396",
@@ -1117,7 +1132,8 @@
   "deed_date": "08/08/2022",
   "instrument_num": "2022075966",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5138
  },
  {
   "property_id": "R213395",
@@ -1187,7 +1203,8 @@
   "deed_date": "12/10/2001",
   "instrument_num": "01198218",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 4086
  },
  {
   "property_id": "R213394",
@@ -1257,7 +1274,8 @@
   "deed_date": "02/01/2024",
   "instrument_num": "2024006159",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5592
  },
  {
   "property_id": "R213320",
@@ -1327,7 +1345,8 @@
   "deed_date": "09/08/2015",
   "instrument_num": "2015115325",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5002
  },
  {
   "property_id": "R213322",
@@ -1397,7 +1416,8 @@
   "deed_date": "03/29/2006",
   "instrument_num": "2006055997",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5871
  },
  {
   "property_id": "R213323",
@@ -1467,7 +1487,8 @@
   "deed_date": "07/29/2009",
   "instrument_num": "2009108175",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5342
  },
  {
   "property_id": "R213325",
@@ -1537,7 +1558,8 @@
   "deed_date": "06/12/2013",
   "instrument_num": "2013079861",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5349
  },
  {
   "property_id": "R213327",
@@ -1607,7 +1629,8 @@
   "deed_date": "01/24/2018",
   "instrument_num": "2018009090",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5597
  },
  {
   "property_id": "R213364",
@@ -1677,7 +1700,8 @@
   "deed_date": "06/20/2023",
   "instrument_num": "2023037954",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 6044
  },
  {
   "property_id": "R213361",
@@ -1747,7 +1771,8 @@
   "deed_date": "04/19/2004",
   "instrument_num": "2004065530",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5212
  },
  {
   "property_id": "R213362",
@@ -1817,7 +1842,8 @@
   "deed_date": "01/30/2004",
   "instrument_num": "2004015612",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 4826
  },
  {
   "property_id": "R314258",
@@ -1887,7 +1913,8 @@
   "deed_date": "08/02/1999",
   "instrument_num": "99148063",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 2890
  },
  {
   "property_id": "R213340",
@@ -1957,7 +1984,8 @@
   "deed_date": "04/16/2008",
   "instrument_num": "2008058084",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5110
  },
  {
   "property_id": "R314266",
@@ -2027,7 +2055,8 @@
   "deed_date": "03/30/2011",
   "instrument_num": "2011038454",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 8179
  },
  {
   "property_id": "R213339",
@@ -2097,7 +2126,8 @@
   "deed_date": "05/21/2004",
   "instrument_num": "2004090626",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5349
  },
  {
   "property_id": "R213338",
@@ -2167,7 +2197,8 @@
   "deed_date": "09/21/2004",
   "instrument_num": "2004172211",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5406
  },
  {
   "property_id": "R213337",
@@ -2237,7 +2268,8 @@
   "deed_date": "05/26/2015",
   "instrument_num": "2015060763",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5866
  },
  {
   "property_id": "R213336",
@@ -2307,7 +2339,8 @@
   "deed_date": "06/30/2021",
   "instrument_num": "2021101727",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5017
  },
  {
   "property_id": "R213335",
@@ -2377,7 +2410,8 @@
   "deed_date": "04/24/2026",
   "instrument_num": "2026028378",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5175
  },
  {
   "property_id": "R213334",
@@ -2447,7 +2481,8 @@
   "deed_date": "02/25/2005",
   "instrument_num": "2005032056",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5762
  },
  {
   "property_id": "R213331",
@@ -2517,7 +2552,8 @@
   "deed_date": "09/12/2023",
   "instrument_num": "2023056974",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5368
  },
  {
   "property_id": "R213330",
@@ -2587,7 +2623,8 @@
   "deed_date": "11/25/2009",
   "instrument_num": "2009163313",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5712
  },
  {
   "property_id": "R314252",
@@ -2657,7 +2694,8 @@
   "deed_date": "08/23/2002",
   "instrument_num": "2002149238",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 6531
  },
  {
   "property_id": "R213329",
@@ -2727,7 +2765,8 @@
   "deed_date": "08/14/2009",
   "instrument_num": "2009117024",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5242
  },
  {
   "property_id": "R213328",
@@ -2797,7 +2836,8 @@
   "deed_date": "01/24/2020",
   "instrument_num": "2020009218",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 4770
  },
  {
   "property_id": "R213366",
@@ -2867,7 +2907,8 @@
   "deed_date": "08/28/2017",
   "instrument_num": "2017103812",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5034
  },
  {
   "property_id": "R213367",
@@ -2937,7 +2978,8 @@
   "deed_date": "04/10/2024",
   "instrument_num": "2024020471",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5822
  },
  {
   "property_id": "R213369",
@@ -3007,7 +3049,8 @@
   "deed_date": "11/15/2013",
   "instrument_num": "2013150193",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 6398
  },
  {
   "property_id": "R213371",
@@ -3077,7 +3120,8 @@
   "deed_date": "11/03/2016",
   "instrument_num": "2016138589",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5526
  },
  {
   "property_id": "R213377",
@@ -3147,7 +3191,8 @@
   "deed_date": "01/31/2023",
   "instrument_num": "2023005678",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5106
  },
  {
   "property_id": "R213378",
@@ -3217,7 +3262,8 @@
   "deed_date": "12/15/2015",
   "instrument_num": "2015156751",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5675
  },
  {
   "property_id": "R213351",
@@ -3287,7 +3333,8 @@
   "deed_date": "04/28/2011",
   "instrument_num": "2011050540",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5803
  },
  {
   "property_id": "R213352",
@@ -3357,7 +3404,8 @@
   "deed_date": "07/06/2010",
   "instrument_num": "2010082969",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5175
  },
  {
   "property_id": "R213354",
@@ -3427,7 +3475,8 @@
   "deed_date": "07/09/2004",
   "instrument_num": "2004125743",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5219
  },
  {
   "property_id": "R314268",
@@ -3497,7 +3546,8 @@
   "deed_date": "04/06/2009",
   "instrument_num": "2009045173",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 18880
  },
  {
   "property_id": "R213355",
@@ -3567,7 +3617,8 @@
   "deed_date": "06/28/2004",
   "instrument_num": "2004117296",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 4914
  },
  {
   "property_id": "R213358",
@@ -3637,7 +3688,8 @@
   "deed_date": "10/27/2015",
   "instrument_num": "2015137546",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5391
  },
  {
   "property_id": "R213359",
@@ -3707,7 +3759,8 @@
   "deed_date": "07/18/2022",
   "instrument_num": "2022069846",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5243
  },
  {
   "property_id": "R213318",
@@ -3777,7 +3830,8 @@
   "deed_date": "05/13/2022",
   "instrument_num": "2022049728",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 6147
  },
  {
   "property_id": "R213317",
@@ -3847,7 +3901,8 @@
   "deed_date": "03/28/2013",
   "instrument_num": "2013042542",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5668
  },
  {
   "property_id": "R213316",
@@ -3917,7 +3972,8 @@
   "deed_date": "05/23/2023",
   "instrument_num": "2023031275",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5235
  },
  {
   "property_id": "R213315",
@@ -3987,7 +4043,8 @@
   "deed_date": "11/04/2016",
   "instrument_num": "2016139228",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5668
  },
  {
   "property_id": "R213314",
@@ -4057,7 +4114,8 @@
   "deed_date": "07/06/2004",
   "instrument_num": "2004122933",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5675
  },
  {
   "property_id": "R213313",
@@ -4127,7 +4185,8 @@
   "deed_date": "03/25/2026",
   "instrument_num": "2026020015",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 6138
  },
  {
   "property_id": "R213343",
@@ -4197,6 +4256,7 @@
   "deed_date": "11/22/2017",
   "instrument_num": "2017141631",
   "improvements": 1,
-  "exemption": ""
+  "exemption": "",
+  "annual_tax_amount": 5362
  }
 ]

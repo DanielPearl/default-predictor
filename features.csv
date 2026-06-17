@@ -55,7 +55,7 @@ Taxes,tax_delinquent_amount,Total past-due property tax,Multnomah County,N,N
 Taxes,delinquent_years_count,How many years the owner is behind on tax,Multnomah County,N,N
 Taxes,tax_delinquency_velocity,How fast the unpaid balance is growing,Multnomah County,Y,N
 Taxes,in_tax_foreclosure_flag,Whether the parcel is in county tax foreclosure,Multnomah County,N,N
-Taxes,annual_tax_amount,Property tax billed this year,Multnomah County,N,N
+Taxes,annual_tax_amount,Property tax billed this year,Portland Maps,N,Y
 Taxes,tax_amount_consistency,Whether the yearly tax bill stays roughly steady,Multnomah County,Y,N
 Ownership,owner_name,Name of the owner on record,Portland Maps,N,Y
 Ownership,owner_mailing_address,Owner mailing address including city state and ZIP,Portland Maps,N,Y

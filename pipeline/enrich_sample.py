@@ -144,6 +144,8 @@ def extract(raw):
     fire = (ps.get("fire_nearest") or [{}])[0]
     park = (detail.get("parks", {}).get("nearby") or [{}])[0]
     sch = detail.get("schools", {}).get("attendance", {}) or {}
+    assessor = detail.get("assessor", {}) or {}
+    tax = assessor.get("property_tax")
     liq = hz.get("liquefaction_hazard_zone") or ""
     hazard_flags = [
         hz.get("fema_special_flood_hazard_area"),
@@ -179,6 +181,7 @@ def extract(raw):
         "last_permit_year": last_year,
         "years_since_permit": (2026 - last_year) if last_year else None,
         "enforcement_count": len(enforcement),
+        "annual_tax_amount": round(tax / 100) if tax else None,
         **vflags,
     }
 
