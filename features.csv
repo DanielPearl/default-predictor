@@ -16,6 +16,7 @@ Property,lot_size_sqft,Lot size in square feet,Portland Maps,N,Y
 Property,lot_acres,Lot size in acres,Portland Maps,N,N
 Property,frontage,Width of the lot along the street in feet,Portland Maps,N,N
 Property,account_status,Status code of the tax account,Portland Maps,N,Y
+Property,alt_account,Alternate county tax account number (key into county systems),Multnomah County,N,Y
 Location,neighborhood,Neighborhood the property is in,Portland Maps,N,Y
 Location,council_district,City council district,Portland Maps,N,Y
 Location,school_district,School district serving the property,Portland Maps,N,Y
@@ -63,6 +64,8 @@ Ownership,owner_is_entity_flag,Whether the owner is a company or trust rather th
 Ownership,owner_count,Number of owners on title; three or more can signal inherited or joint ownership,Portland Maps,Y,Y
 Ownership,portfolio_size,How many parcels this owner holds in the county,Portland Maps,Y,N
 Ownership,related_accounts,Number of tax accounts linked to this one (condo or portfolio),Portland Maps,Y,Y
+Ownership,deed_type,Type of the last recorded deed such as warranty probate or foreclosure,Multnomah County,N,Y
+Ownership,deed_date,Date the current owner acquired the property via the last deed,Multnomah County,N,Y
 Ownership,owner_entity_status,Whether the owning company is active or dissolved,Oregon Secretary of State,N,N
 Ownership,entity_dissolution_flag,Whether the owning company is dissolved or inactive,Oregon Secretary of State,Y,N
 Ownership,entity_registered_agent,Registered agent that links a company to a person,Oregon Secretary of State,N,N

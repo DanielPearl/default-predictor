@@ -61,7 +61,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R331803370",
+  "deed_type": "Warranty",
+  "deed_date": "11/02/2016"
  },
  {
   "property_id": "R171735",
@@ -125,7 +128,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R331803430",
+  "deed_type": "Warranty",
+  "deed_date": "06/05/2024"
  },
  {
   "property_id": "R171738",
@@ -189,7 +195,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R331803520",
+  "deed_type": "Warranty",
+  "deed_date": ""
  },
  {
   "property_id": "R171729",
@@ -253,7 +262,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R331803250",
+  "deed_type": "Warranty",
+  "deed_date": "07/30/2014"
  },
  {
   "property_id": "R171730",
@@ -317,7 +329,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R331803280",
+  "deed_type": "Warranty",
+  "deed_date": "05/13/2022"
  },
  {
   "property_id": "R171731",
@@ -381,7 +396,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R331803310",
+  "deed_type": "Warranty",
+  "deed_date": "10/05/2015"
  },
  {
   "property_id": "R171681",
@@ -445,7 +463,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 2
+  "violation_other": 2,
+  "alt_account": "R331800615",
+  "deed_type": "Warranty",
+  "deed_date": "07/23/2018"
  },
  {
   "property_id": "R171680",
@@ -509,7 +530,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R331800610",
+  "deed_type": "Warranty",
+  "deed_date": "05/06/2022"
  },
  {
   "property_id": "R171682",
@@ -573,7 +597,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R331800620",
+  "deed_type": "Warranty",
+  "deed_date": "03/11/2022"
  },
  {
   "property_id": "R171740",
@@ -637,7 +664,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R331803580",
+  "deed_type": "Warranty",
+  "deed_date": "04/10/2025"
  },
  {
   "property_id": "R314262",
@@ -701,7 +731,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 2
+  "violation_other": 2,
+  "alt_account": "R941020290",
+  "deed_type": "Warranty",
+  "deed_date": "05/22/2025"
  },
  {
   "property_id": "R262888",
@@ -765,7 +798,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R730002040",
+  "deed_type": "Warranty",
+  "deed_date": "11/30/2017"
  },
  {
   "property_id": "R213402",
@@ -829,7 +865,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540102130",
+  "deed_type": "Warranty",
+  "deed_date": "05/01/2024"
  },
  {
   "property_id": "R213400",
@@ -893,7 +932,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540102090",
+  "deed_type": "Warranty",
+  "deed_date": "05/28/2013"
  },
  {
   "property_id": "R213397",
@@ -957,7 +999,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540102030",
+  "deed_type": "Warranty",
+  "deed_date": "07/02/2021"
  },
  {
   "property_id": "R213396",
@@ -1021,7 +1066,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540102010",
+  "deed_type": "Warranty",
+  "deed_date": "08/08/2022"
  },
  {
   "property_id": "R213395",
@@ -1085,7 +1133,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540101990",
+  "deed_type": "Warranty",
+  "deed_date": "12/10/2001"
  },
  {
   "property_id": "R213394",
@@ -1149,7 +1200,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540101970",
+  "deed_type": "Warranty",
+  "deed_date": "02/01/2024"
  },
  {
   "property_id": "R213320",
@@ -1213,7 +1267,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540100490",
+  "deed_type": "Warranty",
+  "deed_date": "09/08/2015"
  },
  {
   "property_id": "R213322",
@@ -1277,7 +1334,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540100530",
+  "deed_type": "Warranty",
+  "deed_date": "03/29/2006"
  },
  {
   "property_id": "R213323",
@@ -1341,7 +1401,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540100550",
+  "deed_type": "Special warranty",
+  "deed_date": "07/29/2009"
  },
  {
   "property_id": "R213325",
@@ -1405,7 +1468,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540100590",
+  "deed_type": "Warranty",
+  "deed_date": "06/12/2013"
  },
  {
   "property_id": "R213327",
@@ -1469,7 +1535,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540100630",
+  "deed_type": "Warranty",
+  "deed_date": "01/24/2018"
  },
  {
   "property_id": "R213364",
@@ -1533,7 +1602,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540101370",
+  "deed_type": "Warranty",
+  "deed_date": "06/20/2023"
  },
  {
   "property_id": "R213361",
@@ -1597,7 +1669,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540101310",
+  "deed_type": "Warranty",
+  "deed_date": "04/19/2004"
  },
  {
   "property_id": "R213362",
@@ -1661,7 +1736,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540101330",
+  "deed_type": "Warranty",
+  "deed_date": "01/30/2004"
  },
  {
   "property_id": "R314258",
@@ -1725,7 +1803,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R941020230",
+  "deed_type": "Warranty",
+  "deed_date": "08/02/1999"
  },
  {
   "property_id": "R213340",
@@ -1789,7 +1870,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540100890",
+  "deed_type": "Warranty",
+  "deed_date": "04/16/2008"
  },
  {
   "property_id": "R314266",
@@ -1853,7 +1937,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R941020370",
+  "deed_type": "Warranty",
+  "deed_date": "03/30/2011"
  },
  {
   "property_id": "R213339",
@@ -1917,7 +2004,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540100870",
+  "deed_type": "Warranty",
+  "deed_date": "05/21/2004"
  },
  {
   "property_id": "R213338",
@@ -1981,7 +2071,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540100850",
+  "deed_type": "Warranty",
+  "deed_date": "09/21/2004"
  },
  {
   "property_id": "R213337",
@@ -2045,7 +2138,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540100830",
+  "deed_type": "Warranty",
+  "deed_date": "05/26/2015"
  },
  {
   "property_id": "R213336",
@@ -2109,7 +2205,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540100810",
+  "deed_type": "Warranty",
+  "deed_date": "06/30/2021"
  },
  {
   "property_id": "R213335",
@@ -2173,7 +2272,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540100790",
+  "deed_type": "Personal rep (probate)",
+  "deed_date": "04/24/2026"
  },
  {
   "property_id": "R213334",
@@ -2237,7 +2339,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540100770",
+  "deed_type": "Warranty",
+  "deed_date": "02/25/2005"
  },
  {
   "property_id": "R213331",
@@ -2301,7 +2406,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540100710",
+  "deed_type": "Warranty",
+  "deed_date": "09/12/2023"
  },
  {
   "property_id": "R213330",
@@ -2365,7 +2473,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540100690",
+  "deed_type": "Warranty",
+  "deed_date": "11/25/2009"
  },
  {
   "property_id": "R314252",
@@ -2429,7 +2540,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 2,
   "violation_noise": 0,
-  "violation_other": 1
+  "violation_other": 1,
+  "alt_account": "R941020170",
+  "deed_type": "Warranty",
+  "deed_date": "08/23/2002"
  },
  {
   "property_id": "R213329",
@@ -2493,7 +2607,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540100670",
+  "deed_type": "Warranty",
+  "deed_date": "08/14/2009"
  },
  {
   "property_id": "R213328",
@@ -2557,7 +2674,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540100650",
+  "deed_type": "Special warranty",
+  "deed_date": "01/24/2020"
  },
  {
   "property_id": "R213366",
@@ -2621,7 +2741,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540101410",
+  "deed_type": "Warranty",
+  "deed_date": "08/28/2017"
  },
  {
   "property_id": "R213367",
@@ -2685,7 +2808,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540101430",
+  "deed_type": "Warranty",
+  "deed_date": "04/10/2024"
  },
  {
   "property_id": "R213369",
@@ -2749,7 +2875,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540101470",
+  "deed_type": "Warranty",
+  "deed_date": "11/15/2013"
  },
  {
   "property_id": "R213371",
@@ -2813,7 +2942,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540101510",
+  "deed_type": "Warranty",
+  "deed_date": "11/03/2016"
  },
  {
   "property_id": "R213377",
@@ -2877,7 +3009,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540101630",
+  "deed_type": "Warranty",
+  "deed_date": "01/31/2023"
  },
  {
   "property_id": "R213378",
@@ -2941,7 +3076,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540101650",
+  "deed_type": "Warranty",
+  "deed_date": "12/15/2015"
  },
  {
   "property_id": "R213351",
@@ -3005,7 +3143,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540101110",
+  "deed_type": "Warranty",
+  "deed_date": "04/28/2011"
  },
  {
   "property_id": "R213352",
@@ -3069,7 +3210,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540101130",
+  "deed_type": "Warranty",
+  "deed_date": "07/06/2010"
  },
  {
   "property_id": "R213354",
@@ -3133,7 +3277,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540101170",
+  "deed_type": "Warranty",
+  "deed_date": "07/09/2004"
  },
  {
   "property_id": "R314268",
@@ -3197,7 +3344,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R941020390",
+  "deed_type": "Warranty",
+  "deed_date": "04/06/2009"
  },
  {
   "property_id": "R213355",
@@ -3261,7 +3411,10 @@
   "violation_vehicle": 1,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540101190",
+  "deed_type": "Warranty",
+  "deed_date": "06/28/2004"
  },
  {
   "property_id": "R213358",
@@ -3325,7 +3478,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540101250",
+  "deed_type": "Warranty",
+  "deed_date": "10/27/2015"
  },
  {
   "property_id": "R213359",
@@ -3389,7 +3545,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540101270",
+  "deed_type": "Warranty",
+  "deed_date": "07/18/2022"
  },
  {
   "property_id": "R213318",
@@ -3453,7 +3612,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540100450",
+  "deed_type": "Warranty",
+  "deed_date": "05/13/2022"
  },
  {
   "property_id": "R213317",
@@ -3517,7 +3679,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540100430",
+  "deed_type": "Warranty",
+  "deed_date": "03/28/2013"
  },
  {
   "property_id": "R213316",
@@ -3581,7 +3746,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540100410",
+  "deed_type": "Warranty",
+  "deed_date": "05/23/2023"
  },
  {
   "property_id": "R213315",
@@ -3645,7 +3813,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540100390",
+  "deed_type": "Warranty",
+  "deed_date": "11/04/2016"
  },
  {
   "property_id": "R213314",
@@ -3709,7 +3880,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 1
+  "violation_other": 1,
+  "alt_account": "R540100370",
+  "deed_type": "Warranty",
+  "deed_date": "07/06/2004"
  },
  {
   "property_id": "R213313",
@@ -3773,7 +3947,10 @@
   "violation_vehicle": 0,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540100350",
+  "deed_type": "Special warranty",
+  "deed_date": "03/25/2026"
  },
  {
   "property_id": "R213343",
@@ -3837,6 +4014,9 @@
   "violation_vehicle": 3,
   "violation_zoning": 0,
   "violation_noise": 0,
-  "violation_other": 0
+  "violation_other": 0,
+  "alt_account": "R540100950",
+  "deed_type": "Warranty",
+  "deed_date": "11/22/2017"
  }
 ]

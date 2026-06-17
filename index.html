@@ -293,6 +293,8 @@
     const fmtPct = v => v == null ? '—' : v + '%';
     const fmtMult = v => v == null ? '—' : v + '×';
     const fmtEnforce = v => !v ? '<span class="muted">0</span>' : `<span class="badge flag-oos">${v}</span>`;
+    const fmtDeed = v => !v ? '<span class="muted">—</span>'
+      : /probate|foreclosure|trustee|sheriff|heir/i.test(v) ? `<span class="badge flag-absentee">${esc(v)}</span>` : `<span class="muted">${esc(v)}</span>`;
     const fmtRisk = v => v === 'Yes' ? '<span class="badge flag-oos">Yes</span>' : '<span class="muted">No</span>';
     const fmtFlagY = v => v === 'Yes' ? '<span class="badge flag-absentee">Yes</span>' : '<span class="muted">No</span>';
     const fmtHazard = v => !v ? '<span class="muted">0</span>' : `<span class="badge flag-oos">${v}</span>`;
@@ -314,6 +316,7 @@
 
     const PROP_COLS = [
       ['Property ID', 'property_id', 'addr', v => esc(v || '')],
+      ['Alt account', 'alt_account', 'addr', v => esc(v || '—')],
       ['Address', 'address', 'addr', v => esc(v || '')],
       ['Owner', 'owner', '', v => esc(v || '')],
       ['Owners', 'owner_count', 'num', fmtNum],
@@ -374,6 +377,8 @@
       ['Tenure (yrs)', 'tenure_years', 'num', fmtNum],
       ['Sale price', 'last_sale_price', 'num', fmtMoney],
       ['Apprec.', 'appreciation', 'num', fmtMult],
+      ['Deed type', 'deed_type', '', fmtDeed],
+      ['Deed date', 'deed_date', 'num', fmtNum],
     ];
 
     // Each Properties column maps to a feature in the dictionary; clicking the
