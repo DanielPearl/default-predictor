@@ -183,6 +183,7 @@
       [/oregon judicial/i, 'https://www.courts.oregon.gov'],
       [/oregon secretary of state/i, 'https://sos.oregon.gov/business/Pages/find.aspx'],
       [/pacer/i, 'https://pacer.uscourts.gov'],
+      [/courtlistener/i, 'https://www.courtlistener.com'],
       [/water bureau/i, 'https://www.portland.gov/water'],
       [/city of portland/i, 'https://www.portland.gov'],
       [/\bpge\b/i, 'https://portlandgeneral.com'],
@@ -383,6 +384,9 @@
       ['Deed date', 'deed_date', 'num', fmtNum],
       ['Instrument #', 'instrument_num', 'addr', v => esc(v || '—')],
       ['Exemption', 'exemption', 'num', v => esc(v || '—')],
+      ['Bankruptcy', 'bankruptcy_flag', '', fmtRisk],
+      ['BK chapter', 'bankruptcy_chapter', '', v => esc(v || '—')],
+      ['BK filed', 'bankruptcy_date', 'num', v => esc(v || '—')],
     ];
 
     // Each Properties column maps to a feature in the dictionary; clicking the

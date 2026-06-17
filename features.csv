@@ -111,8 +111,9 @@ Risk,hazard_count,Number of natural-hazard flags on the parcel,Portland Maps,Y,Y
 Life Events,probate_filing_flag,Whether a probate case was opened (often follows an owner death),Oregon Judicial Dept,N,N
 Life Events,divorce_filing_flag,Whether a divorce case was filed,Oregon Judicial Dept,N,N
 Life Events,obituary_match_flag,Whether the owner name appears in a recent obituary,Obituary records,N,N
-Life Events,bankruptcy_flag,Whether the owner has filed for bankruptcy,PACER,N,N
-Life Events,bankruptcy_chapter,Bankruptcy chapter filed (7 / 11 / 13),PACER,N,N
+Life Events,bankruptcy_flag,Possible bankruptcy filing matched by owner name (unverified),CourtListener,N,Y
+Life Events,bankruptcy_chapter,Chapter of the matched bankruptcy (7 / 11 / 13),CourtListener,N,Y
+Life Events,bankruptcy_date,Filing date of the matched bankruptcy,CourtListener,N,Y
 Life Events,owner_age_estimate,Estimated age of the owner,Skip-trace vendor,N,N
 Contact,owner_phone,Owner phone number,Skip-trace vendor,N,N
 Contact,owner_email,Owner email address,Skip-trace vendor,N,N

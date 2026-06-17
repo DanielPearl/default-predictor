@@ -68,7 +68,10 @@
   "instrument_num": "2016137902",
   "improvements": 1,
   "exemption": "24",
-  "annual_tax_amount": 16692
+  "annual_tax_amount": 16692,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R171735",
@@ -139,7 +142,10 @@
   "instrument_num": "2024032953",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 36549
+  "annual_tax_amount": 36549,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R171738",
@@ -210,7 +216,10 @@
   "instrument_num": "97075516",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 14766
+  "annual_tax_amount": 14766,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R171729",
@@ -281,7 +290,10 @@
   "instrument_num": "2014073814",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 20956
+  "annual_tax_amount": 20956,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R171730",
@@ -352,7 +364,10 @@
   "instrument_num": "2022049340",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 25504
+  "annual_tax_amount": 25504,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R171731",
@@ -423,7 +438,10 @@
   "instrument_num": "2015127136",
   "improvements": 2,
   "exemption": "18",
-  "annual_tax_amount": 14600
+  "annual_tax_amount": 14600,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R171681",
@@ -494,7 +512,10 @@
   "instrument_num": "2018077059",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 7295
+  "annual_tax_amount": 7295,
+  "bankruptcy_flag": "Yes",
+  "bankruptcy_chapter": "Ch 13",
+  "bankruptcy_date": "2026-02-06"
  },
  {
   "property_id": "R171680",
@@ -565,7 +586,10 @@
   "instrument_num": "2022047227",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5531
+  "annual_tax_amount": 5531,
+  "bankruptcy_flag": "Yes",
+  "bankruptcy_chapter": "Ch 7",
+  "bankruptcy_date": "2005-03-25"
  },
  {
   "property_id": "R171682",
@@ -636,7 +660,10 @@
   "instrument_num": "2022026561",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 12490
+  "annual_tax_amount": 12490,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R171740",
@@ -707,7 +734,10 @@
   "instrument_num": "2025021129",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 13235
+  "annual_tax_amount": 13235,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R314262",
@@ -778,7 +808,10 @@
   "instrument_num": "2025031900",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 6930
+  "annual_tax_amount": 6930,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R262888",
@@ -849,7 +882,10 @@
   "instrument_num": "2017144427",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 6284
+  "annual_tax_amount": 6284,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213402",
@@ -920,7 +956,10 @@
   "instrument_num": "2024025064",
   "improvements": 2,
   "exemption": "",
-  "annual_tax_amount": 2456
+  "annual_tax_amount": 2456,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213400",
@@ -991,7 +1030,10 @@
   "instrument_num": "2013071524",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 6025
+  "annual_tax_amount": 6025,
+  "bankruptcy_flag": "Yes",
+  "bankruptcy_chapter": "Ch 13",
+  "bankruptcy_date": "1991-08-14"
  },
  {
   "property_id": "R213397",
@@ -1062,7 +1104,10 @@
   "instrument_num": "2021102821",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 4732
+  "annual_tax_amount": 4732,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213396",
@@ -1133,7 +1178,10 @@
   "instrument_num": "2022075966",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5138
+  "annual_tax_amount": 5138,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213395",
@@ -1204,7 +1252,10 @@
   "instrument_num": "01198218",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 4086
+  "annual_tax_amount": 4086,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213394",
@@ -1275,7 +1326,10 @@
   "instrument_num": "2024006159",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5592
+  "annual_tax_amount": 5592,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213320",
@@ -1346,7 +1400,10 @@
   "instrument_num": "2015115325",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5002
+  "annual_tax_amount": 5002,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213322",
@@ -1417,7 +1474,10 @@
   "instrument_num": "2006055997",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5871
+  "annual_tax_amount": 5871,
+  "bankruptcy_flag": "Yes",
+  "bankruptcy_chapter": "Ch 7",
+  "bankruptcy_date": "2016-02-04"
  },
  {
   "property_id": "R213323",
@@ -1488,7 +1548,10 @@
   "instrument_num": "2009108175",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5342
+  "annual_tax_amount": 5342,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213325",
@@ -1559,7 +1622,10 @@
   "instrument_num": "2013079861",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5349
+  "annual_tax_amount": 5349,
+  "bankruptcy_flag": "Yes",
+  "bankruptcy_chapter": "Ch 7",
+  "bankruptcy_date": "2005-06-08"
  },
  {
   "property_id": "R213327",
@@ -1630,7 +1696,10 @@
   "instrument_num": "2018009090",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5597
+  "annual_tax_amount": 5597,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213364",
@@ -1701,7 +1770,10 @@
   "instrument_num": "2023037954",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 6044
+  "annual_tax_amount": 6044,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213361",
@@ -1772,7 +1844,10 @@
   "instrument_num": "2004065530",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5212
+  "annual_tax_amount": 5212,
+  "bankruptcy_flag": "Yes",
+  "bankruptcy_chapter": "Ch 7",
+  "bankruptcy_date": "1997-01-22"
  },
  {
   "property_id": "R213362",
@@ -1843,7 +1918,10 @@
   "instrument_num": "2004015612",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 4826
+  "annual_tax_amount": 4826,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R314258",
@@ -1914,7 +1992,10 @@
   "instrument_num": "99148063",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 2890
+  "annual_tax_amount": 2890,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213340",
@@ -1985,7 +2066,10 @@
   "instrument_num": "2008058084",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5110
+  "annual_tax_amount": 5110,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R314266",
@@ -2056,7 +2140,10 @@
   "instrument_num": "2011038454",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 8179
+  "annual_tax_amount": 8179,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213339",
@@ -2127,7 +2214,10 @@
   "instrument_num": "2004090626",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5349
+  "annual_tax_amount": 5349,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213338",
@@ -2198,7 +2288,10 @@
   "instrument_num": "2004172211",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5406
+  "annual_tax_amount": 5406,
+  "bankruptcy_flag": "Yes",
+  "bankruptcy_chapter": "Ch 7",
+  "bankruptcy_date": "2004-06-29"
  },
  {
   "property_id": "R213337",
@@ -2269,7 +2362,10 @@
   "instrument_num": "2015060763",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5866
+  "annual_tax_amount": 5866,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213336",
@@ -2340,7 +2436,10 @@
   "instrument_num": "2021101727",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5017
+  "annual_tax_amount": 5017,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213335",
@@ -2411,7 +2510,10 @@
   "instrument_num": "2026028378",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5175
+  "annual_tax_amount": 5175,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213334",
@@ -2482,7 +2584,10 @@
   "instrument_num": "2005032056",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5762
+  "annual_tax_amount": 5762,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213331",
@@ -2553,7 +2658,10 @@
   "instrument_num": "2023056974",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5368
+  "annual_tax_amount": 5368,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213330",
@@ -2624,7 +2732,10 @@
   "instrument_num": "2009163313",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5712
+  "annual_tax_amount": 5712,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R314252",
@@ -2695,7 +2806,10 @@
   "instrument_num": "2002149238",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 6531
+  "annual_tax_amount": 6531,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213329",
@@ -2766,7 +2880,10 @@
   "instrument_num": "2009117024",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5242
+  "annual_tax_amount": 5242,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213328",
@@ -2837,7 +2954,10 @@
   "instrument_num": "2020009218",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 4770
+  "annual_tax_amount": 4770,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213366",
@@ -2908,7 +3028,10 @@
   "instrument_num": "2017103812",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5034
+  "annual_tax_amount": 5034,
+  "bankruptcy_flag": "Yes",
+  "bankruptcy_chapter": "Ch 7",
+  "bankruptcy_date": "1997-04-17"
  },
  {
   "property_id": "R213367",
@@ -2979,7 +3102,10 @@
   "instrument_num": "2024020471",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5822
+  "annual_tax_amount": 5822,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213369",
@@ -3050,7 +3176,10 @@
   "instrument_num": "2013150193",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 6398
+  "annual_tax_amount": 6398,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213371",
@@ -3121,7 +3250,10 @@
   "instrument_num": "2016138589",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5526
+  "annual_tax_amount": 5526,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213377",
@@ -3192,7 +3324,10 @@
   "instrument_num": "2023005678",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5106
+  "annual_tax_amount": 5106,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213378",
@@ -3263,7 +3398,10 @@
   "instrument_num": "2015156751",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5675
+  "annual_tax_amount": 5675,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213351",
@@ -3334,7 +3472,10 @@
   "instrument_num": "2011050540",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5803
+  "annual_tax_amount": 5803,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213352",
@@ -3405,7 +3546,10 @@
   "instrument_num": "2010082969",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5175
+  "annual_tax_amount": 5175,
+  "bankruptcy_flag": "Yes",
+  "bankruptcy_chapter": "Ch 7",
+  "bankruptcy_date": "2001-07-24"
  },
  {
   "property_id": "R213354",
@@ -3476,7 +3620,10 @@
   "instrument_num": "2004125743",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5219
+  "annual_tax_amount": 5219,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R314268",
@@ -3547,7 +3694,10 @@
   "instrument_num": "2009045173",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 18880
+  "annual_tax_amount": 18880,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213355",
@@ -3618,7 +3768,10 @@
   "instrument_num": "2004117296",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 4914
+  "annual_tax_amount": 4914,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213358",
@@ -3689,7 +3842,10 @@
   "instrument_num": "2015137546",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5391
+  "annual_tax_amount": 5391,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213359",
@@ -3760,7 +3916,10 @@
   "instrument_num": "2022069846",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5243
+  "annual_tax_amount": 5243,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213318",
@@ -3831,7 +3990,10 @@
   "instrument_num": "2022049728",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 6147
+  "annual_tax_amount": 6147,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213317",
@@ -3902,7 +4064,10 @@
   "instrument_num": "2013042542",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5668
+  "annual_tax_amount": 5668,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213316",
@@ -3973,7 +4138,10 @@
   "instrument_num": "2023031275",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5235
+  "annual_tax_amount": 5235,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213315",
@@ -4044,7 +4212,10 @@
   "instrument_num": "2016139228",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5668
+  "annual_tax_amount": 5668,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213314",
@@ -4115,7 +4286,10 @@
   "instrument_num": "2004122933",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5675
+  "annual_tax_amount": 5675,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213313",
@@ -4186,7 +4360,10 @@
   "instrument_num": "2026020015",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 6138
+  "annual_tax_amount": 6138,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  },
  {
   "property_id": "R213343",
@@ -4257,6 +4434,9 @@
   "instrument_num": "2017141631",
   "improvements": 1,
   "exemption": "",
-  "annual_tax_amount": 5362
+  "annual_tax_amount": 5362,
+  "bankruptcy_flag": "No",
+  "bankruptcy_chapter": "",
+  "bankruptcy_date": ""
  }
 ]
