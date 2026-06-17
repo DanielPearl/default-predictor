@@ -44,18 +44,22 @@ VIOLATION_RULES = {
 TYPE_TO_VIOLATION = {"Vacant": "violation_vacant", "Summary Abatement": "violation_vacant",
                      "Zoning": "violation_zoning", "Motor Vehicle": "violation_vehicle"}
 
+# Each case is assigned to exactly ONE type, checked in this priority order
+# (most distress-relevant first) so the per-type counts sum to the total.
+PRIORITY = ["violation_vacant", "violation_trash", "violation_overgrowth",
+            "violation_zoning", "violation_vehicle", "violation_noise"]
+
+def classify_one(r):
+    text = " ".join([r.get("type") or "", r.get("work") or "", r.get("description") or ""]).lower()
+    for cat in PRIORITY:
+        if any(k in text for k in VIOLATION_RULES[cat]) or TYPE_TO_VIOLATION.get(r.get("type")) == cat:
+            return cat
+    return "violation_other"
+
 def classify_violations(records):
-    counts = {k: 0 for k in VIOLATION_RULES}
+    counts = {k: 0 for k in PRIORITY + ["violation_other"]}
     for r in records:
-        text = " ".join([r.get("type") or "", r.get("work") or "", r.get("description") or ""]).lower()
-        matched = set()
-        if r.get("type") in TYPE_TO_VIOLATION:
-            matched.add(TYPE_TO_VIOLATION[r["type"]])
-        for cat, kws in VIOLATION_RULES.items():
-            if any(k in text for k in kws):
-                matched.add(cat)
-        for cat in matched:
-            counts[cat] += 1
+        counts[classify_one(r)] += 1
     return counts
 MERCATOR = 20037508.342789244
 

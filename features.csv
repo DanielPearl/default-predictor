@@ -91,6 +91,7 @@ Permits & Violations,violation_trash,Number of trash debris or garbage code case
 Permits & Violations,violation_vehicle,Number of junk or nuisance-vehicle code cases,Portland Maps,Y,Y
 Permits & Violations,violation_zoning,Number of zoning-violation code cases,Portland Maps,Y,Y
 Permits & Violations,violation_noise,Number of noise-complaint code cases,Portland Maps,Y,Y
+Permits & Violations,violation_other,Number of other or miscellaneous code cases,Portland Maps,Y,Y
 Permits & Violations,open_code_violation_flag,Whether any code violation is unresolved,Portland Maps,N,N
 Permits & Violations,days_since_last_violation,Days since the most recent code violation,Portland Maps,Y,N
 Permits & Violations,nuisance_complaint_count,Number of nuisance complaints,Portland Maps,N,N

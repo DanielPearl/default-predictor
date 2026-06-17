@@ -60,7 +60,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R171735",
@@ -123,7 +124,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R171738",
@@ -186,7 +188,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R171729",
@@ -249,7 +252,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R171730",
@@ -312,7 +316,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R171731",
@@ -375,7 +380,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R171681",
@@ -438,7 +444,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 2
  },
  {
   "property_id": "R171680",
@@ -501,7 +508,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R171682",
@@ -560,11 +568,12 @@
   "years_since_permit": 3,
   "enforcement_count": 1,
   "violation_vacant": 1,
-  "violation_overgrowth": 1,
+  "violation_overgrowth": 0,
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R171740",
@@ -627,7 +636,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R314262",
@@ -690,7 +700,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 2
  },
  {
   "property_id": "R262888",
@@ -753,7 +764,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213402",
@@ -816,7 +828,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213400",
@@ -879,7 +892,8 @@
   "violation_trash": 1,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213397",
@@ -942,7 +956,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213396",
@@ -1005,7 +1020,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213395",
@@ -1068,7 +1084,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213394",
@@ -1131,7 +1148,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213320",
@@ -1194,7 +1212,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213322",
@@ -1257,7 +1276,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213323",
@@ -1320,7 +1340,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213325",
@@ -1383,7 +1404,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213327",
@@ -1446,7 +1468,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213364",
@@ -1505,11 +1528,12 @@
   "years_since_permit": 1,
   "enforcement_count": 1,
   "violation_vacant": 0,
-  "violation_overgrowth": 1,
+  "violation_overgrowth": 0,
   "violation_trash": 1,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213361",
@@ -1572,7 +1596,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213362",
@@ -1635,7 +1660,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R314258",
@@ -1698,7 +1724,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213340",
@@ -1761,7 +1788,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R314266",
@@ -1824,7 +1852,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213339",
@@ -1887,7 +1916,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213338",
@@ -1950,7 +1980,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213337",
@@ -2013,7 +2044,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213336",
@@ -2076,7 +2108,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213335",
@@ -2139,7 +2172,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213334",
@@ -2202,7 +2236,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213331",
@@ -2265,7 +2300,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213330",
@@ -2328,7 +2364,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R314252",
@@ -2388,10 +2425,11 @@
   "enforcement_count": 5,
   "violation_vacant": 2,
   "violation_overgrowth": 0,
-  "violation_trash": 1,
-  "violation_vehicle": 2,
+  "violation_trash": 0,
+  "violation_vehicle": 0,
   "violation_zoning": 2,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 1
  },
  {
   "property_id": "R213329",
@@ -2454,7 +2492,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213328",
@@ -2517,7 +2556,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213366",
@@ -2580,7 +2620,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213367",
@@ -2643,7 +2684,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213369",
@@ -2706,7 +2748,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213371",
@@ -2769,7 +2812,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213377",
@@ -2832,7 +2876,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213378",
@@ -2895,7 +2940,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213351",
@@ -2958,7 +3004,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213352",
@@ -3021,7 +3068,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213354",
@@ -3084,7 +3132,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R314268",
@@ -3147,7 +3196,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213355",
@@ -3210,7 +3260,8 @@
   "violation_trash": 0,
   "violation_vehicle": 1,
   "violation_zoning": 0,
-  "violation_noise": 1
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213358",
@@ -3273,7 +3324,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213359",
@@ -3336,7 +3388,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213318",
@@ -3399,7 +3452,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213317",
@@ -3462,7 +3516,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213316",
@@ -3525,7 +3580,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213315",
@@ -3588,7 +3644,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213314",
@@ -3651,7 +3708,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 1
  },
  {
   "property_id": "R213313",
@@ -3714,7 +3772,8 @@
   "violation_trash": 0,
   "violation_vehicle": 0,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  },
  {
   "property_id": "R213343",
@@ -3777,6 +3836,7 @@
   "violation_trash": 0,
   "violation_vehicle": 3,
   "violation_zoning": 0,
-  "violation_noise": 0
+  "violation_noise": 0,
+  "violation_other": 0
  }
 ]
