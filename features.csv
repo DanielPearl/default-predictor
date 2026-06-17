@@ -32,11 +32,11 @@ Location,elevation_ft,Ground elevation in feet,Portland Maps,N,Y
 Location,urban_service,Whether the parcel is inside the urban services boundary,Portland Maps,N,Y
 Location,crime_area,Reported crime count in the surrounding area,Portland Maps,N,Y
 Location,census_tract,Census tract the parcel falls in,Census,N,N
-Location,tract_median_income,Median household income in the census tract,Census,N,N
-Location,tract_poverty_pct,Share of tract population below the poverty line,Census,Y,N
-Location,tract_homeownership_pct,Owner-occupied share of occupied homes in the tract,Census,Y,N
-Location,tract_vacancy_pct,Vacant share of housing units in the tract,Census,Y,N
-Location,tract_median_home_value,Median home value in the census tract,Census,N,N
+Location,tract_median_income,Median household income in the census tract,Census,N,Y
+Location,tract_poverty_pct,Share of tract population below the poverty line,Census,Y,Y
+Location,tract_homeownership_pct,Owner-occupied share of occupied homes in the tract,Census,Y,Y
+Location,tract_vacancy_pct,Vacant share of housing units in the tract,Census,Y,Y
+Location,tract_median_home_value,Median home value in the census tract,Census,N,Y
 Location,tract_usps_vacancy,USPS residential vacancy rate for the tract,HUD,N,N
 Location,opportunity_zone_flag,Whether the parcel is in a housing opportunity area,City of Portland,N,N
 Location,area_foreclosure_rate,Historical foreclosure rate for the neighborhood,Portland Maps,Y,N

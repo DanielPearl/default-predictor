@@ -16,7 +16,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SAMPLE = ROOT / "properties_sample.json"
 CACHE = ROOT / "data" / "census_cache.json"
-KEY_FILE = ROOT / "Secret Keys" / "census_api_key.txt"
+KEY_FILE = ROOT / "Secret Keys" / "census_bureau_api_key.txt"
 GEOCODER = "https://geocoding.geo.census.gov/geocoder/geographies/coordinates"
 ACS = "https://api.census.gov/data/2022/acs/acs5"
 KEY = KEY_FILE.read_text().strip() if KEY_FILE.exists() else ""
@@ -41,7 +41,7 @@ def acs(state, county, tract):
     params = {"get": ",".join(VARS), "for": f"tract:{tract}", "in": f"state:{state} county:{county}"}
     if KEY:
         params["key"] = KEY
-    rows = get(ACS + "?" + urllib.parse.urlencode(params))
+    rows = get(ACS + "?" + urllib.parse.urlencode(params, safe=":"))
     d = dict(zip(rows[0], rows[1]))
     num = lambda k: float(d[k]) if d.get(k) not in (None, "") and float(d[k]) > -1e6 else None
     pov_t, pov_b = num("B17001_001E"), num("B17001_002E")
