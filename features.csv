@@ -16,6 +16,8 @@ Property,lot_size_sqft,Lot size in square feet,Portland Maps,N,Y
 Property,lot_acres,Lot size in acres,Portland Maps,N,N
 Property,frontage,Width of the lot along the street in feet,Portland Maps,N,N
 Property,account_status,Status code of the tax account,Portland Maps,N,Y
+Property,rental_regulated,Whether the property is a city-regulated or affordable rental project,Portland Maps,N,Y
+Property,historic_district,Historic or conservation district the property sits in if any,Portland Maps,N,Y
 Property,alt_account,Alternate county tax account number (key into county systems),Multnomah County,N,Y
 Property,improvements,Number of structures or improvements on the parcel,Multnomah County,N,Y
 Location,neighborhood,Neighborhood the property is in,Portland Maps,N,Y
@@ -30,6 +32,12 @@ Location,elevation_ft,Ground elevation in feet,Portland Maps,N,Y
 Location,urban_service,Whether the parcel is inside the urban services boundary,Portland Maps,N,Y
 Location,crime_area,Reported crime count in the surrounding area,Portland Maps,N,Y
 Location,census_tract,Census tract the parcel falls in,Census,N,N
+Location,tract_median_income,Median household income in the census tract,Census,N,N
+Location,tract_poverty_pct,Share of tract population below the poverty line,Census,Y,N
+Location,tract_homeownership_pct,Owner-occupied share of occupied homes in the tract,Census,Y,N
+Location,tract_vacancy_pct,Vacant share of housing units in the tract,Census,Y,N
+Location,tract_median_home_value,Median home value in the census tract,Census,N,N
+Location,tract_usps_vacancy,USPS residential vacancy rate for the tract,HUD,N,N
 Location,opportunity_zone_flag,Whether the parcel is in a housing opportunity area,City of Portland,N,N
 Location,area_foreclosure_rate,Historical foreclosure rate for the neighborhood,Portland Maps,Y,N
 Location,area_median_value,Median assessed value in the neighborhood,Portland Maps,Y,N
@@ -102,7 +110,7 @@ Permits & Violations,open_code_violation_flag,Whether any code violation is unre
 Permits & Violations,days_since_last_violation,Days since the most recent code violation,Portland Maps,Y,N
 Permits & Violations,nuisance_complaint_count,Number of nuisance complaints,Portland Maps,N,N
 Permits & Violations,abandoned_vehicle_report_flag,Whether abandoned vehicles were reported,Portland Maps,N,N
-Permits & Violations,demolition_permit_flag,Whether a demolition permit was filed,Portland Maps,N,N
+Permits & Violations,demolition_permit_flag,Whether a residential demolition permit was filed on the parcel,Portland Maps,N,Y
 Risk,flood_zone,Whether the parcel is in a FEMA flood zone,Portland Maps,N,Y
 Risk,landslide_hazard,Whether the parcel is in a landslide hazard area,Portland Maps,N,Y
 Risk,liquefaction_hazard,Earthquake liquefaction risk rating,Portland Maps,N,Y

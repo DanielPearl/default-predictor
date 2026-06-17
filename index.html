@@ -184,12 +184,13 @@
       [/oregon secretary of state/i, 'https://sos.oregon.gov/business/Pages/find.aspx'],
       [/pacer/i, 'https://pacer.uscourts.gov'],
       [/courtlistener/i, 'https://www.courtlistener.com'],
+      [/census/i, 'https://www.census.gov'],
+      [/\bhud\b/i, 'https://www.huduser.gov'],
       [/water bureau/i, 'https://www.portland.gov/water'],
       [/city of portland/i, 'https://www.portland.gov'],
       [/\bpge\b/i, 'https://portlandgeneral.com'],
       [/pacific power/i, 'https://www.pacificpower.net'],
       [/obituar/i, 'https://www.legacy.com'],
-      [/census/i, 'https://www.census.gov'],
     ];
     const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     function sourceUrl(seg) {
@@ -326,6 +327,7 @@
       ['Owner ZIP', 'owner_zip', 'num', fmtNum],
       ['Occupancy', 'occupancy', '', fmtOccupancy],
       ['Owner type', 'owner_type', '', fmtOwnerType],
+      ['Reg. rental', 'rental_regulated', '', fmtFlagY],
       ['Neighborhood', 'neighborhood', '', v => esc(v || '—')],
       ['Council', 'council_district', 'num', fmtNum],
       ['School district', 'school_district', '', v => esc(v || '—')],
@@ -372,6 +374,8 @@
       ['Zoning viol.', 'violation_zoning', 'num', fmtEnforce],
       ['Noise', 'violation_noise', 'num', fmtEnforce],
       ['Other viol.', 'violation_other', 'num', fmtEnforce],
+      ['Demolition', 'demolition', '', fmtRisk],
+      ['Historic', 'historic_district', '', v => esc(v || '—')],
       ['Related accts', 'related_accounts', 'num', fmtNum],
       ['Acct status', 'account_status', '', v => esc(v || '—')],
       ['Tax code', 'tax_code', '', v => esc(v || '—')],
@@ -400,6 +404,7 @@
       landslide: 'landslide_hazard', liquefaction: 'liquefaction_hazard', assessed_value: 'total_assessed_value',
       value_trend_pct: 'assessed_value_trend_pct', permit_count: 'recent_permit_count',
       enforcement_count: 'code_violation_count', appreciation: 'appreciation_since_purchase',
+      demolition: 'demolition_permit_flag',
     };
     const colFeature = key => COL_FEATURE[key] || key;
 
