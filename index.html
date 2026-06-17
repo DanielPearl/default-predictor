@@ -338,6 +338,7 @@
       ['Bldg sqft', 'sqft', 'num', fmtCount],
       ['Baths', 'bathrooms', 'num', fmtNum],
       ['Units', 'units', 'num', fmtNum],
+      ['Improvements', 'improvements', 'num', fmtNum],
       ['Lot sqft', 'lot_sqft', 'num', fmtCount],
       ['Land use', 'land_use', '', v => esc(v || '—')],
       ['Site ZIP', 'site_zip', 'num', fmtNum],
@@ -379,6 +380,8 @@
       ['Apprec.', 'appreciation', 'num', fmtMult],
       ['Deed type', 'deed_type', '', fmtDeed],
       ['Deed date', 'deed_date', 'num', fmtNum],
+      ['Instrument #', 'instrument_num', 'addr', v => esc(v || '—')],
+      ['Exemption', 'exemption', 'num', v => esc(v || '—')],
     ];
 
     // Each Properties column maps to a feature in the dictionary; clicking the

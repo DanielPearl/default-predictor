@@ -64,7 +64,10 @@
   "violation_other": 0,
   "alt_account": "R331803370",
   "deed_type": "Warranty",
-  "deed_date": "11/02/2016"
+  "deed_date": "11/02/2016",
+  "instrument_num": "2016137902",
+  "improvements": 1,
+  "exemption": "24"
  },
  {
   "property_id": "R171735",
@@ -131,7 +134,10 @@
   "violation_other": 0,
   "alt_account": "R331803430",
   "deed_type": "Warranty",
-  "deed_date": "06/05/2024"
+  "deed_date": "06/05/2024",
+  "instrument_num": "2024032953",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R171738",
@@ -198,7 +204,10 @@
   "violation_other": 0,
   "alt_account": "R331803520",
   "deed_type": "Warranty",
-  "deed_date": ""
+  "deed_date": "",
+  "instrument_num": "97075516",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R171729",
@@ -265,7 +274,10 @@
   "violation_other": 0,
   "alt_account": "R331803250",
   "deed_type": "Warranty",
-  "deed_date": "07/30/2014"
+  "deed_date": "07/30/2014",
+  "instrument_num": "2014073814",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R171730",
@@ -332,7 +344,10 @@
   "violation_other": 0,
   "alt_account": "R331803280",
   "deed_type": "Warranty",
-  "deed_date": "05/13/2022"
+  "deed_date": "05/13/2022",
+  "instrument_num": "2022049340",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R171731",
@@ -399,7 +414,10 @@
   "violation_other": 0,
   "alt_account": "R331803310",
   "deed_type": "Warranty",
-  "deed_date": "10/05/2015"
+  "deed_date": "10/05/2015",
+  "instrument_num": "2015127136",
+  "improvements": 2,
+  "exemption": "18"
  },
  {
   "property_id": "R171681",
@@ -466,7 +484,10 @@
   "violation_other": 2,
   "alt_account": "R331800615",
   "deed_type": "Warranty",
-  "deed_date": "07/23/2018"
+  "deed_date": "07/23/2018",
+  "instrument_num": "2018077059",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R171680",
@@ -533,7 +554,10 @@
   "violation_other": 0,
   "alt_account": "R331800610",
   "deed_type": "Warranty",
-  "deed_date": "05/06/2022"
+  "deed_date": "05/06/2022",
+  "instrument_num": "2022047227",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R171682",
@@ -600,7 +624,10 @@
   "violation_other": 0,
   "alt_account": "R331800620",
   "deed_type": "Warranty",
-  "deed_date": "03/11/2022"
+  "deed_date": "03/11/2022",
+  "instrument_num": "2022026561",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R171740",
@@ -667,7 +694,10 @@
   "violation_other": 0,
   "alt_account": "R331803580",
   "deed_type": "Warranty",
-  "deed_date": "04/10/2025"
+  "deed_date": "04/10/2025",
+  "instrument_num": "2025021129",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R314262",
@@ -734,7 +764,10 @@
   "violation_other": 2,
   "alt_account": "R941020290",
   "deed_type": "Warranty",
-  "deed_date": "05/22/2025"
+  "deed_date": "05/22/2025",
+  "instrument_num": "2025031900",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R262888",
@@ -801,7 +834,10 @@
   "violation_other": 0,
   "alt_account": "R730002040",
   "deed_type": "Warranty",
-  "deed_date": "11/30/2017"
+  "deed_date": "11/30/2017",
+  "instrument_num": "2017144427",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213402",
@@ -868,7 +904,10 @@
   "violation_other": 0,
   "alt_account": "R540102130",
   "deed_type": "Warranty",
-  "deed_date": "05/01/2024"
+  "deed_date": "05/01/2024",
+  "instrument_num": "2024025064",
+  "improvements": 2,
+  "exemption": ""
  },
  {
   "property_id": "R213400",
@@ -935,7 +974,10 @@
   "violation_other": 0,
   "alt_account": "R540102090",
   "deed_type": "Warranty",
-  "deed_date": "05/28/2013"
+  "deed_date": "05/28/2013",
+  "instrument_num": "2013071524",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213397",
@@ -1002,7 +1044,10 @@
   "violation_other": 0,
   "alt_account": "R540102030",
   "deed_type": "Warranty",
-  "deed_date": "07/02/2021"
+  "deed_date": "07/02/2021",
+  "instrument_num": "2021102821",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213396",
@@ -1069,7 +1114,10 @@
   "violation_other": 0,
   "alt_account": "R540102010",
   "deed_type": "Warranty",
-  "deed_date": "08/08/2022"
+  "deed_date": "08/08/2022",
+  "instrument_num": "2022075966",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213395",
@@ -1136,7 +1184,10 @@
   "violation_other": 0,
   "alt_account": "R540101990",
   "deed_type": "Warranty",
-  "deed_date": "12/10/2001"
+  "deed_date": "12/10/2001",
+  "instrument_num": "01198218",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213394",
@@ -1203,7 +1254,10 @@
   "violation_other": 0,
   "alt_account": "R540101970",
   "deed_type": "Warranty",
-  "deed_date": "02/01/2024"
+  "deed_date": "02/01/2024",
+  "instrument_num": "2024006159",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213320",
@@ -1270,7 +1324,10 @@
   "violation_other": 0,
   "alt_account": "R540100490",
   "deed_type": "Warranty",
-  "deed_date": "09/08/2015"
+  "deed_date": "09/08/2015",
+  "instrument_num": "2015115325",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213322",
@@ -1337,7 +1394,10 @@
   "violation_other": 0,
   "alt_account": "R540100530",
   "deed_type": "Warranty",
-  "deed_date": "03/29/2006"
+  "deed_date": "03/29/2006",
+  "instrument_num": "2006055997",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213323",
@@ -1404,7 +1464,10 @@
   "violation_other": 0,
   "alt_account": "R540100550",
   "deed_type": "Special warranty",
-  "deed_date": "07/29/2009"
+  "deed_date": "07/29/2009",
+  "instrument_num": "2009108175",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213325",
@@ -1471,7 +1534,10 @@
   "violation_other": 0,
   "alt_account": "R540100590",
   "deed_type": "Warranty",
-  "deed_date": "06/12/2013"
+  "deed_date": "06/12/2013",
+  "instrument_num": "2013079861",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213327",
@@ -1538,7 +1604,10 @@
   "violation_other": 0,
   "alt_account": "R540100630",
   "deed_type": "Warranty",
-  "deed_date": "01/24/2018"
+  "deed_date": "01/24/2018",
+  "instrument_num": "2018009090",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213364",
@@ -1605,7 +1674,10 @@
   "violation_other": 0,
   "alt_account": "R540101370",
   "deed_type": "Warranty",
-  "deed_date": "06/20/2023"
+  "deed_date": "06/20/2023",
+  "instrument_num": "2023037954",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213361",
@@ -1672,7 +1744,10 @@
   "violation_other": 0,
   "alt_account": "R540101310",
   "deed_type": "Warranty",
-  "deed_date": "04/19/2004"
+  "deed_date": "04/19/2004",
+  "instrument_num": "2004065530",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213362",
@@ -1739,7 +1814,10 @@
   "violation_other": 0,
   "alt_account": "R540101330",
   "deed_type": "Warranty",
-  "deed_date": "01/30/2004"
+  "deed_date": "01/30/2004",
+  "instrument_num": "2004015612",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R314258",
@@ -1806,7 +1884,10 @@
   "violation_other": 0,
   "alt_account": "R941020230",
   "deed_type": "Warranty",
-  "deed_date": "08/02/1999"
+  "deed_date": "08/02/1999",
+  "instrument_num": "99148063",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213340",
@@ -1873,7 +1954,10 @@
   "violation_other": 0,
   "alt_account": "R540100890",
   "deed_type": "Warranty",
-  "deed_date": "04/16/2008"
+  "deed_date": "04/16/2008",
+  "instrument_num": "2008058084",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R314266",
@@ -1940,7 +2024,10 @@
   "violation_other": 0,
   "alt_account": "R941020370",
   "deed_type": "Warranty",
-  "deed_date": "03/30/2011"
+  "deed_date": "03/30/2011",
+  "instrument_num": "2011038454",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213339",
@@ -2007,7 +2094,10 @@
   "violation_other": 0,
   "alt_account": "R540100870",
   "deed_type": "Warranty",
-  "deed_date": "05/21/2004"
+  "deed_date": "05/21/2004",
+  "instrument_num": "2004090626",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213338",
@@ -2074,7 +2164,10 @@
   "violation_other": 0,
   "alt_account": "R540100850",
   "deed_type": "Warranty",
-  "deed_date": "09/21/2004"
+  "deed_date": "09/21/2004",
+  "instrument_num": "2004172211",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213337",
@@ -2141,7 +2234,10 @@
   "violation_other": 0,
   "alt_account": "R540100830",
   "deed_type": "Warranty",
-  "deed_date": "05/26/2015"
+  "deed_date": "05/26/2015",
+  "instrument_num": "2015060763",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213336",
@@ -2208,7 +2304,10 @@
   "violation_other": 0,
   "alt_account": "R540100810",
   "deed_type": "Warranty",
-  "deed_date": "06/30/2021"
+  "deed_date": "06/30/2021",
+  "instrument_num": "2021101727",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213335",
@@ -2275,7 +2374,10 @@
   "violation_other": 0,
   "alt_account": "R540100790",
   "deed_type": "Personal rep (probate)",
-  "deed_date": "04/24/2026"
+  "deed_date": "04/24/2026",
+  "instrument_num": "2026028378",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213334",
@@ -2342,7 +2444,10 @@
   "violation_other": 0,
   "alt_account": "R540100770",
   "deed_type": "Warranty",
-  "deed_date": "02/25/2005"
+  "deed_date": "02/25/2005",
+  "instrument_num": "2005032056",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213331",
@@ -2409,7 +2514,10 @@
   "violation_other": 0,
   "alt_account": "R540100710",
   "deed_type": "Warranty",
-  "deed_date": "09/12/2023"
+  "deed_date": "09/12/2023",
+  "instrument_num": "2023056974",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213330",
@@ -2476,7 +2584,10 @@
   "violation_other": 0,
   "alt_account": "R540100690",
   "deed_type": "Warranty",
-  "deed_date": "11/25/2009"
+  "deed_date": "11/25/2009",
+  "instrument_num": "2009163313",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R314252",
@@ -2543,7 +2654,10 @@
   "violation_other": 1,
   "alt_account": "R941020170",
   "deed_type": "Warranty",
-  "deed_date": "08/23/2002"
+  "deed_date": "08/23/2002",
+  "instrument_num": "2002149238",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213329",
@@ -2610,7 +2724,10 @@
   "violation_other": 0,
   "alt_account": "R540100670",
   "deed_type": "Warranty",
-  "deed_date": "08/14/2009"
+  "deed_date": "08/14/2009",
+  "instrument_num": "2009117024",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213328",
@@ -2677,7 +2794,10 @@
   "violation_other": 0,
   "alt_account": "R540100650",
   "deed_type": "Special warranty",
-  "deed_date": "01/24/2020"
+  "deed_date": "01/24/2020",
+  "instrument_num": "2020009218",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213366",
@@ -2744,7 +2864,10 @@
   "violation_other": 0,
   "alt_account": "R540101410",
   "deed_type": "Warranty",
-  "deed_date": "08/28/2017"
+  "deed_date": "08/28/2017",
+  "instrument_num": "2017103812",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213367",
@@ -2811,7 +2934,10 @@
   "violation_other": 0,
   "alt_account": "R540101430",
   "deed_type": "Warranty",
-  "deed_date": "04/10/2024"
+  "deed_date": "04/10/2024",
+  "instrument_num": "2024020471",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213369",
@@ -2878,7 +3004,10 @@
   "violation_other": 0,
   "alt_account": "R540101470",
   "deed_type": "Warranty",
-  "deed_date": "11/15/2013"
+  "deed_date": "11/15/2013",
+  "instrument_num": "2013150193",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213371",
@@ -2945,7 +3074,10 @@
   "violation_other": 0,
   "alt_account": "R540101510",
   "deed_type": "Warranty",
-  "deed_date": "11/03/2016"
+  "deed_date": "11/03/2016",
+  "instrument_num": "2016138589",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213377",
@@ -3012,7 +3144,10 @@
   "violation_other": 0,
   "alt_account": "R540101630",
   "deed_type": "Warranty",
-  "deed_date": "01/31/2023"
+  "deed_date": "01/31/2023",
+  "instrument_num": "2023005678",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213378",
@@ -3079,7 +3214,10 @@
   "violation_other": 0,
   "alt_account": "R540101650",
   "deed_type": "Warranty",
-  "deed_date": "12/15/2015"
+  "deed_date": "12/15/2015",
+  "instrument_num": "2015156751",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213351",
@@ -3146,7 +3284,10 @@
   "violation_other": 0,
   "alt_account": "R540101110",
   "deed_type": "Warranty",
-  "deed_date": "04/28/2011"
+  "deed_date": "04/28/2011",
+  "instrument_num": "2011050540",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213352",
@@ -3213,7 +3354,10 @@
   "violation_other": 0,
   "alt_account": "R540101130",
   "deed_type": "Warranty",
-  "deed_date": "07/06/2010"
+  "deed_date": "07/06/2010",
+  "instrument_num": "2010082969",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213354",
@@ -3280,7 +3424,10 @@
   "violation_other": 0,
   "alt_account": "R540101170",
   "deed_type": "Warranty",
-  "deed_date": "07/09/2004"
+  "deed_date": "07/09/2004",
+  "instrument_num": "2004125743",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R314268",
@@ -3347,7 +3494,10 @@
   "violation_other": 0,
   "alt_account": "R941020390",
   "deed_type": "Warranty",
-  "deed_date": "04/06/2009"
+  "deed_date": "04/06/2009",
+  "instrument_num": "2009045173",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213355",
@@ -3414,7 +3564,10 @@
   "violation_other": 0,
   "alt_account": "R540101190",
   "deed_type": "Warranty",
-  "deed_date": "06/28/2004"
+  "deed_date": "06/28/2004",
+  "instrument_num": "2004117296",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213358",
@@ -3481,7 +3634,10 @@
   "violation_other": 0,
   "alt_account": "R540101250",
   "deed_type": "Warranty",
-  "deed_date": "10/27/2015"
+  "deed_date": "10/27/2015",
+  "instrument_num": "2015137546",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213359",
@@ -3548,7 +3704,10 @@
   "violation_other": 0,
   "alt_account": "R540101270",
   "deed_type": "Warranty",
-  "deed_date": "07/18/2022"
+  "deed_date": "07/18/2022",
+  "instrument_num": "2022069846",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213318",
@@ -3615,7 +3774,10 @@
   "violation_other": 0,
   "alt_account": "R540100450",
   "deed_type": "Warranty",
-  "deed_date": "05/13/2022"
+  "deed_date": "05/13/2022",
+  "instrument_num": "2022049728",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213317",
@@ -3682,7 +3844,10 @@
   "violation_other": 0,
   "alt_account": "R540100430",
   "deed_type": "Warranty",
-  "deed_date": "03/28/2013"
+  "deed_date": "03/28/2013",
+  "instrument_num": "2013042542",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213316",
@@ -3749,7 +3914,10 @@
   "violation_other": 0,
   "alt_account": "R540100410",
   "deed_type": "Warranty",
-  "deed_date": "05/23/2023"
+  "deed_date": "05/23/2023",
+  "instrument_num": "2023031275",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213315",
@@ -3816,7 +3984,10 @@
   "violation_other": 0,
   "alt_account": "R540100390",
   "deed_type": "Warranty",
-  "deed_date": "11/04/2016"
+  "deed_date": "11/04/2016",
+  "instrument_num": "2016139228",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213314",
@@ -3883,7 +4054,10 @@
   "violation_other": 1,
   "alt_account": "R540100370",
   "deed_type": "Warranty",
-  "deed_date": "07/06/2004"
+  "deed_date": "07/06/2004",
+  "instrument_num": "2004122933",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213313",
@@ -3950,7 +4124,10 @@
   "violation_other": 0,
   "alt_account": "R540100350",
   "deed_type": "Special warranty",
-  "deed_date": "03/25/2026"
+  "deed_date": "03/25/2026",
+  "instrument_num": "2026020015",
+  "improvements": 1,
+  "exemption": ""
  },
  {
   "property_id": "R213343",
@@ -4017,6 +4194,9 @@
   "violation_other": 0,
   "alt_account": "R540100950",
   "deed_type": "Warranty",
-  "deed_date": "11/22/2017"
+  "deed_date": "11/22/2017",
+  "instrument_num": "2017141631",
+  "improvements": 1,
+  "exemption": ""
  }
 ]

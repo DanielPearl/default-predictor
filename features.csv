@@ -17,6 +17,7 @@ Property,lot_acres,Lot size in acres,Portland Maps,N,N
 Property,frontage,Width of the lot along the street in feet,Portland Maps,N,N
 Property,account_status,Status code of the tax account,Portland Maps,N,Y
 Property,alt_account,Alternate county tax account number (key into county systems),Multnomah County,N,Y
+Property,improvements,Number of structures or improvements on the parcel,Multnomah County,N,Y
 Location,neighborhood,Neighborhood the property is in,Portland Maps,N,Y
 Location,council_district,City council district,Portland Maps,N,Y
 Location,school_district,School district serving the property,Portland Maps,N,Y
@@ -48,6 +49,7 @@ Value,appreciation_since_purchase,Current value divided by the last sale price; 
 Value,estimated_equity,Current value minus the estimated loan balance,Multnomah County,Y,N
 Value,loan_to_value,Estimated loan balance divided by current value,Multnomah County,Y,N
 Taxes,tax_code,Tax district code for the parcel,Portland Maps,N,Y
+Taxes,exemption,Property tax exemption code if any,Multnomah County,N,Y
 Taxes,tax_delinquent_flag,Whether any property tax is past due,Multnomah County,N,N
 Taxes,tax_delinquent_amount,Total past-due property tax,Multnomah County,N,N
 Taxes,delinquent_years_count,How many years the owner is behind on tax,Multnomah County,N,N
@@ -66,6 +68,7 @@ Ownership,portfolio_size,How many parcels this owner holds in the county,Portlan
 Ownership,related_accounts,Number of tax accounts linked to this one (condo or portfolio),Portland Maps,Y,Y
 Ownership,deed_type,Type of the last recorded deed such as warranty probate or foreclosure,Multnomah County,N,Y
 Ownership,deed_date,Date the current owner acquired the property via the last deed,Multnomah County,N,Y
+Ownership,instrument_num,Recording instrument number of the last deed (key into the recording system),Multnomah County,N,Y
 Ownership,owner_entity_status,Whether the owning company is active or dissolved,Oregon Secretary of State,N,N
 Ownership,entity_dissolution_flag,Whether the owning company is dissolved or inactive,Oregon Secretary of State,Y,N
 Ownership,entity_registered_agent,Registered agent that links a company to a person,Oregon Secretary of State,N,N

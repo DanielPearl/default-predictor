@@ -35,13 +35,22 @@ def deed_date(ms):
     return datetime.fromtimestamp(ms / 1000, tz=timezone.utc).strftime("%m/%d/%Y")
 
 
+def parse_exemption(s):
+    # Field looks like " 18, SA, SA, ..."; the leading number is the exemption
+    # code (if any); the repeated "SA" is per-year special-assessment noise.
+    if not s:
+        return ""
+    first = s.split(",")[0].strip()
+    return first if first.isdigit() else ""
+
+
 def fetch(pids):
     by = {}
     for i in range(0, len(pids), 100):
         chunk = pids[i:i + 100]
         params = {
             "where": "PROPID IN (%s)" % ",".join("'%s'" % x for x in chunk),
-            "outFields": "PROPID,ALTACCTNUM,DEED_TYPE,DEED_DATE",
+            "outFields": "PROPID,ALTACCTNUM,DEED_TYPE,DEED_DATE,INST_NUM,IMP_COUNT,EXEMPTION",
             "returnGeometry": "false", "f": "json",
         }
         req = urllib.request.Request(SVC, data=urllib.parse.urlencode(params).encode())
@@ -60,13 +69,17 @@ def main():
         if a:
             matched += 1
             dt = a.get("DEED_TYPE") or ""
+            imp = (a.get("IMP_COUNT") or "").strip()
             p["alt_account"] = a.get("ALTACCTNUM") or ""
             p["deed_type"] = DEED.get(dt, dt)
             p["deed_date"] = deed_date(a.get("DEED_DATE"))
+            p["instrument_num"] = a.get("INST_NUM") or ""
+            p["improvements"] = int(imp) if imp.isdigit() else None
+            p["exemption"] = parse_exemption(a.get("EXEMPTION"))
         else:
-            p.setdefault("alt_account", "")
-            p.setdefault("deed_type", "")
-            p.setdefault("deed_date", "")
+            for k in ("alt_account", "deed_type", "deed_date", "instrument_num", "exemption"):
+                p.setdefault(k, "")
+            p.setdefault("improvements", None)
     SAMPLE.write_text(json.dumps(props, indent=1))
     print(f"matched {matched}/{len(props)} on PROPID")
     print("deed types:", dict(Counter(p["deed_type"] for p in props)))
