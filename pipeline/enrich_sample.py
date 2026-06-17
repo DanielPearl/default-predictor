@@ -20,7 +20,40 @@ SAMPLE = ROOT / "properties_sample.json"
 CACHE = ROOT / "data" / "enrich_cache.json"
 KEY = (ROOT / "Secret Keys" / "portland_maps_api_key.txt").read_text().strip()
 API = "https://www.portlandmaps.com/api/"
-ENFORCE_RE = re.compile(r"enforce|complian|violation|nuisance|derelict|abate", re.I)
+# The permit endpoint mixes building permits with code-enforcement cases. A
+# record is a code case if its type is a known enforcement type or its "work"
+# marks it complaint/inspector-initiated.
+ENFORCE_TYPES = {"Vacant", "Occupied Building", "Other- NU", "Zoning", "Motor Vehicle",
+                 "Complaint", "Summary Abatement", "Nuisance", "Property Maintenance",
+                 "Derelict", "Dangerous Building", "Sign"}
+ENFORCE_WORK = {"Complaint", "Inspector Initiated"}
+
+def is_enforcement(r):
+    return (r.get("type") in ENFORCE_TYPES) or (r.get("work") in ENFORCE_WORK)
+
+# Binary violation types, classified from the case text. The bureaucratic
+# `type` field is unreliable, so we read type + work + description.
+VIOLATION_RULES = {
+    "violation_vacant":     ["vacant", "abate", "securing", "derelict", "dangerous", "boarded", "rodent"],
+    "violation_overgrowth": ["overgrown", "tall grass", "weed", "vegetation", "blackberr"],
+    "violation_trash":      ["trash", "debris", "garbage", "junk", "rubbish"],
+    "violation_vehicle":    ["vehicle", "trailer", "boat", "flat tire", "unpaved", "muffler"],
+    "violation_zoning":     ["zoning"],
+    "violation_noise":      ["noise", "stereo", "loud"],
+}
+TYPE_TO_VIOLATION = {"Vacant": "violation_vacant", "Summary Abatement": "violation_vacant",
+                     "Zoning": "violation_zoning", "Motor Vehicle": "violation_vehicle"}
+
+def classify_violations(records):
+    flags = {k: "No" for k in VIOLATION_RULES}
+    for r in records:
+        text = " ".join([r.get("type") or "", r.get("work") or "", r.get("description") or ""]).lower()
+        if r.get("type") in TYPE_TO_VIOLATION:
+            flags[TYPE_TO_VIOLATION[r["type"]]] = "Yes"
+        for cat, kws in VIOLATION_RULES.items():
+            if any(k in text for k in kws):
+                flags[cat] = "Yes"
+    return flags
 MERCATOR = 20037508.342789244
 
 
@@ -98,7 +131,8 @@ def extract(raw):
     zcode = zoning[0]["code"] if zoning else ""
     lat, lon = centroid_latlon(detail.get("geometry"))
     results = (raw.get("permit") or {}).get("results") or []
-    enforcement = [r for r in results if ENFORCE_RE.search((r.get("type") or "") + " " + (r.get("description") or ""))]
+    enforcement = [r for r in results if is_enforcement(r)]
+    vflags = classify_violations(enforcement)
     last_year = year_of(*[r.get("final") or r.get("issued") or r.get("set_up") for r in results])
     fire = (ps.get("fire_nearest") or [{}])[0]
     park = (detail.get("parks", {}).get("nearby") or [{}])[0]
@@ -138,6 +172,7 @@ def extract(raw):
         "last_permit_year": last_year,
         "years_since_permit": (2026 - last_year) if last_year else None,
         "enforcement_count": len(enforcement),
+        **vflags,
     }
 
 

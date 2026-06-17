@@ -54,7 +54,13 @@
   "permit_count": 9,
   "last_permit_year": 2017,
   "years_since_permit": 9,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R171735",
@@ -111,7 +117,13 @@
   "permit_count": 9,
   "last_permit_year": 2026,
   "years_since_permit": 0,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R171738",
@@ -168,7 +180,13 @@
   "permit_count": 0,
   "last_permit_year": null,
   "years_since_permit": null,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R171729",
@@ -225,7 +243,13 @@
   "permit_count": 6,
   "last_permit_year": 2022,
   "years_since_permit": 4,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R171730",
@@ -282,7 +306,13 @@
   "permit_count": 3,
   "last_permit_year": 2019,
   "years_since_permit": 7,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R171731",
@@ -339,7 +369,13 @@
   "permit_count": 2,
   "last_permit_year": 2020,
   "years_since_permit": 6,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R171681",
@@ -396,7 +432,13 @@
   "permit_count": 9,
   "last_permit_year": 2015,
   "years_since_permit": 11,
-  "enforcement_count": 0
+  "enforcement_count": 2,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R171680",
@@ -453,7 +495,13 @@
   "permit_count": 3,
   "last_permit_year": 2022,
   "years_since_permit": 4,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R171682",
@@ -510,7 +558,13 @@
   "permit_count": 6,
   "last_permit_year": 2023,
   "years_since_permit": 3,
-  "enforcement_count": 0
+  "enforcement_count": 1,
+  "violation_vacant": "Yes",
+  "violation_overgrowth": "Yes",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R171740",
@@ -567,7 +621,13 @@
   "permit_count": 7,
   "last_permit_year": 2013,
   "years_since_permit": 13,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R314262",
@@ -624,7 +684,13 @@
   "permit_count": 17,
   "last_permit_year": 2025,
   "years_since_permit": 1,
-  "enforcement_count": 0
+  "enforcement_count": 3,
+  "violation_vacant": "No",
+  "violation_overgrowth": "Yes",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R262888",
@@ -681,7 +747,13 @@
   "permit_count": 1,
   "last_permit_year": 2020,
   "years_since_permit": 6,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213402",
@@ -738,7 +810,13 @@
   "permit_count": 2,
   "last_permit_year": 2013,
   "years_since_permit": 13,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213400",
@@ -795,7 +873,13 @@
   "permit_count": 4,
   "last_permit_year": 2026,
   "years_since_permit": 0,
-  "enforcement_count": 0
+  "enforcement_count": 1,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "Yes",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213397",
@@ -852,7 +936,13 @@
   "permit_count": 1,
   "last_permit_year": 2004,
   "years_since_permit": 22,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213396",
@@ -909,7 +999,13 @@
   "permit_count": 1,
   "last_permit_year": 2004,
   "years_since_permit": 22,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213395",
@@ -966,7 +1062,13 @@
   "permit_count": 0,
   "last_permit_year": null,
   "years_since_permit": null,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213394",
@@ -1023,7 +1125,13 @@
   "permit_count": 1,
   "last_permit_year": 2003,
   "years_since_permit": 23,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213320",
@@ -1080,7 +1188,13 @@
   "permit_count": 2,
   "last_permit_year": 2004,
   "years_since_permit": 22,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213322",
@@ -1137,7 +1251,13 @@
   "permit_count": 2,
   "last_permit_year": 2004,
   "years_since_permit": 22,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213323",
@@ -1194,7 +1314,13 @@
   "permit_count": 4,
   "last_permit_year": 2008,
   "years_since_permit": 18,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213325",
@@ -1251,7 +1377,13 @@
   "permit_count": 3,
   "last_permit_year": 2019,
   "years_since_permit": 7,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213327",
@@ -1308,7 +1440,13 @@
   "permit_count": 2,
   "last_permit_year": 2004,
   "years_since_permit": 22,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213364",
@@ -1365,7 +1503,13 @@
   "permit_count": 6,
   "last_permit_year": 2025,
   "years_since_permit": 1,
-  "enforcement_count": 0
+  "enforcement_count": 1,
+  "violation_vacant": "No",
+  "violation_overgrowth": "Yes",
+  "violation_trash": "Yes",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213361",
@@ -1422,7 +1566,13 @@
   "permit_count": 3,
   "last_permit_year": 2025,
   "years_since_permit": 1,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213362",
@@ -1479,7 +1629,13 @@
   "permit_count": 1,
   "last_permit_year": 2004,
   "years_since_permit": 22,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R314258",
@@ -1536,7 +1692,13 @@
   "permit_count": 1,
   "last_permit_year": 2015,
   "years_since_permit": 11,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213340",
@@ -1593,7 +1755,13 @@
   "permit_count": 2,
   "last_permit_year": 2004,
   "years_since_permit": 22,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R314266",
@@ -1650,7 +1818,13 @@
   "permit_count": 11,
   "last_permit_year": 2015,
   "years_since_permit": 11,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213339",
@@ -1707,7 +1881,13 @@
   "permit_count": 5,
   "last_permit_year": 2024,
   "years_since_permit": 2,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213338",
@@ -1764,7 +1944,13 @@
   "permit_count": 2,
   "last_permit_year": 2004,
   "years_since_permit": 22,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213337",
@@ -1821,7 +2007,13 @@
   "permit_count": 1,
   "last_permit_year": 2004,
   "years_since_permit": 22,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213336",
@@ -1878,7 +2070,13 @@
   "permit_count": 3,
   "last_permit_year": 2009,
   "years_since_permit": 17,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213335",
@@ -1935,7 +2133,13 @@
   "permit_count": 2,
   "last_permit_year": 2004,
   "years_since_permit": 22,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213334",
@@ -1992,7 +2196,13 @@
   "permit_count": 2,
   "last_permit_year": 2005,
   "years_since_permit": 21,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213331",
@@ -2049,7 +2259,13 @@
   "permit_count": 2,
   "last_permit_year": 2026,
   "years_since_permit": 0,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213330",
@@ -2106,7 +2322,13 @@
   "permit_count": 2,
   "last_permit_year": 2003,
   "years_since_permit": 23,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R314252",
@@ -2163,7 +2385,13 @@
   "permit_count": 10,
   "last_permit_year": 2025,
   "years_since_permit": 1,
-  "enforcement_count": 1
+  "enforcement_count": 5,
+  "violation_vacant": "Yes",
+  "violation_overgrowth": "No",
+  "violation_trash": "Yes",
+  "violation_vehicle": "Yes",
+  "violation_zoning": "Yes",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213329",
@@ -2220,7 +2448,13 @@
   "permit_count": 3,
   "last_permit_year": 2009,
   "years_since_permit": 17,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213328",
@@ -2277,7 +2511,13 @@
   "permit_count": 2,
   "last_permit_year": 2004,
   "years_since_permit": 22,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213366",
@@ -2334,7 +2574,13 @@
   "permit_count": 2,
   "last_permit_year": 2004,
   "years_since_permit": 22,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213367",
@@ -2391,7 +2637,13 @@
   "permit_count": 3,
   "last_permit_year": 2008,
   "years_since_permit": 18,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213369",
@@ -2448,7 +2700,13 @@
   "permit_count": 3,
   "last_permit_year": 2004,
   "years_since_permit": 22,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213371",
@@ -2505,7 +2763,13 @@
   "permit_count": 2,
   "last_permit_year": 2004,
   "years_since_permit": 22,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213377",
@@ -2562,7 +2826,13 @@
   "permit_count": 4,
   "last_permit_year": 2016,
   "years_since_permit": 10,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213378",
@@ -2619,7 +2889,13 @@
   "permit_count": 2,
   "last_permit_year": 2014,
   "years_since_permit": 12,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213351",
@@ -2676,7 +2952,13 @@
   "permit_count": 3,
   "last_permit_year": 2006,
   "years_since_permit": 20,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213352",
@@ -2733,7 +3015,13 @@
   "permit_count": 2,
   "last_permit_year": 2004,
   "years_since_permit": 22,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213354",
@@ -2790,7 +3078,13 @@
   "permit_count": 5,
   "last_permit_year": 2024,
   "years_since_permit": 2,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R314268",
@@ -2847,7 +3141,13 @@
   "permit_count": 3,
   "last_permit_year": 2024,
   "years_since_permit": 2,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213355",
@@ -2904,7 +3204,13 @@
   "permit_count": 4,
   "last_permit_year": 2024,
   "years_since_permit": 2,
-  "enforcement_count": 0
+  "enforcement_count": 1,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "Yes",
+  "violation_zoning": "No",
+  "violation_noise": "Yes"
  },
  {
   "property_id": "R213358",
@@ -2961,7 +3267,13 @@
   "permit_count": 2,
   "last_permit_year": 2004,
   "years_since_permit": 22,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213359",
@@ -3018,7 +3330,13 @@
   "permit_count": 2,
   "last_permit_year": 2004,
   "years_since_permit": 22,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213318",
@@ -3075,7 +3393,13 @@
   "permit_count": 3,
   "last_permit_year": 2024,
   "years_since_permit": 2,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213317",
@@ -3132,7 +3456,13 @@
   "permit_count": 3,
   "last_permit_year": 2004,
   "years_since_permit": 22,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213316",
@@ -3189,7 +3519,13 @@
   "permit_count": 1,
   "last_permit_year": 2004,
   "years_since_permit": 22,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213315",
@@ -3246,7 +3582,13 @@
   "permit_count": 4,
   "last_permit_year": 2019,
   "years_since_permit": 7,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213314",
@@ -3303,7 +3645,13 @@
   "permit_count": 4,
   "last_permit_year": 2026,
   "years_since_permit": 0,
-  "enforcement_count": 0
+  "enforcement_count": 1,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213313",
@@ -3360,7 +3708,13 @@
   "permit_count": 2,
   "last_permit_year": 2004,
   "years_since_permit": 22,
-  "enforcement_count": 0
+  "enforcement_count": 0,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "No",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  },
  {
   "property_id": "R213343",
@@ -3417,6 +3771,12 @@
   "permit_count": 5,
   "last_permit_year": 2009,
   "years_since_permit": 17,
-  "enforcement_count": 0
+  "enforcement_count": 3,
+  "violation_vacant": "No",
+  "violation_overgrowth": "No",
+  "violation_trash": "No",
+  "violation_vehicle": "Yes",
+  "violation_zoning": "No",
+  "violation_noise": "No"
  }
 ]

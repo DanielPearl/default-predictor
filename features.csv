@@ -85,6 +85,12 @@ Permits & Violations,years_since_permit,Years since the last building permit,Por
 Permits & Violations,permit_total_value,Total declared value of recent permits,Portland Maps,N,N
 Permits & Violations,no_maintenance_permits_flag,No recent permits which can signal neglect,Portland Maps,Y,N
 Permits & Violations,code_violation_count,Number of code-enforcement cases on the property,Portland Maps,N,Y
+Permits & Violations,violation_vacant,Code case for a vacant or derelict building (strong distress signal),Portland Maps,Y,Y
+Permits & Violations,violation_overgrowth,Code case for an overgrown yard or tall grass,Portland Maps,Y,Y
+Permits & Violations,violation_trash,Code case for trash debris or garbage,Portland Maps,Y,Y
+Permits & Violations,violation_vehicle,Code case for a junk or nuisance vehicle,Portland Maps,Y,Y
+Permits & Violations,violation_zoning,Code case for a zoning violation,Portland Maps,Y,Y
+Permits & Violations,violation_noise,Code case for a noise complaint,Portland Maps,Y,Y
 Permits & Violations,open_code_violation_flag,Whether any code violation is unresolved,Portland Maps,N,N
 Permits & Violations,days_since_last_violation,Days since the most recent code violation,Portland Maps,Y,N
 Permits & Violations,nuisance_complaint_count,Number of nuisance complaints,Portland Maps,N,N
