@@ -194,10 +194,13 @@ def main():
     for i, p in enumerate(props, 1):
         pid = p["property_id"]
         if pid not in cache or "detail" not in cache.get(pid, {}):
-            cache[pid] = fetch_raw(pid)
+            try:
+                cache[pid] = fetch_raw(pid)
+            except Exception as e:  # noqa: BLE001 - one bad parcel must not kill the run
+                print(f"  [{i}/{len(props)}] SKIP {pid}: {e}")
+                cache[pid] = {"detail": {"status": "error"}, "permit": {}}
             CACHE.write_text(json.dumps(cache))
             time.sleep(0.3)
-            print(f"  [{i}/{len(props)}] fetched {pid}")
         p.update(extract(cache[pid]))
 
     SAMPLE.write_text(json.dumps(props, indent=1))
