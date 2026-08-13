@@ -30,12 +30,24 @@ def columns(props):
     return keys
 
 
+def scrape_date():
+    """Recorded capture date = latest history snapshot; today if none yet."""
+    try:
+        h = sqlite3.connect(ROOT / "data" / "history.db")
+        d = h.execute("SELECT MAX(snapshot_date) FROM parcel_history").fetchone()[0]
+        if d:
+            return d
+    except Exception:  # noqa: BLE001
+        pass
+    return date.today().isoformat()
+
+
 def load():
-    """One-time REPLACE: drop and recreate the properties table with this
-    scrape (each row stamped with today's scrape date)."""
+    """One-time REPLACE: drop and recreate the properties table. Stamps the
+    data's actual capture date (from history), since a reload isn't a new scrape."""
     props = json.loads(JSON.read_text())
     keys = columns(props)
-    sd = date.today().isoformat()
+    sd = scrape_date()
     c = sqlite3.connect(DB)
     c.execute("DROP TABLE IF EXISTS properties")
     c.execute("CREATE TABLE properties (%s)" % ", ".join('"%s"' % k for k in keys))
