@@ -107,6 +107,7 @@
     <div class="tabs">
       <button class="tab active" data-tab="features">Features</button>
       <button class="tab" data-tab="properties">Properties</button>
+      <button class="tab" data-tab="defaults">Defaults</button>
     </div>
   </header>
   <div class="wrap">
@@ -146,6 +147,11 @@
         <table id="prop-table"><thead></thead><tbody></tbody></table>
       </div>
       <div id="prop-error"></div>
+    </section>
+
+    <section id="tab-defaults" hidden>
+      <p class="sub">Properties flagged as likely to default. Prediction logic to be defined.</p>
+      <div id="defaults-empty" style="color: var(--muted); padding: 2rem 0;">No predictions yet — this view will populate once the default-risk model is defined.</div>
     </section>
   </div>
 
@@ -465,6 +471,7 @@
       const tab = btn.dataset.tab;
       document.getElementById('tab-features').hidden = tab !== 'features';
       document.getElementById('tab-properties').hidden = tab !== 'properties';
+      document.getElementById('tab-defaults').hidden = tab !== 'defaults';
       if (tab === 'properties') loadProperties();
     }));
   </script>

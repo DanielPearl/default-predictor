@@ -17,8 +17,8 @@ python3 pipeline/enrich_county.py >/dev/null     # fresh deeds/exemptions
 python3 pipeline/enrich_census.py >/dev/null     # cached
 python3 pipeline/enrich_portland.py >/dev/null   # fresh historic/demo/rental
 python3 pipeline/enrich_bankruptcy.py >/dev/null # cached
-log "load properties table + append history snapshot"
-python3 pipeline/db_table.py load
+log "append this week's scrape to properties + history snapshot"
+python3 pipeline/db_table.py append
 python3 pipeline/snapshot.py
 log "export served table from DB"
 python3 pipeline/db_table.py export /var/www/default-predictor/properties_sample.json

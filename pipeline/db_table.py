@@ -13,6 +13,7 @@ the page reflects exactly what's in the droplet database.
 import json
 import sqlite3
 import sys
+from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -21,7 +22,7 @@ JSON = ROOT / "properties_sample.json"
 
 
 def columns(props):
-    keys = []
+    keys = ["scraped_date"]
     for p in props:
         for k in p:
             if k not in keys:
@@ -30,42 +31,49 @@ def columns(props):
 
 
 def load():
+    """One-time REPLACE: drop and recreate the properties table with this
+    scrape (each row stamped with today's scrape date)."""
     props = json.loads(JSON.read_text())
     keys = columns(props)
+    sd = date.today().isoformat()
     c = sqlite3.connect(DB)
     c.execute("DROP TABLE IF EXISTS properties")
     c.execute("CREATE TABLE properties (%s)" % ", ".join('"%s"' % k for k in keys))
     c.executemany("INSERT INTO properties VALUES (%s)" % ",".join("?" * len(keys)),
-                  [tuple(p.get(k) for k in keys) for p in props])
-    if "property_id" in keys:
-        c.execute("CREATE INDEX idx_prop ON properties(property_id)")
+                  [tuple(sd if k == "scraped_date" else p.get(k) for k in keys) for p in props])
+    c.execute("CREATE INDEX IF NOT EXISTS idx_prop ON properties(property_id)")
+    c.execute("CREATE INDEX IF NOT EXISTS idx_prop_date ON properties(scraped_date)")
     c.commit()
-    print(f"loaded {len(props)} rows x {len(keys)} columns into properties table")
+    print(f"loaded (REPLACE) {len(props)} rows x {len(keys)} cols; scraped_date {sd}")
 
 
-def scrape_date():
-    """The date this data was captured = the latest history snapshot; falls
-    back to today if history.db isn't present yet."""
-    try:
-        h = sqlite3.connect(ROOT / "data" / "history.db")
-        d = h.execute("SELECT MAX(snapshot_date) FROM parcel_history").fetchone()[0]
-        if d:
-            return d
-    except Exception:  # noqa: BLE001
-        pass
-    from datetime import date
-    return date.today().isoformat()
+def append():
+    """APPEND this scrape onto the existing properties table (accumulate over
+    time). Aligns to the existing schema; creates the table if missing."""
+    c = sqlite3.connect(DB)
+    existing = [r[1] for r in c.execute("PRAGMA table_info(properties)")]
+    if not existing:
+        return load()
+    props = json.loads(JSON.read_text())
+    sd = date.today().isoformat()
+    c.executemany(
+        "INSERT INTO properties (%s) VALUES (%s)" % (
+            ",".join('"%s"' % k for k in existing), ",".join("?" * len(existing))),
+        [tuple(sd if k == "scraped_date" else p.get(k) for k in existing) for p in props])
+    c.commit()
+    total = c.execute("SELECT COUNT(*) FROM properties").fetchone()[0]
+    print(f"appended {len(props)} rows (scraped_date {sd}); properties now {total} total")
 
 
 def export(out=None):
     c = sqlite3.connect(DB)
     c.row_factory = sqlite3.Row
-    sd = scrape_date()
-    rows = [{"scraped_date": sd, **dict(r)} for r in c.execute("SELECT * FROM properties")]
-    Path(out).write_text(json.dumps(rows, indent=1)) if out else JSON.write_text(json.dumps(rows, indent=1))
-    print(f"exported {len(rows)} rows (scraped_date {sd}) -> {out or JSON}")
+    rows = [dict(r) for r in c.execute("SELECT * FROM properties ORDER BY scraped_date DESC, property_id")]
+    (Path(out) if out else JSON).write_text(json.dumps(rows, indent=1))
+    print(f"exported {len(rows)} rows -> {out or JSON}")
 
 
 if __name__ == "__main__":
     cmd = sys.argv[1] if len(sys.argv) > 1 else "load"
-    {"load": load, "export": lambda: export(sys.argv[2] if len(sys.argv) > 2 else None)}[cmd]()
+    {"load": load, "append": append,
+     "export": lambda: export(sys.argv[2] if len(sys.argv) > 2 else None)}[cmd]()
