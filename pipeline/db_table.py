@@ -43,12 +43,27 @@ def load():
     print(f"loaded {len(props)} rows x {len(keys)} columns into properties table")
 
 
+def scrape_date():
+    """The date this data was captured = the latest history snapshot; falls
+    back to today if history.db isn't present yet."""
+    try:
+        h = sqlite3.connect(ROOT / "data" / "history.db")
+        d = h.execute("SELECT MAX(snapshot_date) FROM parcel_history").fetchone()[0]
+        if d:
+            return d
+    except Exception:  # noqa: BLE001
+        pass
+    from datetime import date
+    return date.today().isoformat()
+
+
 def export(out=None):
     c = sqlite3.connect(DB)
     c.row_factory = sqlite3.Row
-    rows = [dict(r) for r in c.execute("SELECT * FROM properties")]
+    sd = scrape_date()
+    rows = [{"scraped_date": sd, **dict(r)} for r in c.execute("SELECT * FROM properties")]
     Path(out).write_text(json.dumps(rows, indent=1)) if out else JSON.write_text(json.dumps(rows, indent=1))
-    print(f"exported {len(rows)} rows from properties table -> {out or JSON}")
+    print(f"exported {len(rows)} rows (scraped_date {sd}) -> {out or JSON}")
 
 
 if __name__ == "__main__":

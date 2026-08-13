@@ -317,6 +317,7 @@
       : `<span class="muted">${esc(v || '—')}</span>`;
 
     const PROP_COLS = [
+      ['Scraped', 'scraped_date', 'addr', v => esc(v || '—')],
       ['Property ID', 'property_id', 'addr', v => esc(v || '')],
       ['Alt account', 'alt_account', 'addr', v => esc(v || '—')],
       ['Address', 'address', 'addr', v => esc(v || '')],

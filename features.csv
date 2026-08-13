@@ -1,4 +1,5 @@
 category,feature_name,description,source,derived,used
+Property,scraped_date,Date this row's data was captured by the weekly pipeline,Pipeline,N,Y
 Property,property_id,County tax-account number identifying the parcel,Portland Maps,N,Y
 Property,site_address,Street address of the property,Portland Maps,N,Y
 Property,property_class,What the property is used for (e.g. single-family residential),Portland Maps,N,Y
