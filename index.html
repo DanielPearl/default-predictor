@@ -400,7 +400,9 @@
       ['Deed date', 'deed_date', 'num', fmtNum],
       ['Instrument #', 'instrument_num', 'addr', v => esc(v || '—')],
       ['Exemption', 'exemption', 'num', v => esc(v || '—')],
+      ['Probate', 'probate_flag', '', fmtRisk],
       ['Bankruptcy', 'bankruptcy_flag', '', fmtRisk],
+      ['BK recent', 'bankruptcy_recent', '', fmtRisk],
       ['BK chapter', 'bankruptcy_chapter', '', v => esc(v || '—')],
       ['BK filed', 'bankruptcy_date', 'num', v => esc(v || '—')],
     ];

@@ -94,6 +94,11 @@ Loans & Liens,mortgage_count,Number of mortgages recorded on the property,Multno
 Loans & Liens,has_second_mortgage_flag,Whether more than one mortgage is active,Multnomah County,Y,N
 Loans & Liens,origination_loan_amount,Original amount of the recorded mortgage,Multnomah County,N,N
 Loans & Liens,loan_age_years,Years since the mortgage was originated,Multnomah County,Y,N
+Loans & Liens,mortgage_origination_date,Recording date of the current mortgage,Multnomah County,N,N
+Loans & Liens,mortgage_balance_est,Estimated remaining mortgage balance (amortized from origination amount and date),Multnomah County,Y,N
+Loans & Liens,free_and_clear_flag,Whether the property has no active mortgage,Multnomah County,Y,N
+Loans & Liens,hoa_lien_flag,Whether an HOA lien is recorded,Multnomah County,N,N
+Loans & Liens,judgment_lien_flag,Whether a judgment lien is recorded,Multnomah County,N,N
 Permits & Violations,recent_permit_count,Number of building permits on record,Portland Maps,N,Y
 Permits & Violations,last_permit_year,Year of the most recent permit,Portland Maps,N,Y
 Permits & Violations,years_since_permit,Years since the last building permit,Portland Maps,Y,Y
@@ -123,6 +128,8 @@ Life Events,obituary_match_flag,Whether the owner name appears in a recent obitu
 Life Events,bankruptcy_flag,Possible bankruptcy filing matched by owner name (unverified),CourtListener,N,Y
 Life Events,bankruptcy_chapter,Chapter of the matched bankruptcy (7 / 11 / 13),CourtListener,N,Y
 Life Events,bankruptcy_date,Filing date of the matched bankruptcy,CourtListener,N,Y
+Life Events,bankruptcy_recent,Bankruptcy filed within the last 7 years,CourtListener,Y,Y
+Life Events,probate_flag,Property acquired through probate or inheritance (owner likely deceased),Multnomah County,Y,Y
 Life Events,owner_age_estimate,Estimated age of the owner,Skip-trace vendor,N,N
 Contact,owner_phone,Owner phone number,Skip-trace vendor,N,N
 Contact,owner_email,Owner email address,Skip-trace vendor,N,N

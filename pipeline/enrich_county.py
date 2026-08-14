@@ -76,10 +76,12 @@ def main():
             p["instrument_num"] = a.get("INST_NUM") or ""
             p["improvements"] = int(imp) if imp.isdigit() else None
             p["exemption"] = parse_exemption(a.get("EXEMPTION"))
+            p["probate_flag"] = "Yes" if "probate" in p["deed_type"].lower() or "heir" in p["deed_type"].lower() else "No"
         else:
             for k in ("alt_account", "deed_type", "deed_date", "instrument_num", "exemption"):
                 p.setdefault(k, "")
             p.setdefault("improvements", None)
+            p.setdefault("probate_flag", "No")
     SAMPLE.write_text(json.dumps(props, indent=1))
     print(f"matched {matched}/{len(props)} on PROPID")
     print("deed types:", dict(Counter(p["deed_type"] for p in props)))

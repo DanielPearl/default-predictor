@@ -102,6 +102,10 @@ def main():
         p["bankruptcy_flag"] = "Yes" if m else "No"
         p["bankruptcy_chapter"] = ("Ch " + str(m["chapter"])) if m and m.get("chapter") else ""
         p["bankruptcy_date"] = m["date"] if m else ""
+        # Recent = filed within ~7 years (the credit-report window)
+        from datetime import date, timedelta
+        cutoff = (date.today() - timedelta(days=7 * 365)).isoformat()
+        p["bankruptcy_recent"] = "Yes" if m and (m.get("date") or "") >= cutoff else "No"
         if m:
             hits += 1
             print(f"  [{i}] possible match: {owner} -> {m['case']} (Ch {m['chapter']}, {m['date']})")
