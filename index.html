@@ -98,6 +98,12 @@
     .def-desc { line-height: 1.45; }
     .def-src { color: var(--muted); font-size: .78rem; margin-top: .4rem; }
     .def-src a { color: var(--accent); }
+    .why-btn {
+      display: inline-block; width: 1.35rem; height: 1.35rem; line-height: 1.35rem;
+      text-align: center; border-radius: 50%; background: var(--accent); color: #0d1117;
+      font-weight: 700; cursor: pointer; user-select: none;
+    }
+    .why-btn:hover { filter: brightness(1.2); }
   </style>
 </head>
 <body>
@@ -150,8 +156,13 @@
     </section>
 
     <section id="tab-defaults" hidden>
-      <p class="sub">Properties flagged as likely to default. Prediction logic to be defined.</p>
-      <div id="defaults-empty" style="color: var(--muted); padding: 2rem 0;">No predictions yet — this view will populate once the default-risk model is defined.</div>
+      <p class="sub">Properties flagged as likely to default by a transparent rule-based score (v0 heuristic; a trained model will replace it once foreclosure labels arrive). Click the ? on a row to see why it was flagged.</p>
+      <div id="def-count"></div>
+      <div class="tablewrap">
+        <table id="def-table"><thead></thead><tbody></tbody></table>
+      </div>
+      <div id="defaults-empty" style="color: var(--muted); padding: 2rem 0;" hidden>No flagged properties.</div>
+      <div id="def-error"></div>
     </section>
   </div>
 
@@ -468,6 +479,55 @@
         });
     }
 
+    /* ---- Defaults tab: same columns, plus Why (?) and Score ---- */
+    let DEFAULTS = null;
+    function showWhy(d, anchor) {
+      // Reuse the definition popup shell for the "why flagged" list.
+      showDefinition('__none__', anchor);            // creates defPopup if needed
+      defPopup.innerHTML =
+        `<div class="def-name">Why flagged (score ${d.default_score})</div>` +
+        `<div class="def-desc"><ul style="margin:.2rem 0 0 1rem;padding:0;">` +
+        (d.default_reasons || []).map(x => `<li>${esc(x.reason)} <span class="muted">(+${x.points})</span></li>`).join('') +
+        `</ul></div>` +
+        `<div class="def-src">v0 rule-based score, not yet a trained model</div>`;
+      defPopup.hidden = false;
+      const r = anchor.getBoundingClientRect();
+      const maxLeft = document.documentElement.clientWidth - defPopup.offsetWidth - 10;
+      defPopup.style.top = (r.bottom + window.scrollY + 6) + 'px';
+      defPopup.style.left = Math.min(r.left + window.scrollX, maxLeft + window.scrollX) + 'px';
+    }
+
+    function renderDefaults() {
+      const cols = [
+        ['?', '_why', '', null],
+        ['Score', 'default_score', 'num', v => `<span class="badge flag-oos">${v}</span>`],
+        ...PROP_COLS,
+      ];
+      document.getElementById('defaults-empty').hidden = DEFAULTS.length > 0;
+      document.querySelector('#def-table thead').innerHTML =
+        '<tr>' + cols.map(c => `<th class="${c[2]}">${c[0]}</th>`).join('') + '</tr>';
+      document.querySelector('#def-table tbody').innerHTML = DEFAULTS.map((p, i) =>
+        '<tr>' + cols.map(c =>
+          c[1] === '_why'
+            ? `<td><span class="why-btn" data-idx="${i}" title="Why is this here?">?</span></td>`
+            : `<td class="${c[2]}">${c[3](p[c[1]])}</td>`).join('') + '</tr>').join('');
+      document.querySelectorAll('#def-table .why-btn').forEach(el =>
+        el.addEventListener('click', ev => { ev.stopPropagation(); showWhy(DEFAULTS[el.dataset.idx], el); }));
+      document.getElementById('def-count').textContent =
+        `${DEFAULTS.length} properties flagged as potential defaults`;
+    }
+
+    function loadDefaults() {
+      if (DEFAULTS) return;
+      fetch('defaults.json')
+        .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(d => { DEFAULTS = d; renderDefaults(); })
+        .catch(e => {
+          document.getElementById('def-error').innerHTML =
+            `<p class="err">Could not load defaults.json (${e.message}).</p>`;
+        });
+    }
+
     document.querySelectorAll('.tab').forEach(btn => btn.addEventListener('click', () => {
       document.querySelectorAll('.tab').forEach(b => b.classList.toggle('active', b === btn));
       const tab = btn.dataset.tab;
@@ -475,6 +535,7 @@
       document.getElementById('tab-properties').hidden = tab !== 'properties';
       document.getElementById('tab-defaults').hidden = tab !== 'defaults';
       if (tab === 'properties') loadProperties();
+      if (tab === 'defaults') loadDefaults();
     }));
   </script>
 </body>

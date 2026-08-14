@@ -22,4 +22,6 @@ python3 pipeline/db_table.py append
 python3 pipeline/snapshot.py
 log "export served table from DB"
 python3 pipeline/db_table.py export /var/www/default-predictor/properties_sample.json
+log "score defaults (v0 heuristic)"
+python3 pipeline/score_defaults.py /var/www/default-predictor/properties_sample.json /var/www/default-predictor/defaults.json
 log "weekly run complete"
