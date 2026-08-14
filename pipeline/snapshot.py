@@ -37,6 +37,11 @@ def main(snap=None):
     h = sqlite3.connect(HIST)
     hist_cols = ["snapshot_date"] + cols + ["row_hash"]
     h.execute("CREATE TABLE IF NOT EXISTS parcel_history (%s)" % ", ".join('"%s"' % x for x in hist_cols))
+    # Schema evolution: append-only history gains columns as features are added
+    existing = {r[1] for r in h.execute("PRAGMA table_info(parcel_history)")}
+    for c in hist_cols:
+        if c not in existing:
+            h.execute('ALTER TABLE parcel_history ADD COLUMN "%s"' % c)
     h.execute("CREATE INDEX IF NOT EXISTS idx_hist_pid ON parcel_history(property_id)")
     h.execute("CREATE INDEX IF NOT EXISTS idx_hist_date ON parcel_history(snapshot_date)")
 
@@ -51,7 +56,8 @@ def main(snap=None):
         rh = row_hash(p, cols)
         if last.get(p["property_id"]) == rh:
             continue  # unchanged since last snapshot
-        h.execute("INSERT INTO parcel_history VALUES (%s)" % ",".join("?" * len(hist_cols)),
+        h.execute("INSERT INTO parcel_history (%s) VALUES (%s)" % (
+                  ",".join('"%s"' % c for c in hist_cols), ",".join("?" * len(hist_cols))),
                   [snap] + [p[c] for c in cols] + [rh])
         appended += 1
     h.commit()
