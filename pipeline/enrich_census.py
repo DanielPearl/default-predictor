@@ -37,7 +37,19 @@ def get(url, retries=4):
     raise last
 
 
+FCC = "https://geo.fcc.gov/api/census/area"
+
+
 def tract_of(lat, lon):
+    """FCC area API first (works from datacenter IPs; the Census geocoder
+    blocks them), Census geocoder as fallback. Returns (state, county, tract)."""
+    try:
+        res = get(FCC + "?" + urllib.parse.urlencode({"lat": lat, "lon": lon, "format": "json"}))
+        fips = (res.get("results") or [{}])[0].get("block_fips") or ""
+        if len(fips) >= 11:
+            return (fips[0:2], fips[2:5], fips[5:11])
+    except Exception as e:  # noqa: BLE001
+        print(f"  FCC lookup failed for {lat},{lon}: {e}")
     q = urllib.parse.urlencode({"x": lon, "y": lat, "benchmark": "Public_AR_Current",
                                 "vintage": "Current_Current", "layers": "Census Tracts",
                                 "format": "json"})
