@@ -24,15 +24,28 @@ VARS = ["B19013_001E", "B17001_001E", "B17001_002E", "B25003_001E", "B25003_002E
         "B25002_001E", "B25002_003E", "B25077_001E"]
 
 
-def get(url):
-    return json.load(urllib.request.urlopen(url, timeout=30))
+def get(url, retries=4):
+    """The Census geocoder intermittently returns non-JSON; retry with backoff."""
+    import time
+    last = None
+    for attempt in range(retries):
+        try:
+            return json.load(urllib.request.urlopen(url, timeout=30))
+        except Exception as e:  # noqa: BLE001
+            last = e
+            time.sleep(3 * (attempt + 1))
+    raise last
 
 
 def tract_of(lat, lon):
     q = urllib.parse.urlencode({"x": lon, "y": lat, "benchmark": "Public_AR_Current",
                                 "vintage": "Current_Current", "layers": "Census Tracts",
                                 "format": "json"})
-    geos = get(GEOCODER + "?" + q).get("result", {}).get("geographies", {})
+    try:
+        geos = get(GEOCODER + "?" + q).get("result", {}).get("geographies", {})
+    except Exception as e:  # noqa: BLE001 - a flaky geocoder must not kill the run
+        print(f"  geocoder failed for {lat},{lon}: {e}; skipping")
+        return None
     t = (geos.get("Census Tracts") or [{}])[0]
     return (t.get("STATE"), t.get("COUNTY"), t.get("TRACT")) if t.get("TRACT") else None
 
@@ -72,11 +85,12 @@ def main():
         if not (lat and lon):
             continue
         key = f"{lat},{lon}"
-        if key not in cache:
+        if key not in cache or cache[key] is None:
             t = tract_of(lat, lon)
-            cache[key] = t
-            CACHE.write_text(json.dumps(cache))
-        t = cache[key]
+            if t is not None:  # don't cache failures; retry next run
+                cache[key] = t
+                CACHE.write_text(json.dumps(cache))
+        t = cache.get(key)
         if not t:
             continue
         geoid = "".join(t)
