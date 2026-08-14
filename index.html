@@ -500,7 +500,6 @@
     function renderDefaults() {
       const cols = [
         ['?', '_why', '', null],
-        ['Score', 'default_score', 'num', v => `<span class="badge flag-oos">${v}</span>`],
         ...PROP_COLS,
       ];
       document.getElementById('defaults-empty').hidden = DEFAULTS.length > 0;
