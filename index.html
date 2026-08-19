@@ -87,7 +87,7 @@
     .flag-oos { background: #3a1b1b; color: #f87171; }
     .flag-entity { background: #3a1b34; color: #f472b6; }
     #prop-count { color: var(--muted); font-size: .85rem; margin-bottom: .5rem; }
-    #prop-table th.jump:hover { color: var(--accent); text-decoration: underline; }
+    th.jump:hover { color: var(--accent); text-decoration: underline; }
     .def-popup {
       position: absolute; z-index: 50; max-width: 320px;
       background: var(--panel); border: 1px solid var(--accent); border-radius: 8px;
@@ -104,6 +104,13 @@
       font-weight: 700; cursor: pointer; user-select: none;
     }
     .why-btn:hover { filter: brightness(1.2); }
+    .pager { display: flex; align-items: center; gap: .8rem; margin: .8rem 0; }
+    .pager button {
+      background: var(--panel); color: var(--text); border: 1px solid var(--border);
+      border-radius: 6px; padding: .45rem .9rem; font-size: .88rem; cursor: pointer;
+    }
+    .pager button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+    .pager button:disabled { opacity: .4; cursor: default; }
   </style>
 </head>
 <body>
@@ -147,16 +154,19 @@
     </section>
 
     <section id="tab-properties" hidden>
-      <p class="sub">Sample of real Multnomah residential properties with the features we can compute today from the taxlot base. Distress signals (absentee or out-of-state owner, value decline) are highlighted.</p>
       <div id="prop-count"></div>
       <div class="tablewrap">
         <table id="prop-table"><thead></thead><tbody></tbody></table>
+      </div>
+      <div class="pager" id="prop-pager" hidden>
+        <button id="prop-prev">‹ Prev</button>
+        <span id="prop-pageinfo" class="muted"></span>
+        <button id="prop-next">Next ›</button>
       </div>
       <div id="prop-error"></div>
     </section>
 
     <section id="tab-defaults" hidden>
-      <p class="sub">Properties flagged as likely to default by a transparent rule-based score (v0 heuristic; a trained model will replace it once foreclosure labels arrive). Click the ? on a row to see why it was flagged.</p>
       <div id="def-count"></div>
       <div class="tablewrap">
         <table id="def-table"><thead></thead><tbody></tbody></table>
@@ -441,7 +451,7 @@
         defPopup.hidden = true;
         document.body.appendChild(defPopup);
         document.addEventListener('click', e => {
-          if (!defPopup.contains(e.target) && !e.target.closest('#prop-table th.jump')) defPopup.hidden = true;
+          if (!defPopup.contains(e.target) && !e.target.closest('th.jump')) defPopup.hidden = true;
         });
         document.addEventListener('keydown', e => { if (e.key === 'Escape') defPopup.hidden = true; });
       }
@@ -458,6 +468,8 @@
       defPopup.style.left = Math.min(r.left + window.scrollX, maxLeft + window.scrollX) + 'px';
     }
 
+    let PROP_PAGE = 1, PROP_PAGES = 1, PROP_TOTAL = 0, STATIC = null;
+
     function renderProperties() {
       document.querySelector('#prop-table thead').innerHTML =
         '<tr>' + PROP_COLS.map(c => `<th class="${c[2]} jump" data-feature="${colFeature(c[1])}">${c[0]}</th>`).join('') + '</tr>';
@@ -465,19 +477,47 @@
         th.addEventListener('click', () => showDefinition(th.dataset.feature, th)));
       document.querySelector('#prop-table tbody').innerHTML = PROPS.map(p =>
         '<tr>' + PROP_COLS.map(c => `<td class="${c[2]}">${c[3](p[c[1]])}</td>`).join('') + '</tr>').join('');
-      document.getElementById('prop-count').textContent = `${PROPS.length} sample properties`;
+      document.getElementById('prop-count').textContent =
+        `${PROP_TOTAL.toLocaleString()} properties`;
+      document.getElementById('prop-pageinfo').textContent =
+        `Page ${PROP_PAGE.toLocaleString()} of ${PROP_PAGES.toLocaleString()}`;
+      document.getElementById('prop-pager').hidden = PROP_PAGES <= 1;
+      document.getElementById('prop-prev').disabled = PROP_PAGE <= 1;
+      document.getElementById('prop-next').disabled = PROP_PAGE >= PROP_PAGES;
     }
 
-    function loadProperties() {
-      if (PROPS) return;
-      fetch('properties_sample.json')
+    // Full county from the droplet API (20/page); static sample as fallback
+    // when no API is reachable (e.g. static hosting).
+    function loadProperties(page) {
+      fetch(`/api/properties?page=${page}`)
         .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
-        .then(d => { PROPS = d; renderProperties(); })
+        .then(d => {
+          PROPS = d.results; PROP_PAGE = d.page; PROP_PAGES = d.pages; PROP_TOTAL = d.total;
+          renderProperties();
+        })
+        .catch(() => loadStaticProperties(page));
+    }
+
+    function loadStaticProperties(page) {
+      (STATIC ? Promise.resolve(STATIC)
+              : fetch('properties_sample.json')
+                  .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+                  .then(d => (STATIC = d)))
+        .then(d => {
+          PROP_TOTAL = d.length;
+          PROP_PAGES = Math.max(1, Math.ceil(d.length / 20));
+          PROP_PAGE = Math.min(Math.max(1, page), PROP_PAGES);
+          PROPS = d.slice((PROP_PAGE - 1) * 20, PROP_PAGE * 20);
+          renderProperties();
+        })
         .catch(e => {
           document.getElementById('prop-error').innerHTML =
-            `<p class="err">Could not load properties_sample.json (${e.message}).</p>`;
+            `<p class="err">Could not load properties (${e.message}).</p>`;
         });
     }
+
+    document.getElementById('prop-prev').addEventListener('click', () => loadProperties(PROP_PAGE - 1));
+    document.getElementById('prop-next').addEventListener('click', () => loadProperties(PROP_PAGE + 1));
 
     /* ---- Defaults tab: same columns, plus Why (?) and Score ---- */
     let DEFAULTS = null;
@@ -504,7 +544,11 @@
       ];
       document.getElementById('defaults-empty').hidden = DEFAULTS.length > 0;
       document.querySelector('#def-table thead').innerHTML =
-        '<tr>' + cols.map(c => `<th class="${c[2]}">${c[0]}</th>`).join('') + '</tr>';
+        '<tr>' + cols.map(c => c[1] === '_why'
+          ? `<th class="${c[2]}">${c[0]}</th>`
+          : `<th class="${c[2]} jump" data-feature="${colFeature(c[1])}">${c[0]}</th>`).join('') + '</tr>';
+      document.querySelectorAll('#def-table th.jump').forEach(th =>
+        th.addEventListener('click', () => showDefinition(th.dataset.feature, th)));
       document.querySelector('#def-table tbody').innerHTML = DEFAULTS.map((p, i) =>
         '<tr>' + cols.map(c =>
           c[1] === '_why'
@@ -533,7 +577,7 @@
       document.getElementById('tab-features').hidden = tab !== 'features';
       document.getElementById('tab-properties').hidden = tab !== 'properties';
       document.getElementById('tab-defaults').hidden = tab !== 'defaults';
-      if (tab === 'properties') loadProperties();
+      if (tab === 'properties' && !PROPS) loadProperties(1);
       if (tab === 'defaults') loadDefaults();
     }));
   </script>
