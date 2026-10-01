@@ -80,6 +80,40 @@
     .tab.active { background: var(--panel); color: var(--text); border-color: var(--accent); }
     .tablewrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; }
     #prop-table td.num, #prop-table th.num { text-align: right; white-space: nowrap; }
+    #up-table td.num, #up-table th.num { text-align: right; white-space: nowrap; }
+    #up-table code { font-size: .78rem; }
+    #up-count { color: var(--muted); font-size: .85rem; margin-bottom: .5rem; }
+    .st-complete { background: #1b3a2b; color: #4ade80; }
+    .st-partial  { background: #3a341b; color: #fbbf24; }
+    .st-failed   { background: #3a1b1b; color: #f87171; }
+    #up-table tbody tr { cursor: pointer; }
+    .modal-bk {
+      position: fixed; inset: 0; background: rgba(0,0,0,.65); z-index: 100;
+      display: flex; align-items: center; justify-content: center; padding: 1.5rem;
+    }
+    .modal-bk[hidden] { display: none; }
+    .modal {
+      background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+      max-width: 96vw; max-height: 88vh; display: flex; flex-direction: column;
+      box-shadow: 0 12px 48px rgba(0,0,0,.6);
+    }
+    .modal-head {
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;
+      padding: .9rem 1.1rem; border-bottom: 1px solid var(--border);
+    }
+    .modal-title { font-weight: 600; }
+    .modal-title code { font-size: .85rem; }
+    .modal-meta { color: var(--muted); font-size: .8rem; margin-top: .3rem; }
+    .modal-close {
+      background: none; border: none; color: var(--muted); font-size: 1.5rem;
+      line-height: 1; cursor: pointer; padding: 0 .2rem;
+    }
+    .modal-close:hover { color: var(--text); }
+    .modal-body { overflow: auto; }
+    #preview-table { font-size: .8rem; white-space: nowrap; }
+    #preview-table th { position: sticky; top: 0; background: var(--panel); }
+    #preview-table td { max-width: 320px; overflow: hidden; text-overflow: ellipsis; }
+    #preview-note { padding: .6rem 1.1rem; color: var(--muted); font-size: .8rem; }
     #prop-table td.addr { white-space: nowrap; }
     .neg { color: #f87171; }
     .pos { color: #4ade80; }
@@ -121,6 +155,7 @@
       <button class="tab active" data-tab="features">Features</button>
       <button class="tab" data-tab="properties">Properties</button>
       <button class="tab" data-tab="defaults">Defaults</button>
+      <button class="tab" data-tab="uploads">Uploads</button>
     </div>
   </header>
   <div class="wrap">
@@ -174,6 +209,41 @@
       <div id="defaults-empty" style="color: var(--muted); padding: 2rem 0;" hidden>No flagged properties.</div>
       <div id="def-error"></div>
     </section>
+
+    <section id="tab-uploads" hidden>
+      <p class="sub" style="margin:.25rem 0 1rem;">Every weekly raw capture landed in the data lake. Each file is kept immutably as the point-in-time record for that week.</p>
+      <div id="up-count"></div>
+      <div class="tablewrap">
+        <table id="up-table">
+          <thead>
+            <tr>
+              <th>Captured</th><th>Source</th><th>Dataset</th><th>File</th>
+              <th class="num">Rows</th><th class="num">Size</th>
+              <th>Status</th><th>Fetched (UTC)</th><th>Checksum</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div id="uploads-empty" style="color: var(--muted); padding: 2rem 0;" hidden>No uploads captured yet.</div>
+      <div id="up-error"></div>
+    </section>
+  </div>
+
+  <div class="modal-bk" id="preview-modal" hidden>
+    <div class="modal">
+      <div class="modal-head">
+        <div>
+          <div class="modal-title" id="preview-title"></div>
+          <div class="modal-meta" id="preview-meta"></div>
+        </div>
+        <button class="modal-close" id="preview-close" title="Close">×</button>
+      </div>
+      <div class="modal-body">
+        <table id="preview-table"><thead></thead><tbody></tbody></table>
+      </div>
+      <div id="preview-note"></div>
+    </div>
   </div>
 
   <script>
@@ -571,14 +641,104 @@
         });
     }
 
+    /* ---- Uploads tab: the data-lake catalog ---- */
+    let UPLOADS = null;
+    const fmtBytes = b => {
+      if (b == null) return '—';
+      if (b < 1024) return b + ' B';
+      const u = ['KB', 'MB', 'GB', 'TB']; let i = -1, n = b;
+      do { n /= 1024; i++; } while (n >= 1024 && i < u.length - 1);
+      return n.toFixed(1) + ' ' + u[i];
+    };
+    const fmtStatus = s => `<span class="badge st-${esc(s || 'failed')}">${esc(s || '—')}</span>`;
+    const fmtFetched = s => esc((s || '').replace('T', ' ').replace(/\+00:00$/, ''));
+
+    function renderUploads() {
+      document.getElementById('uploads-empty').hidden = UPLOADS.length > 0;
+      document.getElementById('up-count').textContent =
+        `${UPLOADS.length} weekly capture${UPLOADS.length === 1 ? '' : 's'} in the lake`;
+      document.querySelector('#up-table tbody').innerHTML = UPLOADS.map(u => {
+        const file = u.source_url
+          ? `<a href="${esc(u.source_url)}" target="_blank" rel="noopener noreferrer">${esc(u.filename)}</a>`
+          : esc(u.filename);
+        return '<tr>' +
+          `<td>${esc(u.captured_date)}</td>` +
+          `<td class="muted">${linkifySource(u.source || '')}</td>` +
+          `<td>${esc(u.dataset || '')}</td>` +
+          `<td>${file}<div class="muted" style="font-size:.75rem;">${esc(u.relpath || '')}</div></td>` +
+          `<td class="num">${u.rows == null ? '—' : u.rows.toLocaleString()}</td>` +
+          `<td class="num">${fmtBytes(u.bytes)}</td>` +
+          `<td>${fmtStatus(u.status)}</td>` +
+          `<td class="muted">${fmtFetched(u.fetched_at)}</td>` +
+          `<td><code title="${esc(u.sha256 || '')}">${esc((u.sha256 || '—').slice(0, 10))}</code></td>` +
+        '</tr>';
+      }).join('');
+      document.querySelectorAll('#up-table tbody tr').forEach((tr, i) =>
+        tr.addEventListener('click', () => showUploadPreview(UPLOADS[i])));
+    }
+
+    const PREVIEW = document.getElementById('preview-modal');
+    const closePreview = () => { PREVIEW.hidden = true; };
+    document.getElementById('preview-close').addEventListener('click', closePreview);
+    PREVIEW.addEventListener('click', e => { if (e.target === PREVIEW) closePreview(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closePreview(); });
+
+    function showUploadPreview(u) {
+      document.getElementById('preview-title').innerHTML =
+        `${esc(u.source || '')} · ${esc(u.dataset || '')} <code>${esc(u.captured_date || '')}</code>`;
+      document.getElementById('preview-meta').innerHTML =
+        `${esc(u.relpath || '')} — ${u.rows == null ? '—' : u.rows.toLocaleString()} rows · ${fmtBytes(u.bytes)} · ${fmtStatus(u.status)}`;
+      const thead = document.querySelector('#preview-table thead');
+      const tbody = document.querySelector('#preview-table tbody');
+      thead.innerHTML = ''; tbody.innerHTML = '';
+      document.getElementById('preview-note').textContent = 'Loading preview…';
+      PREVIEW.hidden = false;
+      fetch(`/api/uploads/preview?relpath=${encodeURIComponent(u.relpath)}&limit=25`)
+        .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(d => {
+          const cols = d.columns || [];
+          thead.innerHTML = '<tr>' + cols.map(c => `<th>${esc(c)}</th>`).join('') + '</tr>';
+          tbody.innerHTML = (d.rows || []).map(row =>
+            '<tr>' + cols.map(c => {
+              let v = row[c];
+              if (v === null || v === undefined || v === '') return '<td class="muted">—</td>';
+              if (typeof v === 'object') v = JSON.stringify(v);
+              return `<td title="${esc(String(v))}">${esc(String(v))}</td>`;
+            }).join('') + '</tr>').join('');
+          document.getElementById('preview-note').textContent =
+            `Showing first ${d.preview} row${d.preview === 1 ? '' : 's'}` +
+            `${u.rows ? ' of ' + u.rows.toLocaleString() : ''} · ${cols.length} columns`;
+        })
+        .catch(e => {
+          document.getElementById('preview-note').innerHTML =
+            `<span class="err">Could not load preview (${e.message}). The preview reads the file on the server, so it needs the live API.</span>`;
+        });
+    }
+
+    function loadUploads() {
+      if (UPLOADS) return;
+      fetch('/api/uploads')
+        .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(d => { UPLOADS = d; renderUploads(); })
+        .catch(() => fetch('uploads.json')
+          .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+          .then(d => { UPLOADS = d; renderUploads(); })
+          .catch(e => {
+            document.getElementById('up-error').innerHTML =
+              `<p class="err">Could not load uploads (${e.message}).</p>`;
+          }));
+    }
+
     document.querySelectorAll('.tab').forEach(btn => btn.addEventListener('click', () => {
       document.querySelectorAll('.tab').forEach(b => b.classList.toggle('active', b === btn));
       const tab = btn.dataset.tab;
       document.getElementById('tab-features').hidden = tab !== 'features';
       document.getElementById('tab-properties').hidden = tab !== 'properties';
       document.getElementById('tab-defaults').hidden = tab !== 'defaults';
+      document.getElementById('tab-uploads').hidden = tab !== 'uploads';
       if (tab === 'properties' && !PROPS) loadProperties(1);
       if (tab === 'defaults') loadDefaults();
+      if (tab === 'uploads') loadUploads();
     }));
   </script>
 </body>

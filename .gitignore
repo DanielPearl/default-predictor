@@ -6,3 +6,4 @@ __pycache__/
 *.pyc
 properties_sample.json
 defaults.json
+uploads.json

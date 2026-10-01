@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
 """
-Tiny read-only API that serves the FULL taxlot base (all Multnomah parcels,
-~242k) as pages of 20 for the website's Properties tab, straight from the
-droplet database. Rows carry the same keys as the enriched table; parcels we
-have enriched (the weekly samples) get those extra columns merged in.
+Tiny read-only API behind nginx (location /api/). Stdlib only. Routes:
 
-Runs on 127.0.0.1:8001 behind nginx (location /api/). Stdlib only.
+  /api/properties?page=N  full taxlot base (all Multnomah parcels, ~242k) as
+                          pages of 20 for the Properties tab, with enriched
+                          columns merged in where we have them.
+  /api/uploads            the data-lake catalog (one row per raw file landed)
+                          for the Uploads tab.
+
+Runs on 127.0.0.1:8001.
 """
+import gzip
 import json
 import math
 import os
@@ -16,6 +20,9 @@ from datetime import date
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
+
+import catalog  # lake-catalog reader (sibling module)
+import lake      # lake storage (for file previews)
 
 ROOT = Path(__file__).resolve().parents[1]
 DB = ROOT / "data" / "taxlots.db"
@@ -101,11 +108,70 @@ def base_record(r, asof):
 
 
 class Handler(BaseHTTPRequestHandler):
+    def _send_json(self, obj):
+        body = json.dumps(obj).encode()
+        self.send_response(200)
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
     def do_GET(self):
         u = urlparse(self.path)
-        if u.path.rstrip("/") != "/api/properties":
+        path = u.path.rstrip("/")
+        if path == "/api/properties":
+            return self._properties(u)
+        if path == "/api/uploads/preview":
+            return self._upload_preview(u)
+        if path == "/api/uploads":
+            return self._uploads(u)
+        self.send_error(404)
+
+    def _uploads(self, u):
+        try:
+            rows = catalog.list_uploads()
+        except Exception:  # noqa: BLE001  (no catalog yet)
+            rows = []
+        self._send_json(rows)
+
+    def _upload_preview(self, u):
+        """Return the first rows of one landed lake file so the site can show a
+        preview of the table inside it. Reads only files under the lake root."""
+        qs = parse_qs(u.query)
+        rel = (qs.get("relpath") or [""])[0]
+        try:
+            limit = max(1, min(200, int((qs.get("limit") or ["25"])[0])))
+        except ValueError:
+            limit = 25
+        base = lake.LAKE_ROOT.resolve()
+        target = (base / rel).resolve()
+        # confine to the lake, only our gzipped NDJSON captures
+        if base not in target.parents or not target.is_file() or not rel.endswith(".ndjson.gz"):
             self.send_error(404)
             return
+        rows, cols, seen = [], [], set()
+        try:
+            with gzip.open(target, "rt", encoding="utf-8") as f:
+                for line in f:
+                    if len(rows) >= limit:
+                        break
+                    try:
+                        obj = json.loads(line)
+                    except ValueError:
+                        continue
+                    rows.append(obj)
+                    for k in obj:
+                        if k not in seen:
+                            seen.add(k)
+                            cols.append(k)
+        except OSError:
+            self.send_error(404)
+            return
+        self._send_json({"relpath": rel, "columns": cols, "rows": rows,
+                         "preview": len(rows), "limit": limit})
+
+    def _properties(self, u):
         page = 1
         try:
             page = max(1, int(parse_qs(u.query).get("page", ["1"])[0]))
