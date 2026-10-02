@@ -94,8 +94,8 @@ def flush_to_lake(captured_date, status):
     """Rebuild the consolidated violations + permit_detail lake files from the
     cache (idempotent; grows as the cache fills)."""
     cc = cache_conn()
-    vw = lake.RawWriter(SOURCE, "violations", captured_date, "violations.ndjson.gz")
-    pw = lake.RawWriter(SOURCE, "permit_detail", captured_date, "permit_detail.ndjson.gz")
+    vw = lake.RawWriter(SOURCE, "violations", captured_date)
+    pw = lake.RawWriter(SOURCE, "permit_detail", captured_date)
     nprop = 0
     for pid, rec_json in cc.execute("SELECT property_id, records FROM cache"):
         nprop += 1

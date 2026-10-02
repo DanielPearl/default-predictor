@@ -82,9 +82,9 @@ def main():
     print(f"capturing {SOURCE}/{DATASET} for {captured_date} -> lake", flush=True)
     t0 = time.time()
     total = None
-    writer = lake.RawWriter(SOURCE, DATASET, captured_date, filename)
+    writer = lake.RawWriter(SOURCE, DATASET, captured_date)
     status = "failed"
-    facts = {"relpath": lake.relpath(SOURCE, captured_date, filename),
+    facts = {"relpath": lake.relpath(SOURCE, DATASET, captured_date),
              "rows": 0, "bytes": 0, "sha256": None}
     try:
         page = 1

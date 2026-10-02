@@ -85,8 +85,8 @@ def collect(cfg, captured_date):
     total = count(url, where)
     print(f"  reported count: {total:,}", flush=True)
 
-    writer = lake.RawWriter(SOURCE, dataset, captured_date, filename)
-    facts = {"relpath": lake.relpath(SOURCE, captured_date, filename),
+    writer = lake.RawWriter(SOURCE, dataset, captured_date)
+    facts = {"relpath": lake.relpath(SOURCE, dataset, captured_date),
              "rows": 0, "bytes": 0, "sha256": None}
     status = "failed"
     try:

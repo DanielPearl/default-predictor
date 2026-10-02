@@ -3,9 +3,11 @@
 Data lake storage.
 
 The lake is the immutable, append-only archive of every raw pull ever made,
-partitioned as  <source>/<captured_date>/<file>. Nothing here is ever edited;
-a new week is a new folder. This is the only copy of each week's point-in-time
-state and the raw material everything downstream is rebuilt from.
+Hive-partitioned as  <source>/<dataset>/captured_date=<date>/<file>, so the
+date is labeled in the path and query engines (DuckDB, dbt) auto-detect it as
+a `captured_date` column. Nothing here is ever edited; a new week is a new
+partition folder. This is the only copy of each week's point-in-time state and
+the raw material everything downstream is rebuilt from.
 
 Backend is the local filesystem today (data/lake/). It is written behind a
 tiny put() seam so it can move to DigitalOcean Spaces (S3) later by swapping
@@ -41,8 +43,12 @@ def slug(s):
     return re.sub(r"[^a-z0-9]+", "-", (s or "").lower()).strip("-")
 
 
-def relpath(source, captured_date, filename):
-    return f"{slug(source)}/{captured_date}/{filename}"
+def relpath(source, dataset, captured_date):
+    """Hive-style partition path, so the date is labeled in the path and query
+    engines auto-detect it as a `captured_date` column:
+      <source>/<dataset>/captured_date=<date>/<dataset>.ndjson.gz
+    """
+    return f"{slug(source)}/{dataset}/captured_date={captured_date}/{dataset}.ndjson.gz"
 
 
 def _abspath(rel):
@@ -63,12 +69,12 @@ class RawWriter:
     whole dataset in memory. Use as a context manager; close() returns the
     catalog facts (relpath, rows, bytes, sha256)."""
 
-    def __init__(self, source, dataset, captured_date, filename):
+    def __init__(self, source, dataset, captured_date):
         self.source = source
         self.dataset = dataset
         self.captured_date = captured_date
-        self.filename = filename
-        self.rel = relpath(source, captured_date, filename)
+        self.filename = f"{dataset}.ndjson.gz"
+        self.rel = relpath(source, dataset, captured_date)
         self.final = _abspath(self.rel)
         self.part = self.final.with_suffix(self.final.suffix + ".part")
         self.final.parent.mkdir(parents=True, exist_ok=True)
@@ -103,25 +109,18 @@ class RawWriter:
 
 
 def write_manifest(source, captured_date, entries):
-    """A small human-readable index of what landed in a partition. Merges with
-    any existing manifest (keyed by filename) so multiple datasets landing in
-    the same partition all appear."""
-    rel = relpath(source, captured_date, "_manifest.json")
-    files = {}
-    p = _abspath(rel)
-    if p.exists():
-        try:
-            for e in json.loads(p.read_text()).get("files", []):
-                files[e.get("filename")] = e
-        except Exception:  # noqa: BLE001
-            pass
+    """A small human-readable manifest written into each dataset's partition
+    folder (next to its data file)."""
+    from pathlib import PurePosixPath
     for e in entries:
-        files[e.get("filename")] = e
-    body = json.dumps({
-        "source": source,
-        "captured_date": captured_date,
-        "written_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "files": list(files.values()),
-    }, indent=2).encode()
-    _put_bytes(rel, body)
-    return rel
+        rel = e.get("relpath")
+        if not rel:
+            continue
+        mrel = str(PurePosixPath(rel).parent / "_manifest.json")
+        body = json.dumps({
+            "source": source,
+            "captured_date": captured_date,
+            "written_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+            "file": e,
+        }, indent=2).encode()
+        _put_bytes(mrel, body)

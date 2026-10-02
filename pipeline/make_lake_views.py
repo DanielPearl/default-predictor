@@ -18,14 +18,14 @@ DB = ROOT / "data" / "lake.duckdb"            # the lake is its OWN database
 LAKE = (ROOT / "data" / "lake").resolve()
 
 DATASETS = {
-    "assessor":         "portlandmaps/*/assessor.ndjson.gz",
-    "taxlots":          "portlandmaps/*/taxlots.ndjson.gz",
-    "permits":          "portlandmaps/*/permits.ndjson.gz",
-    "demolitions":      "portlandmaps/*/demolitions.ndjson.gz",
-    "violations":       "portlandmaps/*/violations.ndjson.gz",
-    "permit_detail":    "portlandmaps/*/permit_detail.ndjson.gz",
-    "rental_portfolio": "portlandmaps/*/rental_portfolio.ndjson.gz",
-    "sos_businesses":   "oregon-sos/*/businesses.ndjson.gz",
+    "assessor":         "portlandmaps/assessor/captured_date=*/*.ndjson.gz",
+    "taxlots":          "portlandmaps/taxlots/captured_date=*/*.ndjson.gz",
+    "permits":          "portlandmaps/permits/captured_date=*/*.ndjson.gz",
+    "demolitions":      "portlandmaps/demolitions/captured_date=*/*.ndjson.gz",
+    "violations":       "portlandmaps/violations/captured_date=*/*.ndjson.gz",
+    "permit_detail":    "portlandmaps/permit_detail/captured_date=*/*.ndjson.gz",
+    "rental_portfolio": "portlandmaps/rental_portfolio/captured_date=*/*.ndjson.gz",
+    "sos_businesses":   "oregon-sos/businesses/captured_date=*/*.ndjson.gz",
 }
 
 
@@ -36,9 +36,9 @@ def main():
         if not glob.glob(str(LAKE / g)):
             continue  # skip datasets not present in the lake
         con.execute(
-            f"CREATE OR REPLACE VIEW {name} AS "
-            f"SELECT *, regexp_extract(filename, '[0-9]{{4}}-[0-9]{{2}}-[0-9]{{2}}') AS captured_date "
-            f"FROM read_json_auto('{LAKE}/{g}', filename=true, union_by_name=true, ignore_errors=true)")
+            f"CREATE OR REPLACE VIEW {name} AS SELECT * "
+            f"FROM read_json_auto('{LAKE}/{g}', "
+            f"hive_partitioning=true, union_by_name=true, ignore_errors=true)")
         made += 1
     con.close()
     print(f"lake.duckdb: {made} views over raw files at {LAKE}")

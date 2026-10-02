@@ -59,9 +59,9 @@ def main():
     filename = f"{DATASET}.ndjson.gz"
     print(f"capturing {SOURCE}/{DATASET} -> lake", flush=True)
     t0 = time.time()
-    writer = lake.RawWriter(SOURCE, DATASET, captured_date, filename)
+    writer = lake.RawWriter(SOURCE, DATASET, captured_date)
     status = "failed"
-    facts = {"relpath": lake.relpath(SOURCE, captured_date, filename),
+    facts = {"relpath": lake.relpath(SOURCE, DATASET, captured_date),
              "rows": 0, "bytes": 0, "sha256": None}
     try:
         offset = 0
