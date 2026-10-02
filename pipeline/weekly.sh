@@ -11,6 +11,9 @@ log() { echo "[$(date -u +%FT%TZ)] $*"; }
 log "land this week's raw PortlandMaps snapshot in the data lake"
 EXPORT_UPLOADS=/var/www/default-predictor/uploads.json python3 pipeline/collect_portlandmaps.py
 
+log "transform raw assessor -> core_property (resolve condo addresses)"
+python3 pipeline/transform_assessor.py
+
 log "refresh keyless base (242k parcels)"
 python3 pipeline/ingest_taxlots.py >/dev/null
 log "rebuild enriched sample (same seeded parcels)"

@@ -151,6 +151,41 @@ class Handler(BaseHTTPRequestHandler):
             pass
         return None
 
+    CORE_COLS = ["property_id", "address", "address_source", "unit", "owner",
+                 "neighborhood", "market_value", "sale_date", "sale_price",
+                 "year_built", "square_feet", "legal_description", "raw_address",
+                 "parent_state_id", "latitude", "longitude", "state_id",
+                 "captured_date"]
+
+    def _preview_core(self, page, limit, q):
+        """The cleaned view (core_property): the same paged/searchable shape as
+        the raw preview, but with resolved addresses instead of the source's
+        blanks. Backs the Uploads preview 'Cleaned' toggle."""
+        where, params = [], []
+        if q:
+            like = f"%{q}%"
+            where.append("(property_id LIKE ? OR address LIKE ? OR owner LIKE ? "
+                         "OR legal_description LIKE ?)")
+            params += [like, like, like, like]
+        wsql = (" WHERE " + " AND ".join(where)) if where else ""
+        recs, total = [], 0
+        try:
+            conn = catalog.connect()
+            total = conn.execute("SELECT COUNT(*) FROM core_property" + wsql,
+                                 params).fetchone()[0]
+            rows = conn.execute(
+                "SELECT " + ",".join(self.CORE_COLS) + " FROM core_property" + wsql +
+                " ORDER BY property_id LIMIT ? OFFSET ?",
+                params + [limit, (page - 1) * limit]).fetchall()
+            recs = [dict(r) for r in rows]
+            conn.close()
+        except Exception:  # noqa: BLE001  (no core_property yet)
+            recs, total = [], 0
+        pages = max(1, math.ceil((total or 0) / limit))
+        self._send_json({"columns": self.CORE_COLS, "rows": recs, "page": page,
+                         "pages": pages, "total": total or 0, "limit": limit,
+                         "q": q, "start": (page - 1) * limit, "view": "core"})
+
     def _upload_preview(self, u):
         """A paged, searchable window into one landed lake file so the site can
         browse the table inside it. Reads only files under the lake root."""
@@ -165,6 +200,8 @@ class Handler(BaseHTTPRequestHandler):
         except ValueError:
             page = 1
         q = (qs.get("q") or [""])[0].strip().lower()
+        if (qs.get("view") or ["raw"])[0] == "core":
+            return self._preview_core(page, limit, q)
         base = lake.LAKE_ROOT.resolve()
         target = (base / rel).resolve()
         if base not in target.parents or not target.is_file() or not rel.endswith(".ndjson.gz"):
