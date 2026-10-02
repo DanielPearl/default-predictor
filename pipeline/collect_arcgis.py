@@ -27,24 +27,35 @@ import lake
 SOURCE = "PortlandMaps"
 OD = "https://www.portlandmaps.com/od/rest/services"
 
+# Each dataset's `cadence` is how often it's actually refreshed at the source,
+# so we only pull it that often (no point re-capturing unchanged data).
 DATASETS = {
+    # weekly -- fast-moving permit activity
     "permits": {
-        "dataset": "permits",
+        "dataset": "permits", "cadence": "weekly",
         "url": f"{OD}/COP_OpenData_PlanningDevelopment/MapServer/89/query",
         "where": "1=1", "page_size": 2000,
         "about": "Residential building permits",
     },
     "demolitions": {
-        "dataset": "demolitions",
+        "dataset": "demolitions", "cadence": "weekly",
         "url": f"{OD}/COP_OpenData_PlanningDevelopment/MapServer/126/query",
         "where": "1=1", "page_size": 2000,
         "about": "Residential demolition permits",
     },
+    # monthly -- county parcel data only batch-updates ~monthly
     "taxlots": {
-        "dataset": "taxlots",
+        "dataset": "taxlots", "cadence": "monthly",
         "url": "https://www.portlandmaps.com/arcgis/rest/services/Public/Taxlots/MapServer/0/query",
         "where": "COUNTY='M'", "page_size": 4000,
         "about": "Multnomah taxlots (parcel attributes)",
+    },
+    # quarterly -- near-static reference data
+    "rental_portfolio": {
+        "dataset": "rental_portfolio", "cadence": "quarterly",
+        "url": f"{OD}/COP_OpenData_PlanningDevelopment/MapServer/221/query",
+        "where": "1=1", "page_size": 2000,
+        "about": "Regulated/affordable rental portfolio (landlord/investment signal)",
     },
 }
 
@@ -122,7 +133,14 @@ def collect(cfg, captured_date):
 def main():
     captured_date = os.environ.get("CAPTURE_DATE") or lake.capture_date()
     catalog.migrate()
-    keys = sys.argv[1:] or list(DATASETS)
+    args = sys.argv[1:]
+    if args and args[0] == "--cadence":
+        cad = args[1] if len(args) > 1 else ""
+        keys = [k for k, c in DATASETS.items() if c["cadence"] == cad]
+        if not keys:
+            print(f"no datasets with cadence '{cad}'")
+    else:
+        keys = args or list(DATASETS)
     for k in keys:
         if k not in DATASETS:
             print(f"unknown dataset: {k} (have: {', '.join(DATASETS)})")
