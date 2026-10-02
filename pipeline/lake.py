@@ -22,6 +22,20 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 LAKE_ROOT = Path(os.environ.get("LAKE_ROOT", ROOT / "data" / "lake"))
 
+try:
+    from zoneinfo import ZoneInfo
+    _PACIFIC = ZoneInfo("America/Los_Angeles")
+except Exception:  # noqa: BLE001  (zoneinfo/tzdata missing)
+    _PACIFIC = None
+
+
+def capture_date():
+    """Today's date in Portland's timezone. Snapshots are dated by local
+    (Pacific) calendar, not UTC, so a Saturday-evening run isn't stamped
+    Sunday."""
+    now = datetime.now(_PACIFIC) if _PACIFIC else datetime.now(timezone.utc)
+    return now.date().isoformat()
+
 
 def slug(s):
     return re.sub(r"[^a-z0-9]+", "-", (s or "").lower()).strip("-")

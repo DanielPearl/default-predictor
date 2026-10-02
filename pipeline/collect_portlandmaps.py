@@ -70,7 +70,7 @@ def already_done(captured_date):
 
 
 def main():
-    captured_date = os.environ.get("CAPTURE_DATE") or datetime.now(timezone.utc).date().isoformat()
+    captured_date = os.environ.get("CAPTURE_DATE") or lake.capture_date()
     max_pages = int(os.environ.get("COLLECT_MAX_PAGES", "0")) or None
     catalog.migrate()
 

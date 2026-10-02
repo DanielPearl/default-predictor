@@ -120,7 +120,7 @@ def collect(cfg, captured_date):
 
 
 def main():
-    captured_date = os.environ.get("CAPTURE_DATE") or datetime.now(timezone.utc).date().isoformat()
+    captured_date = os.environ.get("CAPTURE_DATE") or lake.capture_date()
     catalog.migrate()
     keys = sys.argv[1:] or list(DATASETS)
     for k in keys:
