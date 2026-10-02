@@ -116,14 +116,6 @@
     #preview-table td { max-width: 320px; overflow: hidden; text-overflow: ellipsis; }
     .modal-search { padding: .6rem 1.1rem; border-bottom: 1px solid var(--border); }
     .modal-search input { width: 100%; }
-    #preview-views { display: flex; gap: .3rem; margin-bottom: .5rem; }
-    #preview-views[hidden] { display: none; }
-    #preview-views button {
-      background: var(--panel); color: var(--text); border: 1px solid var(--border);
-      border-radius: 6px; padding: .3rem .8rem; font-size: .82rem; cursor: pointer;
-    }
-    #preview-views button.active { background: var(--accent); color: #0d1117; border-color: var(--accent); font-weight: 600; }
-    #preview-views .hint { color: var(--muted); font-size: .78rem; align-self: center; margin-left: .3rem; }
     #preview-foot {
       display: flex; align-items: center; justify-content: space-between;
       gap: 1rem; flex-wrap: wrap; padding: .5rem 1.1rem; border-top: 1px solid var(--border);
@@ -303,7 +295,6 @@
         <button class="modal-close" id="preview-close" title="Close">×</button>
       </div>
       <div class="modal-search">
-        <div id="preview-views" hidden></div>
         <input id="preview-search" type="text" autocomplete="off"
                placeholder="Search this file — owner, address, property ID…">
       </div>
@@ -805,28 +796,9 @@
     }
 
     const PREVIEW = document.getElementById('preview-modal');
-    const PV_VIEWS = document.getElementById('preview-views');
-    let PV_U = null, PV_Q = '', PV_PAGE = 1, PV_PAGES = 1, PV_TOTAL = 0, PV_VIEW = 'raw';
+    let PV_U = null, PV_Q = '', PV_PAGE = 1, PV_PAGES = 1, PV_TOTAL = 0;
     const PV_LIMIT = 25;
     let pvTimer = null;
-
-    // The "Cleaned" view (core_property with resolved addresses) exists for
-    // these datasets; others show only the raw file.
-    const CLEANED_DATASETS = new Set(['assessor']);
-    function renderViews(u) {
-      if (!CLEANED_DATASETS.has(u.dataset)) { PV_VIEWS.hidden = true; PV_VIEWS.innerHTML = ''; return; }
-      PV_VIEWS.hidden = false;
-      PV_VIEWS.innerHTML =
-        `<button data-view="raw"${PV_VIEW === 'raw' ? ' class="active"' : ''}>Raw file</button>` +
-        `<button data-view="core"${PV_VIEW === 'core' ? ' class="active"' : ''}>Cleaned</button>` +
-        `<span class="hint">Cleaned fills condo sub-unit addresses from the parent parcel.</span>`;
-      PV_VIEWS.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
-        if (b.dataset.view === PV_VIEW) return;
-        PV_VIEW = b.dataset.view;
-        PV_VIEWS.querySelectorAll('button').forEach(x => x.classList.toggle('active', x.dataset.view === PV_VIEW));
-        fetchPreview(1);
-      }));
-    }
     const closePreview = () => { PREVIEW.hidden = true; };
     document.getElementById('preview-close').addEventListener('click', closePreview);
     PREVIEW.addEventListener('click', e => { if (e.target === PREVIEW) closePreview(); });
@@ -838,8 +810,7 @@
     });
 
     function showUploadPreview(u) {
-      PV_U = u; PV_Q = ''; PV_PAGE = 1; PV_VIEW = 'raw';
-      renderViews(u);
+      PV_U = u; PV_Q = ''; PV_PAGE = 1;
       document.getElementById('preview-search').value = '';
       document.getElementById('preview-title').innerHTML =
         `${esc(u.source || '')} · ${esc(u.dataset || '')} <code>${esc(u.captured_date || '')}</code>`;
@@ -880,8 +851,7 @@
       const tbody = document.querySelector('#preview-table tbody');
       document.getElementById('preview-note').textContent = 'Loading…';
       const url = `/api/uploads/preview?relpath=${encodeURIComponent(PV_U.relpath)}` +
-        `&page=${page}&limit=${PV_LIMIT}&view=${PV_VIEW}` +
-        (PV_Q ? `&q=${encodeURIComponent(PV_Q)}` : '');
+        `&page=${page}&limit=${PV_LIMIT}` + (PV_Q ? `&q=${encodeURIComponent(PV_Q)}` : '');
       fetch(url)
         .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
         .then(d => {
