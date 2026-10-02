@@ -32,6 +32,7 @@ DATASETS = {
 def main():
     con = duckdb.connect(str(DB))
     made = 0
+    fragments = []
     for name, g in DATASETS.items():
         if not glob.glob(str(LAKE / g)):
             continue  # skip datasets not present in the lake
@@ -40,8 +41,23 @@ def main():
             f"FROM read_json_auto('{LAKE}/{g}', "
             f"hive_partitioning=true, union_by_name=true, ignore_errors=true)")
         made += 1
+        # glob is '<source>/<dataset>/captured_date=*/*.ndjson.gz'
+        source, dataset = g.split("/")[0], g.split("/")[1]
+        fragments.append(
+            f"SELECT '{source}' AS source, '{dataset}' AS dataset, captured_date, "
+            f"count(*) AS rows, "
+            f"'{source}/{dataset}/captured_date=' || captured_date::VARCHAR || "
+            f"'/{dataset}.ndjson.gz' AS relpath "
+            f"FROM {name} GROUP BY captured_date")
+
+    # lake_files: one row per partition file, so the dated naming convention is
+    # browsable as data (source, dataset, captured_date, row count, path).
+    if fragments:
+        con.execute("CREATE OR REPLACE VIEW lake_files AS\n"
+                    + "\nUNION ALL\n".join(fragments)
+                    + "\nORDER BY captured_date DESC, source, dataset")
     con.close()
-    print(f"lake.duckdb: {made} views over raw files at {LAKE}")
+    print(f"lake.duckdb: {made} views + lake_files over raw files at {LAKE}")
 
 
 if __name__ == "__main__":
