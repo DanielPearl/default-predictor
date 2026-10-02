@@ -12,8 +12,8 @@ perm as (
   from {{ ref('core_permit') }} group by property_id
 ),
 demo as (
-  select property_id, count(*) as demolition_count
-  from {{ ref('core_demolition') }} group by property_id
+  select state_id, count(*) as demolition_count
+  from {{ ref('core_demolition') }} group by state_id
 )
 select
   p.property_id,
@@ -40,4 +40,4 @@ left join {{ ref('core_ownership') }} ow on ow.property_id = p.property_id
 left join {{ ref('core_owner') }} o       on o.owner_id   = ow.owner_id
 left join viol on viol.property_id = p.property_id
 left join perm on perm.property_id = p.property_id
-left join demo on demo.property_id = p.property_id
+left join demo on demo.state_id = p.state_id

@@ -1,10 +1,11 @@
--- One row per residential demolition permit, keyed to its parcel.
+-- One row per residential demolition permit, keyed to its parcel by state_id
+-- (STATEIDKEY matches taxlot STATE_ID; PROPERTYKEY is an internal numeric id).
 select
-  PROPERTYKEY                                  as property_id,
   STATEIDKEY                                   as state_id,
+  cast(PROPERTYKEY as varchar)                 as property_key,
   APPLICATION                                  as application,
   STATUS                                       as status,
-  try_cast(YEAR as integer)                    as demo_year,
-  trim(concat_ws(' ', HOUSE, DIRECTION, PROPSTREET, STREETTYPE)) as address
+  try_cast(nullif(cast("YEAR" as varchar), '') as integer) as demo_year,
+  trim(concat_ws(' ', cast(HOUSE as varchar), DIRECTION, PROPSTREET, STREETTYPE)) as address
 from {{ ref('stg_demolitions') }}
-where nullif(PROPERTYKEY, '') is not null
+where nullif(STATEIDKEY, '') is not null
