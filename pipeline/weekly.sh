@@ -8,8 +8,10 @@ set -e
 cd "$(dirname "$0")/.."
 log() { echo "[$(date -u +%FT%TZ)] $*"; }
 
-log "land this week's raw PortlandMaps snapshot in the data lake"
-EXPORT_UPLOADS=/var/www/default-predictor/uploads.json python3 pipeline/collect_portlandmaps.py
+log "land this week's raw PortlandMaps assessor snapshot in the data lake"
+python3 pipeline/collect_portlandmaps.py
+log "land PortlandMaps open-data layers (permits, demolitions, taxlots) in the lake"
+EXPORT_UPLOADS=/var/www/default-predictor/uploads.json python3 pipeline/collect_arcgis.py
 
 log "refresh keyless base (242k parcels)"
 python3 pipeline/ingest_taxlots.py >/dev/null

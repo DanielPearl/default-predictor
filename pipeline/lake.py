@@ -89,13 +89,25 @@ class RawWriter:
 
 
 def write_manifest(source, captured_date, entries):
-    """A small human-readable index of what landed in a partition."""
+    """A small human-readable index of what landed in a partition. Merges with
+    any existing manifest (keyed by filename) so multiple datasets landing in
+    the same partition all appear."""
     rel = relpath(source, captured_date, "_manifest.json")
+    files = {}
+    p = _abspath(rel)
+    if p.exists():
+        try:
+            for e in json.loads(p.read_text()).get("files", []):
+                files[e.get("filename")] = e
+        except Exception:  # noqa: BLE001
+            pass
+    for e in entries:
+        files[e.get("filename")] = e
     body = json.dumps({
         "source": source,
         "captured_date": captured_date,
         "written_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "files": entries,
+        "files": list(files.values()),
     }, indent=2).encode()
     _put_bytes(rel, body)
     return rel
