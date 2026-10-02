@@ -11,6 +11,7 @@ Tiny read-only API behind nginx (location /api/). Stdlib only. Routes:
 Runs on 127.0.0.1:8001.
 """
 import gzip
+import io
 import json
 import math
 import os
@@ -23,6 +24,23 @@ from urllib.parse import parse_qs, urlparse
 
 import catalog  # lake-catalog reader (sibling module)
 import lake      # lake storage (for file previews)
+
+
+def _lake_text(rel):
+    """Open a lake .ndjson.gz file as a fresh text line stream, from Spaces or
+    the local filesystem (whichever backs the lake). Raises on a bad/missing
+    path. A new stream each call, so callers can re-scan from the top."""
+    if not rel.endswith(".ndjson.gz") or ".." in rel:
+        raise ValueError("bad relpath")
+    cfg = lake.spaces_config()
+    if cfg:
+        obj = lake._s3_client(cfg).get_object(Bucket=cfg["bucket"], Key=rel)
+        return io.TextIOWrapper(gzip.GzipFile(fileobj=obj["Body"]), encoding="utf-8")
+    base = lake.LAKE_ROOT.resolve()
+    target = (base / rel).resolve()
+    if base not in target.parents or not target.is_file():
+        raise FileNotFoundError(rel)
+    return gzip.open(target, "rt", encoding="utf-8")
 
 ROOT = Path(__file__).resolve().parents[1]
 DB = ROOT / "data" / "taxlots.db"
@@ -165,11 +183,6 @@ class Handler(BaseHTTPRequestHandler):
         except ValueError:
             page = 1
         q = (qs.get("q") or [""])[0].strip().lower()
-        base = lake.LAKE_ROOT.resolve()
-        target = (base / rel).resolve()
-        if base not in target.parents or not target.is_file() or not rel.endswith(".ndjson.gz"):
-            self.send_error(404)
-            return
 
         start = (page - 1) * limit
         rows, cols, seen = [], [], set()
@@ -181,7 +194,7 @@ class Handler(BaseHTTPRequestHandler):
                     cols.append(k)
 
         try:
-            with gzip.open(target, "rt", encoding="utf-8") as f:
+            with _lake_text(rel) as f:
                 if q:
                     # scan + filter: substring match across all values
                     total = 0
@@ -216,13 +229,13 @@ class Handler(BaseHTTPRequestHandler):
                         i += 1
                     if total is None:
                         total = i
-        except OSError:
+        except Exception:  # noqa: BLE001  (bad path / missing object / S3 error)
             self.send_error(404)
             return
 
         if not cols:  # empty page: still return the column list
             try:
-                with gzip.open(target, "rt", encoding="utf-8") as f:
+                with _lake_text(rel) as f:
                     addcols(json.loads(f.readline()))
             except Exception:  # noqa: BLE001
                 pass

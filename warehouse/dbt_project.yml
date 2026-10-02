@@ -10,7 +10,9 @@ clean-targets: ["target", "dbt_packages"]
 # Lake location, relative to this project dir. Override with:
 #   dbt run --vars '{lake_path: /abs/path/to/data/lake}'
 vars:
-  lake_path: "../data/lake"
+  # Local folder by default; set DBT_LAKE_PATH=s3://<bucket> to read the lake
+  # from DigitalOcean Spaces (also configure httpfs + an S3 secret in profiles).
+  lake_path: "{{ env_var('DBT_LAKE_PATH', '../data/lake') }}"
 
 models:
   default_predictor:

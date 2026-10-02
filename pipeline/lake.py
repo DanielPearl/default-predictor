@@ -55,9 +55,47 @@ def _abspath(rel):
     return LAKE_ROOT / rel
 
 
+def spaces_config():
+    """Object-storage config if the lake is backed by DigitalOcean Spaces (S3),
+    else None. The mere presence of Secret Keys/do_spaces.json flips the lake
+    from the local filesystem to Spaces -- no code change needed."""
+    cfg = ROOT / "Secret Keys" / "do_spaces.json"
+    if not cfg.exists():
+        return None
+    try:
+        return json.loads(cfg.read_text())
+    except Exception:  # noqa: BLE001  (malformed config -> stay local)
+        return None
+
+
+_S3 = None
+
+
+def _s3_client(cfg):
+    global _S3
+    if _S3 is None:
+        import boto3  # lazy: only needed when the lake is on Spaces
+        _S3 = boto3.client(
+            "s3", region_name=cfg["region"], endpoint_url=cfg["endpoint"],
+            aws_access_key_id=cfg["access_key"], aws_secret_access_key=cfg["secret_key"])
+    return _S3
+
+
+def lake_uri():
+    """Base location of the lake for query engines (DuckDB/dbt): an s3:// bucket
+    URL when backed by Spaces, else the local folder path."""
+    cfg = spaces_config()
+    return f"s3://{cfg['bucket']}" if cfg else str(LAKE_ROOT)
+
+
 def _put_bytes(rel, data: bytes):
-    """Write raw bytes into the lake. The ONE seam to change for Spaces:
-    replace the filesystem write with an S3 put_object(Bucket, Key=rel, Body)."""
+    """Write raw bytes into the lake. The ONE seam: local filesystem by default,
+    or an S3 put_object into Spaces when Secret Keys/do_spaces.json is present."""
+    cfg = spaces_config()
+    if cfg:
+        ctype = "application/x-ndjson+gzip" if rel.endswith(".gz") else "application/json"
+        _s3_client(cfg).put_object(Bucket=cfg["bucket"], Key=rel, Body=data, ContentType=ctype)
+        return f"s3://{cfg['bucket']}/{rel}"
     p = _abspath(rel)
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_bytes(data)
@@ -103,7 +141,14 @@ class RawWriter:
             for chunk in iter(lambda: f.read(65536), b""):
                 h.update(chunk)
         nbytes = self.part.stat().st_size
-        os.replace(self.part, self.final)
+        # Collection always streams to a local temp (.part) to keep memory flat;
+        # on completion, land it in whatever backs the lake. For Spaces, upload
+        # the finished bytes and drop the temp; for local, just rename into place.
+        if spaces_config():
+            _put_bytes(self.rel, self.part.read_bytes())
+            self.part.unlink(missing_ok=True)
+        else:
+            os.replace(self.part, self.final)
         return {"relpath": self.rel, "rows": self.rows,
                 "bytes": nbytes, "sha256": h.hexdigest()}
 
