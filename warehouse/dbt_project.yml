@@ -17,4 +17,6 @@ models:
     staging:
       +materialized: view     # thin views straight over the raw lake files
     core:
-      +materialized: table    # cleaned/joined feature tables
+      +materialized: table    # conformed entities + events
+    mart:
+      +materialized: table    # purpose-built, flattened outputs
