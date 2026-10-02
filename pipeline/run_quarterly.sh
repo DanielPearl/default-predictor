@@ -8,5 +8,7 @@ log() { echo "[$(date -u +%FT%TZ)] $*"; }
 
 log "QUARTERLY: capture static reference layers"
 python3 pipeline/collect_arcgis.py --cadence quarterly
+log "QUARTERLY: Oregon SoS business registry (entity status/address verification)"
+python3 pipeline/collect_oregon_sos.py
 python3 pipeline/catalog.py export /var/www/default-predictor/uploads.json
 log "quarterly run complete"
