@@ -135,41 +135,96 @@ class Handler(BaseHTTPRequestHandler):
             rows = []
         self._send_json(rows)
 
+    def _file_total(self, rel):
+        """Exact row count for a landed file, straight from the catalog."""
+        try:
+            for r in catalog.list_uploads():
+                if r.get("relpath") == rel:
+                    return r.get("rows")
+        except Exception:  # noqa: BLE001
+            pass
+        return None
+
     def _upload_preview(self, u):
-        """Return the first rows of one landed lake file so the site can show a
-        preview of the table inside it. Reads only files under the lake root."""
+        """A paged, searchable window into one landed lake file so the site can
+        browse the table inside it. Reads only files under the lake root."""
         qs = parse_qs(u.query)
         rel = (qs.get("relpath") or [""])[0]
         try:
             limit = max(1, min(200, int((qs.get("limit") or ["25"])[0])))
         except ValueError:
             limit = 25
+        try:
+            page = max(1, int((qs.get("page") or ["1"])[0]))
+        except ValueError:
+            page = 1
+        q = (qs.get("q") or [""])[0].strip().lower()
         base = lake.LAKE_ROOT.resolve()
         target = (base / rel).resolve()
-        # confine to the lake, only our gzipped NDJSON captures
         if base not in target.parents or not target.is_file() or not rel.endswith(".ndjson.gz"):
             self.send_error(404)
             return
+
+        start = (page - 1) * limit
         rows, cols, seen = [], [], set()
+
+        def addcols(obj):
+            for k in obj:
+                if k not in seen:
+                    seen.add(k)
+                    cols.append(k)
+
         try:
             with gzip.open(target, "rt", encoding="utf-8") as f:
-                for line in f:
-                    if len(rows) >= limit:
-                        break
-                    try:
-                        obj = json.loads(line)
-                    except ValueError:
-                        continue
-                    rows.append(obj)
-                    for k in obj:
-                        if k not in seen:
-                            seen.add(k)
-                            cols.append(k)
+                if q:
+                    # scan + filter: substring match across all values
+                    total = 0
+                    for line in f:
+                        try:
+                            obj = json.loads(line)
+                        except ValueError:
+                            continue
+                        hay = " ".join(str(v) for v in obj.values()
+                                       if v not in (None, "")).lower()
+                        if q not in hay:
+                            continue
+                        if start <= total < start + limit:
+                            addcols(obj)
+                            rows.append(obj)
+                        total += 1
+                else:
+                    # no filter: total is known from the catalog, read page window
+                    total = self._file_total(rel)
+                    i = 0
+                    for line in f:
+                        if i >= start:
+                            try:
+                                obj = json.loads(line)
+                            except ValueError:
+                                i += 1
+                                continue
+                            addcols(obj)
+                            rows.append(obj)
+                            if len(rows) >= limit:
+                                break
+                        i += 1
+                    if total is None:
+                        total = i
         except OSError:
             self.send_error(404)
             return
+
+        if not cols:  # empty page: still return the column list
+            try:
+                with gzip.open(target, "rt", encoding="utf-8") as f:
+                    addcols(json.loads(f.readline()))
+            except Exception:  # noqa: BLE001
+                pass
+
+        pages = max(1, math.ceil((total or 0) / limit))
         self._send_json({"relpath": rel, "columns": cols, "rows": rows,
-                         "preview": len(rows), "limit": limit})
+                         "page": page, "pages": pages, "total": total or 0,
+                         "limit": limit, "q": q, "start": start})
 
     def _properties(self, u):
         page = 1

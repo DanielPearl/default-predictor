@@ -113,7 +113,22 @@
     #preview-table { font-size: .8rem; white-space: nowrap; }
     #preview-table th { position: sticky; top: 0; background: var(--panel); }
     #preview-table td { max-width: 320px; overflow: hidden; text-overflow: ellipsis; }
-    #preview-note { padding: .6rem 1.1rem; color: var(--muted); font-size: .8rem; }
+    .modal-search { padding: .6rem 1.1rem; border-bottom: 1px solid var(--border); }
+    .modal-search input { width: 100%; }
+    #preview-foot {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1rem; flex-wrap: wrap; padding: .5rem 1.1rem; border-top: 1px solid var(--border);
+    }
+    #preview-note { color: var(--muted); font-size: .8rem; }
+    #preview-pager { display: flex; align-items: center; gap: .25rem; flex-wrap: wrap; margin: 0; }
+    #preview-pager button {
+      background: var(--panel); color: var(--text); border: 1px solid var(--border);
+      border-radius: 6px; padding: .3rem .55rem; font-size: .82rem; cursor: pointer; min-width: 1.9rem;
+    }
+    #preview-pager button:hover:not(:disabled):not(.active) { border-color: var(--accent); color: var(--accent); }
+    #preview-pager button.active { background: var(--accent); color: #0d1117; border-color: var(--accent); font-weight: 600; cursor: default; }
+    #preview-pager button:disabled { opacity: .4; cursor: default; }
+    #preview-pager .ell { color: var(--muted); padding: 0 .15rem; }
     #prop-table td.addr { white-space: nowrap; }
     .neg { color: #f87171; }
     .pos { color: #4ade80; }
@@ -152,10 +167,10 @@
     <h1>Default Predictor</h1>
     <p class="sub">Multnomah County pre-foreclosure model.</p>
     <div class="tabs">
+      <button class="tab" data-tab="uploads">Uploads</button>
       <button class="tab active" data-tab="features">Features</button>
       <button class="tab" data-tab="properties">Properties</button>
       <button class="tab" data-tab="defaults">Defaults</button>
-      <button class="tab" data-tab="uploads">Uploads</button>
     </div>
   </header>
   <div class="wrap">
@@ -239,10 +254,17 @@
         </div>
         <button class="modal-close" id="preview-close" title="Close">×</button>
       </div>
+      <div class="modal-search">
+        <input id="preview-search" type="text" autocomplete="off"
+               placeholder="Search this file — owner, address, property ID…">
+      </div>
       <div class="modal-body">
         <table id="preview-table"><thead></thead><tbody></tbody></table>
       </div>
-      <div id="preview-note"></div>
+      <div id="preview-foot">
+        <div id="preview-pager" class="pager"></div>
+        <div id="preview-note"></div>
+      </div>
     </div>
   </div>
 
@@ -678,25 +700,67 @@
     }
 
     const PREVIEW = document.getElementById('preview-modal');
+    let PV_U = null, PV_Q = '', PV_PAGE = 1, PV_PAGES = 1, PV_TOTAL = 0;
+    const PV_LIMIT = 25;
+    let pvTimer = null;
     const closePreview = () => { PREVIEW.hidden = true; };
     document.getElementById('preview-close').addEventListener('click', closePreview);
     PREVIEW.addEventListener('click', e => { if (e.target === PREVIEW) closePreview(); });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closePreview(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && !PREVIEW.hidden) closePreview(); });
+    document.getElementById('preview-search').addEventListener('input', e => {
+      const v = e.target.value.trim();
+      clearTimeout(pvTimer);
+      pvTimer = setTimeout(() => { PV_Q = v; fetchPreview(1); }, 300);
+    });
 
     function showUploadPreview(u) {
+      PV_U = u; PV_Q = ''; PV_PAGE = 1;
+      document.getElementById('preview-search').value = '';
       document.getElementById('preview-title').innerHTML =
         `${esc(u.source || '')} · ${esc(u.dataset || '')} <code>${esc(u.captured_date || '')}</code>`;
       document.getElementById('preview-meta').innerHTML =
         `${esc(u.relpath || '')} — ${u.rows == null ? '—' : u.rows.toLocaleString()} rows · ${fmtBytes(u.bytes)} · ${fmtStatus(u.status)}`;
+      PREVIEW.hidden = false;
+      fetchPreview(1);
+    }
+
+    // Windowed page list: 1 2 … p-1 p p+1 … n-1 n
+    function pageList(page, pages) {
+      const want = new Set([1, 2, pages - 1, pages, page - 1, page, page + 1]);
+      const arr = [...want].filter(p => p >= 1 && p <= pages).sort((a, b) => a - b);
+      const out = []; let prev = 0;
+      for (const p of arr) { if (p - prev > 1) out.push('…'); out.push(p); prev = p; }
+      return out;
+    }
+
+    function renderPreviewPager() {
+      const pg = document.getElementById('preview-pager');
+      if (PV_PAGES <= 1) { pg.innerHTML = ''; return; }
+      let html = `<button data-pg="prev"${PV_PAGE <= 1 ? ' disabled' : ''}>←</button>`;
+      for (const p of pageList(PV_PAGE, PV_PAGES))
+        html += p === '…' ? '<span class="ell">…</span>'
+          : `<button data-pg="${p}"${p === PV_PAGE ? ' class="active"' : ''}>${p}</button>`;
+      html += `<button data-pg="next"${PV_PAGE >= PV_PAGES ? ' disabled' : ''}>→</button>`;
+      pg.innerHTML = html;
+      pg.querySelectorAll('button[data-pg]').forEach(b => b.addEventListener('click', () => {
+        const d = b.dataset.pg;
+        const t = d === 'prev' ? PV_PAGE - 1 : d === 'next' ? PV_PAGE + 1 : parseInt(d, 10);
+        if (t >= 1 && t <= PV_PAGES && t !== PV_PAGE) fetchPreview(t);
+      }));
+    }
+
+    function fetchPreview(page) {
+      PV_PAGE = page;
       const thead = document.querySelector('#preview-table thead');
       const tbody = document.querySelector('#preview-table tbody');
-      thead.innerHTML = ''; tbody.innerHTML = '';
-      document.getElementById('preview-note').textContent = 'Loading preview…';
-      PREVIEW.hidden = false;
-      fetch(`/api/uploads/preview?relpath=${encodeURIComponent(u.relpath)}&limit=25`)
+      document.getElementById('preview-note').textContent = 'Loading…';
+      const url = `/api/uploads/preview?relpath=${encodeURIComponent(PV_U.relpath)}` +
+        `&page=${page}&limit=${PV_LIMIT}` + (PV_Q ? `&q=${encodeURIComponent(PV_Q)}` : '');
+      fetch(url)
         .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
         .then(d => {
           const cols = d.columns || [];
+          PV_PAGES = d.pages || 1; PV_TOTAL = d.total || 0;
           thead.innerHTML = '<tr>' + cols.map(c => `<th>${esc(c)}</th>`).join('') + '</tr>';
           tbody.innerHTML = (d.rows || []).map(row =>
             '<tr>' + cols.map(c => {
@@ -705,13 +769,20 @@
               if (typeof v === 'object') v = JSON.stringify(v);
               return `<td title="${esc(String(v))}">${esc(String(v))}</td>`;
             }).join('') + '</tr>').join('');
-          document.getElementById('preview-note').textContent =
-            `Showing first ${d.preview} row${d.preview === 1 ? '' : 's'}` +
-            `${u.rows ? ' of ' + u.rows.toLocaleString() : ''} · ${cols.length} columns`;
+          document.querySelector('.modal-body').scrollTop = 0;
+          const shown = (d.rows || []).length;
+          const from = PV_TOTAL ? (d.start || 0) + 1 : 0;
+          const to = (d.start || 0) + shown;
+          document.getElementById('preview-note').textContent = PV_TOTAL
+            ? `Rows ${from.toLocaleString()}–${to.toLocaleString()} of ${PV_TOTAL.toLocaleString()}` +
+              (PV_Q ? ` matching “${PV_Q}”` : '') + ` · ${cols.length} columns`
+            : `No rows match “${PV_Q}”`;
+          renderPreviewPager();
         })
         .catch(e => {
           document.getElementById('preview-note').innerHTML =
             `<span class="err">Could not load preview (${e.message}). The preview reads the file on the server, so it needs the live API.</span>`;
+          document.getElementById('preview-pager').innerHTML = '';
         });
     }
 
