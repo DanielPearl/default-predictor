@@ -23,6 +23,10 @@ import lake
 SOURCE, DATASET = "PortlandMaps", "assessor"
 WS = re.compile(r"\s+")
 UNIT_RE = re.compile(r"\b(?:UNIT|LOT)\s+([A-Z0-9][A-Z0-9.\-/]*)", re.I)
+# PortlandMaps puts a tax levy code in the address field for some accounts
+# (common areas, right-of-way). It is not a street address -- don't treat it
+# as one, and never let a sub-unit inherit it.
+PLACEHOLDER_RE = re.compile(r"^LEVY\s+CODE\b", re.I)
 
 COLS = ["property_id", "state_id", "parent_state_id", "account_status", "owner",
         "address", "address_source", "unit", "raw_address", "city", "state",
@@ -33,6 +37,12 @@ COLS = ["property_id", "state_id", "parent_state_id", "account_status", "owner",
 
 def norm(s):
     return WS.sub(" ", (s or "").strip())
+
+
+def real_addr(s):
+    """A usable street address, or None for blanks and levy-code placeholders."""
+    a = norm(s)
+    return a if (a and not PLACEHOLDER_RE.match(a)) else None
 
 
 def num(v):
@@ -82,7 +92,7 @@ def main():
     with gzip.open(path, "rt", encoding="utf-8") as f:
         for line in f:
             r = json.loads(line)
-            sid, a = norm(r.get("state_id")), norm(r.get("address"))
+            sid, a = norm(r.get("state_id")), real_addr(r.get("address"))
             if sid and a:
                 addr_by_sid[sid] = a
 
@@ -92,19 +102,22 @@ def main():
     conn.execute("DELETE FROM core_property")
     ins = (f"INSERT OR REPLACE INTO core_property ({','.join(COLS)}) "
            f"VALUES ({','.join('?' * len(COLS))})")
-    stats = {"direct": 0, "inherited": 0, "none": 0}
+    stats = {"direct": 0, "inherited": 0, "placeholder": 0, "none": 0}
     batch = []
     with gzip.open(path, "rt", encoding="utf-8") as f:
         for line in f:
             r = json.loads(line)
             raw = norm(r.get("address"))
+            raw_real = real_addr(raw)
             unit = parse_unit(r.get("legal_description"))
             parent = norm(r.get("parent_state_id"))
-            if raw:
-                address, src = raw, "direct"
+            if raw_real:
+                address, src = raw_real, "direct"
             elif parent in addr_by_sid:
                 address = norm(addr_by_sid[parent] + ((" " + unit) if unit else ""))
                 src = "inherited"
+            elif raw:
+                address, src = None, "placeholder"   # had a levy code, not a street
             else:
                 address, src = None, "none"
             stats[src] += 1
@@ -128,7 +141,7 @@ def main():
     tot = sum(stats.values())
     print(f"wrote {tot:,} rows -> core_property  "
           f"(direct={stats['direct']:,}  inherited={stats['inherited']:,}  "
-          f"none={stats['none']:,})", flush=True)
+          f"placeholder={stats['placeholder']:,}  none={stats['none']:,})", flush=True)
 
 
 if __name__ == "__main__":
