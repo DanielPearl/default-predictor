@@ -33,6 +33,12 @@ ENTITY_RE = re.compile(
     r"INVESTMENTS|CAPITAL|BANK|ASSOCIATION|CHURCH|HOMES|GROUP)\b"
     r"|CITY OF|STATE OF|COUNTY OF", re.I)
 
+# Keywords for the Owner-type filter (approximate SQL LIKE match on OWNER1).
+ENTITY_KEYWORDS = ["LLC", "INC", "CORP", "TRUST", "LTD", "COMPANY", "PARTNERS",
+                   "PROPERTIES", "HOLDINGS", "INVESTMENTS", "CAPITAL", "BANK",
+                   "ASSOCIATION", "CHURCH", "HOMES", "GROUP",
+                   "CITY OF", "STATE OF", "COUNTY OF"]
+
 
 def norm(s):
     return re.sub(r"\s+", " ", (s or "").strip().upper())
@@ -227,19 +233,47 @@ class Handler(BaseHTTPRequestHandler):
                          "limit": limit, "q": q, "start": start})
 
     def _properties(self, u):
-        page = 1
+        qs = parse_qs(u.query)
         try:
-            page = max(1, int(parse_qs(u.query).get("page", ["1"])[0]))
+            page = max(1, int(qs.get("page", ["1"])[0]))
         except ValueError:
-            pass
+            page = 1
+        q = (qs.get("q") or [""])[0].strip()
+        occ = (qs.get("occ") or [""])[0]
+        otype = (qs.get("otype") or [""])[0]
+        ostate = (qs.get("ostate") or [""])[0]
+
+        where, params = [], []
+        if q:
+            like = f"%{q}%"
+            where.append("(OWNER1 LIKE ? OR SITEADDR LIKE ? OR PROPERTYID LIKE ? "
+                         "OR OWNERCITY LIKE ?)")
+            params += [like, like, like, like]
+        if occ == "owner":
+            where.append("TRIM(UPPER(OWNERADDR)) = TRIM(UPPER(SITEADDR)) "
+                         "AND TRIM(OWNERADDR) <> ''")
+        elif occ == "absentee":
+            where.append("TRIM(UPPER(OWNERADDR)) <> TRIM(UPPER(SITEADDR))")
+        if otype in ("entity", "individual"):
+            ent = "(" + " OR ".join(["OWNER1 LIKE ?"] * len(ENTITY_KEYWORDS)) + ")"
+            where.append(ent if otype == "entity" else "NOT " + ent)
+            params += [f"%{k}%" for k in ENTITY_KEYWORDS]
+        if ostate == "or":
+            where.append("UPPER(TRIM(OWNERSTATE)) = 'OR'")
+        elif ostate == "oos":
+            where.append("UPPER(TRIM(OWNERSTATE)) <> 'OR' AND TRIM(OWNERSTATE) <> ''")
+        wsql = (" WHERE " + " AND ".join(where)) if where else ""
+
         conn = sqlite3.connect(DB)
         conn.row_factory = sqlite3.Row
-        total = conn.execute("SELECT COUNT(*) FROM taxlots").fetchone()[0]
+        grand = conn.execute("SELECT COUNT(*) FROM taxlots").fetchone()[0]
+        total = conn.execute("SELECT COUNT(*) FROM taxlots" + wsql, params).fetchone()[0]
         pages = max(1, math.ceil(total / PAGE_SIZE))
         page = min(page, pages)
         asof = date.fromtimestamp(os.path.getmtime(DB)).isoformat()
-        rows = conn.execute("SELECT * FROM taxlots ORDER BY parcel_key LIMIT ? OFFSET ?",
-                            (PAGE_SIZE, (page - 1) * PAGE_SIZE)).fetchall()
+        rows = conn.execute(
+            "SELECT * FROM taxlots" + wsql + " ORDER BY parcel_key LIMIT ? OFFSET ?",
+            params + [PAGE_SIZE, (page - 1) * PAGE_SIZE]).fetchall()
         recs = [base_record(r, asof) for r in rows]
         # Merge enriched columns where we have them (latest scrape wins).
         ids = [x["property_id"] for x in recs if x["property_id"]]
@@ -257,8 +291,8 @@ class Handler(BaseHTTPRequestHandler):
             except sqlite3.OperationalError:
                 pass  # no properties table yet
         conn.close()
-        body = json.dumps({"total": total, "page": page, "pages": pages,
-                           "size": PAGE_SIZE, "results": recs}).encode()
+        body = json.dumps({"total": total, "grand_total": grand, "page": page,
+                           "pages": pages, "size": PAGE_SIZE, "results": recs}).encode()
         self.send_response(200)
         self.send_header("Content-Type", "application/json")
         self.send_header("Access-Control-Allow-Origin", "*")

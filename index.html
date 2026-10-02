@@ -41,7 +41,8 @@
       border: 1px solid var(--border); border-radius: 6px;
       padding: .5rem .7rem; font-size: .9rem;
     }
-    input#search { flex: 1; min-width: 200px; }
+    .search { flex: 1 1 260px; min-width: 220px; }
+    .count { color: var(--muted); font-size: .85rem; margin: 0 0 .7rem; }
     table { width: 100%; border-collapse: collapse; font-size: .85rem; }
     th, td {
       text-align: left; padding: .55rem .7rem;
@@ -175,9 +176,9 @@
   </header>
   <div class="wrap">
     <section id="tab-features">
-      <div class="stats" id="stats"></div>
+      <div class="count" id="count"></div>
       <div class="controls">
-        <input id="search" type="text" placeholder="Search features, descriptions, sources…">
+        <input class="search" id="search" type="text" placeholder="Search features, descriptions, sources…">
         <select id="filter-category"><option value="">All categories</option></select>
         <select id="filter-source"><option value="">All sources</option></select>
         <select id="filter-used">
@@ -186,7 +187,6 @@
           <option value="N">Not used</option>
         </select>
       </div>
-      <div id="count"></div>
       <table>
         <thead>
           <tr>
@@ -204,7 +204,25 @@
     </section>
 
     <section id="tab-properties" hidden>
-      <div id="prop-count"></div>
+      <div class="count" id="prop-count"></div>
+      <div class="controls">
+        <input class="search" id="prop-search" type="text" placeholder="Search owner, address, property ID…">
+        <select id="prop-occ">
+          <option value="">All occupancy</option>
+          <option value="owner">Owner-occupied</option>
+          <option value="absentee">Absentee</option>
+        </select>
+        <select id="prop-otype">
+          <option value="">All owner types</option>
+          <option value="individual">Individual</option>
+          <option value="entity">Entity</option>
+        </select>
+        <select id="prop-ostate">
+          <option value="">All owner states</option>
+          <option value="or">In Oregon</option>
+          <option value="oos">Out of state</option>
+        </select>
+      </div>
       <div class="tablewrap">
         <table id="prop-table"><thead></thead><tbody></tbody></table>
       </div>
@@ -217,7 +235,25 @@
     </section>
 
     <section id="tab-defaults" hidden>
-      <div id="def-count"></div>
+      <div class="count" id="def-count"></div>
+      <div class="controls">
+        <input class="search" id="def-search" type="text" placeholder="Search owner, address, property ID…">
+        <select id="def-occ">
+          <option value="">All occupancy</option>
+          <option value="owner">Owner-occupied</option>
+          <option value="absentee">Absentee</option>
+        </select>
+        <select id="def-otype">
+          <option value="">All owner types</option>
+          <option value="individual">Individual</option>
+          <option value="entity">Entity</option>
+        </select>
+        <select id="def-ostate">
+          <option value="">All owner states</option>
+          <option value="or">In Oregon</option>
+          <option value="oos">Out of state</option>
+        </select>
+      </div>
       <div class="tablewrap">
         <table id="def-table"><thead></thead><tbody></tbody></table>
       </div>
@@ -226,8 +262,12 @@
     </section>
 
     <section id="tab-uploads" hidden>
-      <p class="sub" style="margin:.25rem 0 1rem;">Every weekly raw capture landed in the data lake. Each file is kept immutably as the point-in-time record for that week.</p>
-      <div id="up-count"></div>
+      <div class="count" id="up-count"></div>
+      <div class="controls">
+        <input class="search" id="up-search" type="text" placeholder="Search captures by source, dataset, file, date…">
+        <select id="up-source"><option value="">All sources</option></select>
+        <select id="up-dataset"><option value="">All datasets</option></select>
+      </div>
       <div class="tablewrap">
         <table id="up-table">
           <thead>
@@ -345,13 +385,23 @@
         vals.map(v => `<option value="${v}">${v}</option>`).join(''));
     }
 
-    function renderStats() {
-      const used = DATA.filter(d => d.used === 'Y').length;
-      const cats = new Set(DATA.map(d => d.category)).size;
-      document.getElementById('stats').innerHTML =
-        `<div class="stat"><b>${DATA.length}</b>features</div>` +
-        `<div class="stat"><b>${used}</b>used in table</div>` +
-        `<div class="stat"><b>${cats}</b>categories</div>`;
+    // Shared client-side owner/property filter (Defaults + static fallback).
+    function matchProp(p, q, occ, otype, ostate) {
+      if (q) {
+        const hay = [p.owner, p.address, p.property_id, p.owner_city].join(' ').toLowerCase();
+        if (!hay.includes(q.toLowerCase())) return false;
+      }
+      if (occ === 'owner' && p.occupancy !== 'Owner-occupied') return false;
+      if (occ === 'absentee' && p.occupancy !== 'Absentee') return false;
+      if (otype === 'entity' && p.owner_type !== 'Entity') return false;
+      if (otype === 'individual' && p.owner_type !== 'Individual') return false;
+      if (ostate === 'or' && p.owner_state !== 'OR') return false;
+      if (ostate === 'oos' && (!p.owner_state || p.owner_state === 'OR')) return false;
+      return true;
+    }
+    function debounce(fn, ms) {
+      let t = null;
+      return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); };
     }
 
     const check = '<span class="yes">✓</span>';
@@ -399,7 +449,6 @@
         DATA = parseCSV(text);
         fill('filter-category', uniq('category'));
         fill('filter-source', uniq('source'));
-        renderStats();
         render();
       })
       .catch(e => {
@@ -560,7 +609,8 @@
       defPopup.style.left = Math.min(r.left + window.scrollX, maxLeft + window.scrollX) + 'px';
     }
 
-    let PROP_PAGE = 1, PROP_PAGES = 1, PROP_TOTAL = 0, STATIC = null;
+    let PROP_PAGE = 1, PROP_PAGES = 1, PROP_TOTAL = 0, PROP_GRAND = 0, STATIC = null;
+    let PROP_Q = '', PROP_OCC = '', PROP_OTYPE = '', PROP_OSTATE = '';
 
     function renderProperties() {
       document.querySelector('#prop-table thead').innerHTML =
@@ -569,8 +619,10 @@
         th.addEventListener('click', () => showDefinition(th.dataset.feature, th)));
       document.querySelector('#prop-table tbody').innerHTML = PROPS.map(p =>
         '<tr>' + PROP_COLS.map(c => `<td class="${c[2]}">${c[3](p[c[1]])}</td>`).join('') + '</tr>').join('');
-      document.getElementById('prop-count').textContent =
-        `${PROP_TOTAL.toLocaleString()} properties`;
+      const pf = PROP_Q || PROP_OCC || PROP_OTYPE || PROP_OSTATE;
+      document.getElementById('prop-count').textContent = pf
+        ? `${PROP_TOTAL.toLocaleString()} of ${PROP_GRAND.toLocaleString()} properties`
+        : `${PROP_GRAND.toLocaleString()} properties`;
       document.getElementById('prop-pageinfo').textContent =
         `Page ${PROP_PAGE.toLocaleString()} of ${PROP_PAGES.toLocaleString()}`;
       document.getElementById('prop-pager').hidden = PROP_PAGES <= 1;
@@ -581,10 +633,16 @@
     // Full county from the droplet API (20/page); static sample as fallback
     // when no API is reachable (e.g. static hosting).
     function loadProperties(page) {
-      fetch(`/api/properties?page=${page}`)
+      const qs = new URLSearchParams({ page });
+      if (PROP_Q) qs.set('q', PROP_Q);
+      if (PROP_OCC) qs.set('occ', PROP_OCC);
+      if (PROP_OTYPE) qs.set('otype', PROP_OTYPE);
+      if (PROP_OSTATE) qs.set('ostate', PROP_OSTATE);
+      fetch(`/api/properties?${qs}`)
         .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
         .then(d => {
           PROPS = d.results; PROP_PAGE = d.page; PROP_PAGES = d.pages; PROP_TOTAL = d.total;
+          PROP_GRAND = d.grand_total != null ? d.grand_total : d.total;
           renderProperties();
         })
         .catch(() => loadStaticProperties(page));
@@ -595,11 +653,12 @@
               : fetch('properties_sample.json')
                   .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
                   .then(d => (STATIC = d)))
-        .then(d => {
-          PROP_TOTAL = d.length;
-          PROP_PAGES = Math.max(1, Math.ceil(d.length / 20));
+        .then(all => {
+          const f = all.filter(p => matchProp(p, PROP_Q, PROP_OCC, PROP_OTYPE, PROP_OSTATE));
+          PROP_GRAND = all.length; PROP_TOTAL = f.length;
+          PROP_PAGES = Math.max(1, Math.ceil(f.length / 20));
           PROP_PAGE = Math.min(Math.max(1, page), PROP_PAGES);
-          PROPS = d.slice((PROP_PAGE - 1) * 20, PROP_PAGE * 20);
+          PROPS = f.slice((PROP_PAGE - 1) * 20, PROP_PAGE * 20);
           renderProperties();
         })
         .catch(e => {
@@ -610,6 +669,17 @@
 
     document.getElementById('prop-prev').addEventListener('click', () => loadProperties(PROP_PAGE - 1));
     document.getElementById('prop-next').addEventListener('click', () => loadProperties(PROP_PAGE + 1));
+
+    const applyPropFilters = () => {
+      PROP_Q = document.getElementById('prop-search').value.trim();
+      PROP_OCC = document.getElementById('prop-occ').value;
+      PROP_OTYPE = document.getElementById('prop-otype').value;
+      PROP_OSTATE = document.getElementById('prop-ostate').value;
+      loadProperties(1);
+    };
+    document.getElementById('prop-search').addEventListener('input', debounce(applyPropFilters, 350));
+    ['prop-occ', 'prop-otype', 'prop-ostate'].forEach(id =>
+      document.getElementById(id).addEventListener('change', applyPropFilters));
 
     /* ---- Defaults tab: same columns, plus Why (?) and Score ---- */
     let DEFAULTS = null;
@@ -629,27 +699,32 @@
       defPopup.style.left = Math.min(r.left + window.scrollX, maxLeft + window.scrollX) + 'px';
     }
 
+    let DEF_Q = '', DEF_OCC = '', DEF_OTYPE = '', DEF_OSTATE = '', DEF_SHOWN = [];
     function renderDefaults() {
+      const list = DEFAULTS.filter(p => matchProp(p, DEF_Q, DEF_OCC, DEF_OTYPE, DEF_OSTATE));
+      DEF_SHOWN = list;
       const cols = [
         ['?', '_why', '', null],
         ...PROP_COLS,
       ];
-      document.getElementById('defaults-empty').hidden = DEFAULTS.length > 0;
+      document.getElementById('defaults-empty').hidden = list.length > 0;
       document.querySelector('#def-table thead').innerHTML =
         '<tr>' + cols.map(c => c[1] === '_why'
           ? `<th class="${c[2]}">${c[0]}</th>`
           : `<th class="${c[2]} jump" data-feature="${colFeature(c[1])}">${c[0]}</th>`).join('') + '</tr>';
       document.querySelectorAll('#def-table th.jump').forEach(th =>
         th.addEventListener('click', () => showDefinition(th.dataset.feature, th)));
-      document.querySelector('#def-table tbody').innerHTML = DEFAULTS.map((p, i) =>
+      document.querySelector('#def-table tbody').innerHTML = list.map((p, i) =>
         '<tr>' + cols.map(c =>
           c[1] === '_why'
             ? `<td><span class="why-btn" data-idx="${i}" title="Why is this here?">?</span></td>`
             : `<td class="${c[2]}">${c[3](p[c[1]])}</td>`).join('') + '</tr>').join('');
       document.querySelectorAll('#def-table .why-btn').forEach(el =>
-        el.addEventListener('click', ev => { ev.stopPropagation(); showWhy(DEFAULTS[el.dataset.idx], el); }));
-      document.getElementById('def-count').textContent =
-        `${DEFAULTS.length} properties flagged as potential defaults`;
+        el.addEventListener('click', ev => { ev.stopPropagation(); showWhy(DEF_SHOWN[el.dataset.idx], el); }));
+      const df = DEF_Q || DEF_OCC || DEF_OTYPE || DEF_OSTATE;
+      document.getElementById('def-count').textContent = df
+        ? `${list.length} of ${DEFAULTS.length} flagged properties`
+        : `${DEFAULTS.length} properties flagged`;
     }
 
     function loadDefaults() {
@@ -663,6 +738,18 @@
         });
     }
 
+    const applyDefFilters = () => {
+      if (!DEFAULTS) return;
+      DEF_Q = document.getElementById('def-search').value.trim();
+      DEF_OCC = document.getElementById('def-occ').value;
+      DEF_OTYPE = document.getElementById('def-otype').value;
+      DEF_OSTATE = document.getElementById('def-ostate').value;
+      renderDefaults();
+    };
+    document.getElementById('def-search').addEventListener('input', debounce(applyDefFilters, 200));
+    ['def-occ', 'def-otype', 'def-ostate'].forEach(id =>
+      document.getElementById(id).addEventListener('change', applyDefFilters));
+
     /* ---- Uploads tab: the data-lake catalog ---- */
     let UPLOADS = null;
     const fmtBytes = b => {
@@ -675,11 +762,20 @@
     const fmtStatus = s => `<span class="badge st-${esc(s || 'failed')}">${esc(s || '—')}</span>`;
     const fmtFetched = s => esc((s || '').replace('T', ' ').replace(/\+00:00$/, ''));
 
+    let UP_Q = '', UP_SOURCE = '', UP_DATASET = '', UP_SHOWN = [];
     function renderUploads() {
-      document.getElementById('uploads-empty').hidden = UPLOADS.length > 0;
-      document.getElementById('up-count').textContent =
-        `${UPLOADS.length} weekly capture${UPLOADS.length === 1 ? '' : 's'} in the lake`;
-      document.querySelector('#up-table tbody').innerHTML = UPLOADS.map(u => {
+      const list = UPLOADS.filter(u =>
+        (!UP_SOURCE || u.source === UP_SOURCE) &&
+        (!UP_DATASET || u.dataset === UP_DATASET) &&
+        (!UP_Q || [u.source, u.dataset, u.filename, u.relpath, u.captured_date]
+          .join(' ').toLowerCase().includes(UP_Q.toLowerCase())));
+      UP_SHOWN = list;
+      document.getElementById('uploads-empty').hidden = list.length > 0;
+      const uf = UP_Q || UP_SOURCE || UP_DATASET;
+      document.getElementById('up-count').textContent = uf
+        ? `${list.length} of ${UPLOADS.length} captures`
+        : `${UPLOADS.length} weekly capture${UPLOADS.length === 1 ? '' : 's'} in the lake`;
+      document.querySelector('#up-table tbody').innerHTML = list.map(u => {
         const file = u.source_url
           ? `<a href="${esc(u.source_url)}" target="_blank" rel="noopener noreferrer">${esc(u.filename)}</a>`
           : esc(u.filename);
@@ -696,7 +792,7 @@
         '</tr>';
       }).join('');
       document.querySelectorAll('#up-table tbody tr').forEach((tr, i) =>
-        tr.addEventListener('click', () => showUploadPreview(UPLOADS[i])));
+        tr.addEventListener('click', () => showUploadPreview(UP_SHOWN[i])));
     }
 
     const PREVIEW = document.getElementById('preview-modal');
@@ -788,17 +884,34 @@
 
     function loadUploads() {
       if (UPLOADS) return;
+      const done = d => {
+        UPLOADS = d;
+        fill('up-source', [...new Set(d.map(u => u.source).filter(Boolean))].sort());
+        fill('up-dataset', [...new Set(d.map(u => u.dataset).filter(Boolean))].sort());
+        renderUploads();
+      };
       fetch('/api/uploads')
         .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
-        .then(d => { UPLOADS = d; renderUploads(); })
+        .then(done)
         .catch(() => fetch('uploads.json')
           .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
-          .then(d => { UPLOADS = d; renderUploads(); })
+          .then(done)
           .catch(e => {
             document.getElementById('up-error').innerHTML =
               `<p class="err">Could not load uploads (${e.message}).</p>`;
           }));
     }
+
+    const applyUpFilters = () => {
+      if (!UPLOADS) return;
+      UP_Q = document.getElementById('up-search').value.trim();
+      UP_SOURCE = document.getElementById('up-source').value;
+      UP_DATASET = document.getElementById('up-dataset').value;
+      renderUploads();
+    };
+    document.getElementById('up-search').addEventListener('input', debounce(applyUpFilters, 200));
+    ['up-source', 'up-dataset'].forEach(id =>
+      document.getElementById(id).addEventListener('change', applyUpFilters));
 
     document.querySelectorAll('.tab').forEach(btn => btn.addEventListener('click', () => {
       document.querySelectorAll('.tab').forEach(b => b.classList.toggle('active', b === btn));
