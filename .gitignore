@@ -7,3 +7,9 @@ __pycache__/
 properties_sample.json
 defaults.json
 uploads.json
+.venv/
+*.duckdb
+*.duckdb.wal
+warehouse/target/
+warehouse/dbt_packages/
+warehouse/logs/

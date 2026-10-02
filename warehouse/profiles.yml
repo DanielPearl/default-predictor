@@ -1,0 +1,7 @@
+default_predictor:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: "../data/warehouse.duckdb"   # the analytical DB, next to the lake
+      threads: 4

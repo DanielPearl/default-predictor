@@ -1,0 +1,20 @@
+name: 'default_predictor'
+version: '1.0.0'
+config-version: 2
+profile: 'default_predictor'
+
+model-paths: ["models"]
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+# Lake location, relative to this project dir. Override with:
+#   dbt run --vars '{lake_path: /abs/path/to/data/lake}'
+vars:
+  lake_path: "../data/lake"
+
+models:
+  default_predictor:
+    staging:
+      +materialized: view     # thin views straight over the raw lake files
+    core:
+      +materialized: table    # cleaned/joined feature tables
