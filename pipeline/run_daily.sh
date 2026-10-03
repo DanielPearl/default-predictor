@@ -11,5 +11,7 @@ log() { echo "[$(date -u +%FT%TZ)] $*"; }
 
 log "DAILY: District of Oregon bankruptcy filings (CM/ECF RSS)"
 python3 pipeline/collect_bankruptcy.py
+log "DAILY: refresh owner-match candidate list (free; for manual PACER confirm)"
+python3 pipeline/bankruptcy_candidates.py --out data/bankruptcy_candidates.csv || true
 python3 pipeline/catalog.py export /var/www/default-predictor/uploads.json
 log "daily run complete"
