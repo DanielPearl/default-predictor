@@ -109,6 +109,17 @@ def main():
                 "surname_freq": freq,
             })
 
+    # drop cases already decided in the tracker -- the CSV stays a pure to-do queue
+    try:
+        import bankruptcy_track
+        done = bankruptcy_track.reviewed()
+    except Exception:  # noqa: BLE001  (tracker optional)
+        done = set()
+    before = len(rows)
+    rows = [r for r in rows if r["case_number"] not in done]
+    if done:
+        print(f"excluded {before - len(rows)} already-reviewed case(s)")
+
     rows.sort(key=lambda x: (x["confidence"] != "high", x["surname_freq"]))
     with open(out, "w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()) if rows else
