@@ -97,7 +97,11 @@
       border-radius: 8px; padding: .6rem .9rem; font-size: .85rem;
     }
     .stat b { font-size: 1.1rem; display: block; }
-    .controls { display: flex; flex-wrap: wrap; gap: .6rem; margin-bottom: 1rem; }
+    .controls {
+      display: flex; flex-wrap: wrap; gap: .6rem;
+      position: sticky; top: 0; z-index: 5;
+      background: var(--bg); padding: .55rem 0 .85rem;
+    }
     input, select {
       background: var(--panel); color: var(--text);
       border: 1px solid var(--border); border-radius: 6px;
@@ -139,7 +143,7 @@
     #count { color: var(--muted); font-size: .85rem; margin-bottom: .5rem; }
     .err { color: #f87171; padding: 1rem; }
     .tablewrap {
-      overflow: auto; max-height: calc(100vh - 13rem);
+      overflow: auto; max-height: calc(100vh - 7rem);
       border: 1px solid var(--border); border-radius: 8px;
     }
     #prop-table td.num, #prop-table th.num { text-align: right; white-space: nowrap; }
@@ -223,6 +227,37 @@
     }
     .pager button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
     .pager button:disabled { opacity: .4; cursor: default; }
+    /* Schedule view */
+    .sched-summary { color: var(--muted); font-size: .9rem; margin: .1rem 0 1.2rem; }
+    .sched-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); align-items: start; }
+    .sched-card {
+      background: var(--panel); border: 1px solid var(--border);
+      border-left: 3px solid var(--cc, var(--accent)); border-radius: 12px; overflow: hidden;
+    }
+    .sched-head {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: .75rem; padding: .9rem 1.1rem; border-bottom: 1px solid var(--border);
+    }
+    .sched-cad { display: flex; align-items: center; gap: .55rem; }
+    .sched-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--cc); box-shadow: 0 0 9px var(--cc); flex-shrink: 0; }
+    .sched-cad b { font-size: 1rem; }
+    .sched-freq { color: var(--muted); font-size: .8rem; margin-top: .1rem; }
+    .sched-next { text-align: right; font-size: .82rem; line-height: 1.3; white-space: nowrap; }
+    .sched-next .lbl { color: var(--muted); text-transform: uppercase; letter-spacing: .06em; font-size: .62rem; }
+    .sched-next b { display: block; color: var(--cc); font-size: .86rem; }
+    .cap { padding: .75rem 1.1rem; border-top: 1px solid rgba(255,255,255,.05); }
+    .cap-top { display: flex; align-items: baseline; gap: .5rem; flex-wrap: wrap; }
+    .cap-ds { font-weight: 600; font-size: .92rem; }
+    .cap-src { color: var(--muted); font-size: .76rem; }
+    .cap-last { margin-left: auto; font-size: .72rem; color: var(--muted); white-space: nowrap; }
+    .cap-last .ok { color: #4ade80; }
+    .cap-what { font-size: .83rem; margin-top: .25rem; }
+    .cap-why { color: var(--muted); font-size: .78rem; margin-top: .2rem; }
+    .cap-note { color: #fbbf24; font-size: .74rem; margin-top: .35rem; }
+    .sched-tag {
+      font-size: .64rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase;
+      color: var(--muted); border: 1px solid var(--border); border-radius: 999px; padding: .1rem .5rem;
+    }
   </style>
 </head>
 <body>
@@ -236,6 +271,7 @@
     </div>
     <div class="nav">
       <div class="nav-label">Views</div>
+      <button class="nav-item" data-tab="schedule" style="--c:#34d399"><span class="nav-ico" data-ico="schedule"></span><span>Schedule</span></button>
       <button class="nav-item" data-tab="uploads" style="--c:#58a6ff"><span class="nav-ico" data-ico="uploads"></span><span>Uploads</span></button>
       <button class="nav-item active" data-tab="features" style="--c:#a78bfa"><span class="nav-ico" data-ico="features"></span><span>Features</span></button>
       <button class="nav-item" data-tab="properties" style="--c:#2dd4bf"><span class="nav-ico" data-ico="properties"></span><span>Properties</span></button>
@@ -251,6 +287,12 @@
       </div>
     </div>
     <div class="wrap">
+    <section id="tab-schedule" hidden>
+      <div class="sched-summary" id="sched-summary"></div>
+      <div class="sched-grid" id="sched-grid"></div>
+      <div id="sched-error" class="err"></div>
+    </section>
+
     <section id="tab-features">
       <div class="count" id="count"></div>
       <div class="controls">
@@ -1000,12 +1042,98 @@
       features:   SVG('<path d="M3 12h3.5l2.2-6 3.3 12 2.3-6H21"/>'),
       properties: SVG('<path d="M3 10.6 12 3.3l9 7.3"/><path d="M5.3 9.2V20h13.4V9.2"/><path d="M10 20v-5h4v5"/>'),
       defaults:   SVG('<path d="M10.3 3.9 2.6 17.8a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9.5v4"/><path d="M12 16.8h.01"/>'),
+      schedule:   SVG('<path d="M20.5 11V6a2 2 0 0 0-2-2H5.5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h5.2"/><path d="M3.5 9h17"/><path d="M8 3v3"/><path d="M16 3v3"/><circle cx="17.5" cy="16.7" r="3.8"/><path d="M17.5 15.1v1.8l1.2.9"/>'),
     };
     document.getElementById('brand-mark').innerHTML = ICONS.brand;
     document.querySelectorAll('.nav-ico[data-ico]').forEach(el => el.innerHTML = ICONS[el.dataset.ico] || '');
 
+    // ---- Schedule view: render schedule.json + next-run + last-captured ----
+    let SCHED_LOADED = false;
+    function nextCron(cron) {
+      // "min hour dom month dow" (UTC) with numbers, '*', and comma lists for month.
+      const [mn, hr, dom, mon, dow] = cron.split(/\s+/);
+      const M = mn === '*' ? 0 : +mn, H = hr === '*' ? 0 : +hr;
+      const DOM = dom === '*' ? null : +dom;
+      const MON = mon === '*' ? null : mon.split(',').map(Number);  // 1-12
+      const DOW = dow === '*' ? null : +dow;                        // 0=Sun
+      const now = new Date();
+      for (let i = 0; i < 400; i++) {
+        const d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + i, H, M, 0));
+        if (d <= now) continue;
+        if (DOM !== null && d.getUTCDate() !== DOM) continue;
+        if (MON !== null && !MON.includes(d.getUTCMonth() + 1)) continue;
+        if (DOW !== null && d.getUTCDay() !== DOW) continue;
+        return d;
+      }
+      return null;
+    }
+    const fmtNext = d => d ? d.toLocaleString(undefined,
+      { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) : '—';
+    function lastCaptured(uploads, dataset) {
+      const rows = uploads.filter(r => r.dataset === dataset);
+      rows.sort((a, b) => (b.captured_date || '').localeCompare(a.captured_date || ''));
+      return rows[0] || null;
+    }
+    function capRow(cap, uploads) {
+      const last = lastCaptured(uploads, cap.dataset);
+      const lastTxt = last ? `<span class="ok">✓</span> ${last.captured_date}` : 'not yet';
+      return `<div class="cap">
+        <div class="cap-top"><span class="cap-ds">${esc(cap.dataset)}</span>
+          <span class="cap-src">${esc(cap.source)}</span>
+          <span class="cap-last">last: ${lastTxt}</span></div>
+        <div class="cap-what">${esc(cap.what)}</div>
+        <div class="cap-why">${esc(cap.why)}</div>
+        ${cap.note ? `<div class="cap-note">${esc(cap.note)}</div>` : ''}</div>`;
+    }
+    async function loadSchedule() {
+      if (SCHED_LOADED) return;
+      const err = document.getElementById('sched-error'); err.textContent = '';
+      try {
+        const [sched, uploads] = await Promise.all([
+          fetch('schedule.json').then(r => r.json()),
+          fetch('uploads.json').then(r => r.ok ? r.json() : []).catch(() => []),
+        ]);
+        const cadences = sched.cadences || [], backfills = sched.backfills || [];
+        const nDs = cadences.reduce((s, c) => s + c.captures.length, 0);
+        document.getElementById('sched-summary').innerHTML =
+          `<b>${cadences.length}</b> recurring schedules covering <b>${nDs}</b> datasets`
+          + (backfills.length ? `, plus <b>${backfills.length}</b> one-time backfill` : '')
+          + `. Next-run times are shown in your local timezone.`;
+        let html = '';
+        for (const c of cadences) {
+          html += `<div class="sched-card" style="--cc:${c.color}">
+            <div class="sched-head">
+              <div><div class="sched-cad"><span class="sched-dot"></span><b>${esc(c.label)}</b></div>
+                   <div class="sched-freq">${esc(c.freq)}</div></div>
+              <div class="sched-next"><span class="lbl">Next run</span><b>${fmtNext(nextCron(c.cron))}</b></div>
+            </div>${c.captures.map(cap => capRow(cap, uploads)).join('')}</div>`;
+        }
+        for (const b of backfills) {
+          const last = lastCaptured(uploads, 'violations') || lastCaptured(uploads, 'permit_detail');
+          html += `<div class="sched-card" style="--cc:var(--muted)">
+            <div class="sched-head">
+              <div><div class="sched-cad"><span class="sched-dot"></span><b>Backfill</b></div>
+                   <div class="sched-freq">Runs once, not recurring</div></div>
+              <span class="sched-tag">one-time</span>
+            </div>
+            <div class="cap">
+              <div class="cap-top"><span class="cap-ds">${esc(b.dataset)}</span>
+                <span class="cap-src">${esc(b.source)}</span>
+                ${last ? `<span class="cap-last"><span class="ok">✓</span> ${last.captured_date}</span>` : ''}</div>
+              <div class="cap-what">${esc(b.what)}</div>
+              <div class="cap-why">${esc(b.why)}</div>
+              ${b.note ? `<div class="cap-note">${esc(b.note)}</div>` : ''}</div></div>`;
+        }
+        document.getElementById('sched-grid').innerHTML = html;
+        SCHED_LOADED = true;
+      } catch (e) {
+        err.textContent = 'Could not load schedule (' + e.message + '). Make sure schedule.json sits next to index.html.';
+      }
+    }
+
     // Per-view title, subtitle, and accent color shown in the main header.
     const VIEW_META = {
+      schedule:   ['Download Schedule', 'What the pipeline captures automatically, and when.', '#34d399'],
       uploads:    ['Data Lake — Uploads', 'Every raw capture landed in the lake, with provenance.', '#58a6ff'],
       features:   ['Feature List', 'Signals the model uses and where each one comes from.', '#a78bfa'],
       properties: ['Properties', 'All Multnomah County parcels with owner and distress signals.', '#2dd4bf'],
@@ -1013,6 +1141,7 @@
     };
     function selectTab(tab) {
       document.querySelectorAll('.nav-item').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+      document.getElementById('tab-schedule').hidden = tab !== 'schedule';
       document.getElementById('tab-features').hidden = tab !== 'features';
       document.getElementById('tab-properties').hidden = tab !== 'properties';
       document.getElementById('tab-defaults').hidden = tab !== 'defaults';
@@ -1022,6 +1151,7 @@
       document.getElementById('view-sub').textContent = sub;
       document.getElementById('view-ico').innerHTML = ICONS[tab] || '';
       document.getElementById('view-head').style.setProperty('--va', color);
+      if (tab === 'schedule') loadSchedule();
       if (tab === 'properties' && !PROPS) loadProperties(1);
       if (tab === 'defaults') loadDefaults();
       if (tab === 'uploads') loadUploads();
