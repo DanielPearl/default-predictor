@@ -17,7 +17,11 @@
     body {
       margin: 0;
       font-family: system-ui, -apple-system, sans-serif;
-      background: var(--bg);
+      background:
+        radial-gradient(820px 460px at 100% -6%, rgba(167,139,250,.10), transparent 60%),
+        radial-gradient(680px 380px at 0% 102%, rgba(45,212,191,.07), transparent 60%),
+        var(--bg);
+      background-attachment: fixed;
       color: var(--text);
       line-height: 1.5;
       display: flex;
@@ -30,25 +34,51 @@
       display: flex; flex-direction: column; gap: 1.4rem;
       padding: 1.5rem 0; position: sticky; top: 0; height: 100vh;
     }
-    .brand { padding: 0 1.4rem; }
-    .brand h1 { font-size: 1.15rem; margin: 0 0 .2rem; }
-    .brand .sub { color: var(--muted); margin: 0; font-size: .78rem; }
-    .nav { display: flex; flex-direction: column; gap: .12rem; padding: 0 .7rem; }
+    .brand { display: flex; align-items: center; gap: .65rem; padding: 0 1.3rem; }
+    .brand-mark {
+      width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+      display: grid; place-items: center; color: #fff;
+      background: linear-gradient(135deg, #58a6ff 0%, #a78bfa 55%, #f472b6 100%);
+      box-shadow: 0 4px 14px rgba(88,166,255,.3);
+    }
+    .brand-mark svg { width: 21px; height: 21px; }
+    .brand-text h1 { font-size: 1.02rem; margin: 0; line-height: 1.15; letter-spacing: -.01em; }
+    .brand-text .sub { color: var(--muted); margin: 0; font-size: .72rem; }
+    .nav { display: flex; flex-direction: column; gap: .14rem; padding: 0 .7rem; }
     .nav-label {
-      color: var(--muted); font-size: .68rem; letter-spacing: .08em;
+      color: var(--muted); font-size: .67rem; letter-spacing: .09em;
       text-transform: uppercase; padding: 0 .85rem .3rem;
     }
     .nav-item {
-      display: block; width: 100%; text-align: left; background: transparent;
-      color: var(--muted); border: none; border-radius: 8px;
-      padding: .58rem .85rem; font-size: .92rem; cursor: pointer;
+      display: flex; align-items: center; gap: .65rem; width: 100%; text-align: left;
+      background: transparent; color: var(--muted); border: none; border-radius: 9px;
+      padding: .56rem .8rem; font-size: .92rem; cursor: pointer; transition: background .12s, color .12s;
     }
+    .nav-ico { display: grid; place-items: center; width: 20px; height: 20px; flex-shrink: 0; color: var(--c); opacity: .85; }
+    .nav-ico svg { width: 19px; height: 19px; }
     .nav-item:hover { background: #1c2128; color: var(--text); }
-    .nav-item.active { background: #1c2128; color: var(--text); box-shadow: inset 3px 0 0 var(--accent); }
+    .nav-item:hover .nav-ico { opacity: 1; }
+    .nav-item.active {
+      background: #1c2128;
+      background: color-mix(in srgb, var(--c) 15%, transparent);
+      color: var(--text); box-shadow: inset 3px 0 0 var(--c); font-weight: 600;
+    }
+    .nav-item.active .nav-ico { opacity: 1; }
     /* Main content column */
     .main { flex: 1; min-width: 0; }
-    .view-head { max-width: 1600px; margin: 0 auto; padding: 1.9rem 2.5rem .4rem; }
-    .view-title { font-size: 1.65rem; margin: 0 0 .2rem; }
+    .view-head {
+      max-width: 1600px; margin: 0 auto; padding: 1.9rem 2.5rem .9rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .view-ico {
+      width: 46px; height: 46px; border-radius: 13px; flex-shrink: 0;
+      display: grid; place-items: center; color: var(--va, var(--accent));
+      background: #182230;
+      background: color-mix(in srgb, var(--va, var(--accent)) 16%, transparent);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--va, var(--accent)) 30%, transparent);
+    }
+    .view-ico svg { width: 25px; height: 25px; }
+    .view-title { font-size: 1.6rem; margin: 0 0 .15rem; letter-spacing: -.015em; }
     .view-sub { color: var(--muted); margin: 0; font-size: .9rem; }
     .wrap { max-width: 1600px; margin: 0 auto; padding: 1.1rem 2.5rem 3rem; }
     @media (max-width: 760px) {
@@ -72,6 +102,10 @@
       background: var(--panel); color: var(--text);
       border: 1px solid var(--border); border-radius: 6px;
       padding: .5rem .7rem; font-size: .9rem;
+    }
+    input:focus, select:focus {
+      outline: none; border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(88,166,255,.16);
     }
     .search { flex: 1 1 260px; min-width: 220px; }
     .count { color: var(--muted); font-size: .85rem; margin: 0 0 .7rem; }
@@ -190,21 +224,27 @@
 <body>
   <nav class="sidebar">
     <div class="brand">
-      <h1>Default Predictor</h1>
-      <p class="sub">Multnomah County pre-foreclosure model</p>
+      <div class="brand-mark" id="brand-mark"></div>
+      <div class="brand-text">
+        <h1>Default Predictor</h1>
+        <p class="sub">Multnomah County, OR</p>
+      </div>
     </div>
     <div class="nav">
       <div class="nav-label">Views</div>
-      <button class="nav-item" data-tab="uploads">Uploads</button>
-      <button class="nav-item active" data-tab="features">Features</button>
-      <button class="nav-item" data-tab="properties">Properties</button>
-      <button class="nav-item" data-tab="defaults">Defaults</button>
+      <button class="nav-item" data-tab="uploads" style="--c:#58a6ff"><span class="nav-ico" data-ico="uploads"></span><span>Uploads</span></button>
+      <button class="nav-item active" data-tab="features" style="--c:#a78bfa"><span class="nav-ico" data-ico="features"></span><span>Features</span></button>
+      <button class="nav-item" data-tab="properties" style="--c:#2dd4bf"><span class="nav-ico" data-ico="properties"></span><span>Properties</span></button>
+      <button class="nav-item" data-tab="defaults" style="--c:#fb923c"><span class="nav-ico" data-ico="defaults"></span><span>Defaults</span></button>
     </div>
   </nav>
   <main class="main">
-    <div class="view-head">
-      <h2 class="view-title" id="view-title">Feature List</h2>
-      <p class="view-sub" id="view-sub"></p>
+    <div class="view-head" id="view-head">
+      <div class="view-ico" id="view-ico"></div>
+      <div>
+        <h2 class="view-title" id="view-title">Feature List</h2>
+        <p class="view-sub" id="view-sub"></p>
+      </div>
     </div>
     <div class="wrap">
     <section id="tab-features">
@@ -946,12 +986,24 @@
     ['up-source', 'up-dataset'].forEach(id =>
       document.getElementById(id).addEventListener('change', applyUpFilters));
 
-    // Per-view title + subtitle shown in the main header.
-    const VIEW_TITLES = {
-      uploads:    ['Data Lake — Uploads', 'Every raw capture landed in the lake, with provenance.'],
-      features:   ['Feature List', 'Signals the model uses and where each one comes from.'],
-      properties: ['Properties', 'All Multnomah County parcels with owner and distress signals.'],
-      defaults:   ['Flagged Defaults', 'Properties showing pre-foreclosure distress.'],
+    // Inline stroke icons (no dependencies) — brand, nav, and view headers.
+    const SVG = p => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+    const ICONS = {
+      brand:      SVG('<path d="M3 10.6 12 3.3l9 7.3"/><path d="M5.3 9.2V20h13.4V9.2"/><path d="M7.8 14.4h2.1l1.3-2.7 1.7 5 1-2.3h1.9"/>'),
+      uploads:    SVG('<ellipse cx="12" cy="5" rx="7.5" ry="2.7"/><path d="M4.5 5v6c0 1.5 3.36 2.7 7.5 2.7s7.5-1.2 7.5-2.7V5"/><path d="M4.5 11v6c0 1.5 3.36 2.7 7.5 2.7s7.5-1.2 7.5-2.7v-6"/>'),
+      features:   SVG('<path d="M3 12h3.5l2.2-6 3.3 12 2.3-6H21"/>'),
+      properties: SVG('<path d="M3 10.6 12 3.3l9 7.3"/><path d="M5.3 9.2V20h13.4V9.2"/><path d="M10 20v-5h4v5"/>'),
+      defaults:   SVG('<path d="M10.3 3.9 2.6 17.8a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9.5v4"/><path d="M12 16.8h.01"/>'),
+    };
+    document.getElementById('brand-mark').innerHTML = ICONS.brand;
+    document.querySelectorAll('.nav-ico[data-ico]').forEach(el => el.innerHTML = ICONS[el.dataset.ico] || '');
+
+    // Per-view title, subtitle, and accent color shown in the main header.
+    const VIEW_META = {
+      uploads:    ['Data Lake — Uploads', 'Every raw capture landed in the lake, with provenance.', '#58a6ff'],
+      features:   ['Feature List', 'Signals the model uses and where each one comes from.', '#a78bfa'],
+      properties: ['Properties', 'All Multnomah County parcels with owner and distress signals.', '#2dd4bf'],
+      defaults:   ['Flagged Defaults', 'Properties showing pre-foreclosure distress.', '#fb923c'],
     };
     function selectTab(tab) {
       document.querySelectorAll('.nav-item').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
@@ -959,9 +1011,11 @@
       document.getElementById('tab-properties').hidden = tab !== 'properties';
       document.getElementById('tab-defaults').hidden = tab !== 'defaults';
       document.getElementById('tab-uploads').hidden = tab !== 'uploads';
-      const [title, sub] = VIEW_TITLES[tab] || ['', ''];
+      const [title, sub, color] = VIEW_META[tab] || ['', '', 'var(--accent)'];
       document.getElementById('view-title').textContent = title;
       document.getElementById('view-sub').textContent = sub;
+      document.getElementById('view-ico').innerHTML = ICONS[tab] || '';
+      document.getElementById('view-head').style.setProperty('--va', color);
       if (tab === 'properties' && !PROPS) loadProperties(1);
       if (tab === 'defaults') loadDefaults();
       if (tab === 'uploads') loadUploads();
