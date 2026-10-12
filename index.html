@@ -247,18 +247,30 @@
       border-radius: 999px; padding: .13rem .55rem; flex-shrink: 0;
     }
     .sched-spacer { flex: 1; }
-    .sched-next-mini { color: var(--muted); font-size: .77rem; white-space: nowrap; }
-    .sched-next-mini b { color: var(--cc); font-weight: 600; }
+    .sched-rico { display: grid; place-items: center; width: 20px; height: 20px; color: var(--cc); flex-shrink: 0; }
+    .sched-rico svg { width: 17px; height: 17px; }
+    .sched-name { font-weight: 600; font-size: .92rem; }
+    .sched-next-mini { color: var(--muted); font-size: .77rem; white-space: nowrap; display: inline-flex; align-items: center; gap: .3rem; }
+    .sched-next-mini .m-ico { color: var(--muted); }
+    .m-ico { display: inline-grid; place-items: center; color: var(--cc); }
+    .m-ico svg { width: 12px; height: 12px; }
     .sched-chev { color: var(--muted); font-size: 1.2rem; line-height: 1; transition: transform .15s; flex-shrink: 0; }
     .sched-row.open .sched-chev { transform: rotate(90deg); }
-    .sched-detail { display: none; padding: .8rem 1rem 1rem; border-top: 1px solid var(--border); }
+    .sched-detail { display: none; padding: .95rem 1.1rem 1.1rem; border-top: 1px solid var(--border); background: rgba(255,255,255,.02); }
     .sched-row.open .sched-detail { display: block; }
-    .d-what { font-size: .88rem; margin-bottom: .3rem; }
-    .d-why { color: var(--muted); font-size: .82rem; }
-    .d-note { color: #fbbf24; font-size: .8rem; margin-top: .45rem; }
-    .sched-meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: .7rem 1rem; margin-top: .85rem; }
-    .m-lbl { color: var(--muted); font-size: .62rem; text-transform: uppercase; letter-spacing: .05em; margin-bottom: .12rem; }
-    .m-val { font-size: .85rem; }
+    .d-what { font-size: .9rem; margin: 0 0 .35rem; }
+    .d-why { color: var(--muted); font-size: .83rem; margin: 0; }
+    .d-note {
+      color: #fbd34d; font-size: .8rem; margin-top: .65rem; padding: .5rem .7rem; border-radius: 8px;
+      background: color-mix(in srgb, #fbbf24 10%, transparent);
+      border: 1px solid color-mix(in srgb, #fbbf24 28%, transparent);
+    }
+    .sched-meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: .55rem; margin-top: .9rem; }
+    .m-cell { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: .5rem .65rem; }
+    .m-lbl { color: var(--muted); font-size: .6rem; text-transform: uppercase; letter-spacing: .06em; margin-bottom: .22rem; display: flex; align-items: center; gap: .3rem; }
+    .m-val { font-size: .86rem; }
+    .m-val.accent { color: var(--cc); font-weight: 600; }
+    .m-val.mono { font-family: ui-monospace, monospace; font-size: .79rem; }
     .sched-card {
       background: var(--panel); border: 1px solid var(--border);
       border-left: 3px solid var(--cc, var(--accent)); border-radius: 12px; overflow: hidden;
@@ -1072,7 +1084,15 @@
       properties: SVG('<path d="M3 10.6 12 3.3l9 7.3"/><path d="M5.3 9.2V20h13.4V9.2"/><path d="M10 20v-5h4v5"/>'),
       defaults:   SVG('<path d="M10.3 3.9 2.6 17.8a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9.5v4"/><path d="M12 16.8h.01"/>'),
       schedule:   SVG('<path d="M20.5 11V6a2 2 0 0 0-2-2H5.5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h5.2"/><path d="M3.5 9h17"/><path d="M8 3v3"/><path d="M16 3v3"/><circle cx="17.5" cy="16.7" r="3.8"/><path d="M17.5 15.1v1.8l1.2.9"/>'),
+      clock:      SVG('<circle cx="12" cy="12" r="8.5"/><path d="M12 7.6V12l3 1.8"/>'),
+      repeat:     SVG('<path d="M17 2.5 20.5 6 17 9.5"/><path d="M20.5 6H7A3.5 3.5 0 0 0 3.5 9.5V11"/><path d="M7 21.5 3.5 18 7 14.5"/><path d="M3.5 18H17a3.5 3.5 0 0 0 3.5-3.5V13"/>'),
+      check:      SVG('<path d="M20 6.5 9.5 17 4 11.5"/>'),
+      terminal:   SVG('<rect x="3" y="4.5" width="18" height="15" rx="2"/><path d="M7.5 9.5 10.5 12l-3 2.5"/><path d="M12.5 15h4"/>'),
+      pin:        SVG('<path d="M12 21.5S19 15.6 19 10a7 7 0 1 0-14 0c0 5.6 7 11.5 7 11.5Z"/><circle cx="12" cy="10" r="2.6"/>'),
+      scale:      SVG('<path d="M12 3.5v17"/><path d="M7 20.5h10"/><path d="M5.5 7.5h13"/><path d="M5.5 7.5 3 13a2.8 2.8 0 0 0 5 0L5.5 7.5Z"/><path d="M18.5 7.5 16 13a2.8 2.8 0 0 0 5 0l-2.5-5.5Z"/>'),
+      landmark:   SVG('<path d="M3.5 20.5h17"/><path d="M5.5 20.5V10"/><path d="M9.5 20.5V10"/><path d="M14.5 20.5V10"/><path d="M18.5 20.5V10"/><path d="M12 3.5 20.5 8h-17L12 3.5Z"/>'),
     };
+    const srcIcon = s => /pacer/i.test(s) ? ICONS.scale : /sos/i.test(s) ? ICONS.landmark : ICONS.pin;
     document.getElementById('brand-mark').innerHTML = ICONS.brand;
     document.querySelectorAll('.nav-ico[data-ico]').forEach(el => el.innerHTML = ICONS[el.dataset.ico] || '');
 
@@ -1127,13 +1147,15 @@
           if (!last && r.backfill) last = lastCaptured(uploads, 'violations') || lastCaptured(uploads, 'permit_detail');
           const next = r.cron ? fmtNext(nextCron(r.cron)) : (r.backfill ? 'one-time' : 'always on');
           const lastTxt = last ? '✓ ' + last.captured_date : '—';
+          const name = r.name || (r.dataset || '').replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
           return `<div class="sched-row" style="--cc:${r.color}">
             <div class="sched-row-head">
-              <span class="sched-pill">${esc(r.cadence)}</span>
-              <span class="cap-ds">${esc(r.dataset)}</span>
+              <span class="sched-rico">${srcIcon(r.source)}</span>
+              <span class="sched-name">${esc(name)}</span>
               <span class="cap-src">${esc(r.source)}</span>
               <span class="sched-spacer"></span>
-              <span class="sched-next-mini">next&nbsp;<b>${next}</b></span>
+              <span class="sched-next-mini"><span class="m-ico">${ICONS.clock}</span>${next}</span>
+              <span class="sched-pill">${esc(r.cadence)}</span>
               <span class="sched-chev">›</span>
             </div>
             <div class="sched-detail">
@@ -1141,10 +1163,10 @@
               <div class="d-why">${esc(r.why)}</div>
               ${r.note ? `<div class="d-note">${esc(r.note)}</div>` : ''}
               <div class="sched-meta-grid">
-                <div><div class="m-lbl">Cadence</div><div class="m-val">${esc(r.freq || r.cadence)}</div></div>
-                <div><div class="m-lbl">Next run</div><div class="m-val">${next}</div></div>
-                <div><div class="m-lbl">Last captured</div><div class="m-val">${lastTxt}</div></div>
-                <div><div class="m-lbl">Runner</div><div class="m-val">${esc(r.runner || '—')}</div></div>
+                <div class="m-cell"><div class="m-lbl"><span class="m-ico">${ICONS.repeat}</span>Cadence</div><div class="m-val">${esc(r.freq || r.cadence)}</div></div>
+                <div class="m-cell"><div class="m-lbl"><span class="m-ico">${ICONS.clock}</span>Next run</div><div class="m-val accent">${next}</div></div>
+                <div class="m-cell"><div class="m-lbl"><span class="m-ico">${ICONS.check}</span>Last captured</div><div class="m-val">${lastTxt}</div></div>
+                <div class="m-cell"><div class="m-lbl"><span class="m-ico">${ICONS.terminal}</span>Runner</div><div class="m-val mono">${esc(r.runner || '—')}</div></div>
               </div>
             </div>
           </div>`;
@@ -1181,11 +1203,14 @@
       if (tab === 'properties' && !PROPS) loadProperties(1);
       if (tab === 'defaults') loadDefaults();
       if (tab === 'uploads') loadUploads();
+      try { history.replaceState(null, '', '#' + tab); } catch (e) { /* ignore */ }
     }
 
     document.querySelectorAll('.nav-item').forEach(btn =>
       btn.addEventListener('click', () => selectTab(btn.dataset.tab)));
-    selectTab('features');  // default view + its title on load
+    // Keep the current view across a page refresh via the URL hash.
+    const _hash = (location.hash || '').replace('#', '');
+    selectTab(VIEW_META[_hash] ? _hash : 'features');
   </script>
 </body>
 </html>

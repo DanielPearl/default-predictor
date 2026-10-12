@@ -64,7 +64,19 @@ SCHEDULE = {
 }
 
 
+NAMES = {
+    "bankruptcy": "Bankruptcy Filings", "permits": "Building Permits",
+    "demolitions": "Demolition Permits", "assessor": "Assessor Roll",
+    "taxlots": "Taxlots", "rental_portfolio": "Regulated Rentals",
+    "businesses": "Business Registry", "violations": "Code Violations",
+    "permit_detail": "Permit Details",
+}
+
+
 def main():
+    for c in SCHEDULE["cadences"]:
+        for cap in c["captures"]:
+            cap["name"] = NAMES.get(cap["dataset"], cap["dataset"].replace("_", " ").title())
     out = sys.argv[1] if len(sys.argv) > 1 else "schedule.json"
     with open(out, "w") as f:
         json.dump(SCHEDULE, f, indent=2)
