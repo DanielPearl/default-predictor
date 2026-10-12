@@ -72,11 +72,25 @@ NAMES = {
     "permit_detail": "Permit Details",
 }
 
+# Where each dataset actually comes from (the live endpoint we pull).
+URLS = {
+    "bankruptcy": "https://ecf.orb.uscourts.gov/cgi-bin/rss_outside.pl",
+    "assessor": "https://www.portlandmaps.com/api/assessor/",
+    "businesses": "https://data.oregon.gov/resource/tckn-sxa6",
+    "violations": "https://www.portlandmaps.com/api/permit/",
+    "permit_detail": "https://www.portlandmaps.com/api/permit/",
+    "permits": ca.DATASETS["permits"]["url"],
+    "demolitions": ca.DATASETS["demolitions"]["url"],
+    "taxlots": ca.DATASETS["taxlots"]["url"],
+    "rental_portfolio": ca.DATASETS["rental_portfolio"]["url"],
+}
+
 
 def main():
     for c in SCHEDULE["cadences"]:
         for cap in c["captures"]:
             cap["name"] = NAMES.get(cap["dataset"], cap["dataset"].replace("_", " ").title())
+            cap["source_url"] = URLS.get(cap["dataset"], "")
     out = sys.argv[1] if len(sys.argv) > 1 else "schedule.json"
     with open(out, "w") as f:
         json.dump(SCHEDULE, f, indent=2)

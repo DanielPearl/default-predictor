@@ -271,6 +271,8 @@
     .m-val { font-size: .86rem; }
     .m-val.accent { color: var(--cc); font-weight: 600; }
     .m-val.mono { font-family: ui-monospace, monospace; font-size: .79rem; }
+    .m-val a { color: var(--cc); text-decoration: none; word-break: break-all; }
+    .m-val a:hover { text-decoration: underline; }
     .sched-card {
       background: var(--panel); border: 1px solid var(--border);
       border-left: 3px solid var(--cc, var(--accent)); border-radius: 12px; overflow: hidden;
@@ -1163,6 +1165,7 @@
               <div class="d-why">${esc(r.why)}</div>
               ${r.note ? `<div class="d-note">${esc(r.note)}</div>` : ''}
               <div class="sched-meta-grid">
+                <div class="m-cell"><div class="m-lbl"><span class="m-ico">${srcIcon(r.source)}</span>Source</div><div class="m-val">${r.source_url ? `<a href="${esc(r.source_url)}" target="_blank" rel="noopener">${esc(r.source)}</a>` : esc(r.source)}</div></div>
                 <div class="m-cell"><div class="m-lbl"><span class="m-ico">${ICONS.repeat}</span>Cadence</div><div class="m-val">${esc(r.freq || r.cadence)}</div></div>
                 <div class="m-cell"><div class="m-lbl"><span class="m-ico">${ICONS.clock}</span>Next run</div><div class="m-val accent">${next}</div></div>
                 <div class="m-cell"><div class="m-lbl"><span class="m-ico">${ICONS.check}</span>Last captured</div><div class="m-val">${lastTxt}</div></div>
