@@ -20,15 +20,47 @@
       background: var(--bg);
       color: var(--text);
       line-height: 1.5;
+      display: flex;
+      min-height: 100vh;
     }
-    header {
-      padding: 2rem 2.5rem 1rem;
-      max-width: 1600px;
-      margin: 0 auto;
+    /* Left navigation rail */
+    .sidebar {
+      width: 232px; flex-shrink: 0; background: var(--panel);
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; gap: 1.4rem;
+      padding: 1.5rem 0; position: sticky; top: 0; height: 100vh;
     }
-    h1 { font-size: 1.8rem; margin: 0 0 .25rem; }
-    .sub { color: var(--muted); margin: 0; }
-    .wrap { max-width: 1600px; margin: 0 auto; padding: 0 2.5rem 3rem; }
+    .brand { padding: 0 1.4rem; }
+    .brand h1 { font-size: 1.15rem; margin: 0 0 .2rem; }
+    .brand .sub { color: var(--muted); margin: 0; font-size: .78rem; }
+    .nav { display: flex; flex-direction: column; gap: .12rem; padding: 0 .7rem; }
+    .nav-label {
+      color: var(--muted); font-size: .68rem; letter-spacing: .08em;
+      text-transform: uppercase; padding: 0 .85rem .3rem;
+    }
+    .nav-item {
+      display: block; width: 100%; text-align: left; background: transparent;
+      color: var(--muted); border: none; border-radius: 8px;
+      padding: .58rem .85rem; font-size: .92rem; cursor: pointer;
+    }
+    .nav-item:hover { background: #1c2128; color: var(--text); }
+    .nav-item.active { background: #1c2128; color: var(--text); box-shadow: inset 3px 0 0 var(--accent); }
+    /* Main content column */
+    .main { flex: 1; min-width: 0; }
+    .view-head { max-width: 1600px; margin: 0 auto; padding: 1.9rem 2.5rem .4rem; }
+    .view-title { font-size: 1.65rem; margin: 0 0 .2rem; }
+    .view-sub { color: var(--muted); margin: 0; font-size: .9rem; }
+    .wrap { max-width: 1600px; margin: 0 auto; padding: 1.1rem 2.5rem 3rem; }
+    @media (max-width: 760px) {
+      body { flex-direction: column; }
+      .sidebar {
+        width: auto; height: auto; position: static; flex-direction: row;
+        flex-wrap: wrap; align-items: center; gap: .4rem .9rem; padding: 1rem 1.25rem;
+      }
+      .nav { flex-direction: row; flex-wrap: wrap; padding: 0; gap: .3rem; }
+      .nav-label { display: none; }
+      .view-head, .wrap { padding-left: 1.25rem; padding-right: 1.25rem; }
+    }
     .stats { display: flex; flex-wrap: wrap; gap: .75rem; margin: 1.25rem 0; }
     .stat {
       background: var(--panel); border: 1px solid var(--border);
@@ -71,14 +103,6 @@
     td a:hover { text-decoration: underline; }
     #count { color: var(--muted); font-size: .85rem; margin-bottom: .5rem; }
     .err { color: #f87171; padding: 1rem; }
-    .tabs { display: flex; gap: .4rem; margin-top: 1rem; }
-    .tab {
-      background: transparent; color: var(--muted); border: 1px solid var(--border);
-      border-bottom: none; border-radius: 8px 8px 0 0; padding: .55rem 1.1rem;
-      font-size: .9rem; cursor: pointer;
-    }
-    .tab:hover { color: var(--text); }
-    .tab.active { background: var(--panel); color: var(--text); border-color: var(--accent); }
     .tablewrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; }
     #prop-table td.num, #prop-table th.num { text-align: right; white-space: nowrap; }
     #up-table td.num, #up-table th.num { text-align: right; white-space: nowrap; }
@@ -164,17 +188,25 @@
   </style>
 </head>
 <body>
-  <header>
-    <h1>Default Predictor</h1>
-    <p class="sub">Multnomah County pre-foreclosure model.</p>
-    <div class="tabs">
-      <button class="tab" data-tab="uploads">Uploads</button>
-      <button class="tab active" data-tab="features">Features</button>
-      <button class="tab" data-tab="properties">Properties</button>
-      <button class="tab" data-tab="defaults">Defaults</button>
+  <nav class="sidebar">
+    <div class="brand">
+      <h1>Default Predictor</h1>
+      <p class="sub">Multnomah County pre-foreclosure model</p>
     </div>
-  </header>
-  <div class="wrap">
+    <div class="nav">
+      <div class="nav-label">Views</div>
+      <button class="nav-item" data-tab="uploads">Uploads</button>
+      <button class="nav-item active" data-tab="features">Features</button>
+      <button class="nav-item" data-tab="properties">Properties</button>
+      <button class="nav-item" data-tab="defaults">Defaults</button>
+    </div>
+  </nav>
+  <main class="main">
+    <div class="view-head">
+      <h2 class="view-title" id="view-title">Feature List</h2>
+      <p class="view-sub" id="view-sub"></p>
+    </div>
+    <div class="wrap">
     <section id="tab-features">
       <div class="count" id="count"></div>
       <div class="controls">
@@ -283,7 +315,8 @@
       <div id="uploads-empty" style="color: var(--muted); padding: 2rem 0;" hidden>No uploads captured yet.</div>
       <div id="up-error"></div>
     </section>
-  </div>
+    </div>
+  </main>
 
   <div class="modal-bk" id="preview-modal" hidden>
     <div class="modal">
@@ -913,17 +946,29 @@
     ['up-source', 'up-dataset'].forEach(id =>
       document.getElementById(id).addEventListener('change', applyUpFilters));
 
-    document.querySelectorAll('.tab').forEach(btn => btn.addEventListener('click', () => {
-      document.querySelectorAll('.tab').forEach(b => b.classList.toggle('active', b === btn));
-      const tab = btn.dataset.tab;
+    // Per-view title + subtitle shown in the main header.
+    const VIEW_TITLES = {
+      uploads:    ['Data Lake — Uploads', 'Every raw capture landed in the lake, with provenance.'],
+      features:   ['Feature List', 'Signals the model uses and where each one comes from.'],
+      properties: ['Properties', 'All Multnomah County parcels with owner and distress signals.'],
+      defaults:   ['Flagged Defaults', 'Properties showing pre-foreclosure distress.'],
+    };
+    function selectTab(tab) {
+      document.querySelectorAll('.nav-item').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
       document.getElementById('tab-features').hidden = tab !== 'features';
       document.getElementById('tab-properties').hidden = tab !== 'properties';
       document.getElementById('tab-defaults').hidden = tab !== 'defaults';
       document.getElementById('tab-uploads').hidden = tab !== 'uploads';
+      const [title, sub] = VIEW_TITLES[tab] || ['', ''];
+      document.getElementById('view-title').textContent = title;
+      document.getElementById('view-sub').textContent = sub;
       if (tab === 'properties' && !PROPS) loadProperties(1);
       if (tab === 'defaults') loadDefaults();
       if (tab === 'uploads') loadUploads();
-    }));
+    }
+    document.querySelectorAll('.nav-item').forEach(btn =>
+      btn.addEventListener('click', () => selectTab(btn.dataset.tab)));
+    selectTab('features');  // default view + its title on load
   </script>
 </body>
 </html>
