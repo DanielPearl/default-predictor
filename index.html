@@ -25,7 +25,8 @@
       color: var(--text);
       line-height: 1.5;
       display: flex;
-      min-height: 100vh;
+      height: 100vh;
+      overflow: hidden;
     }
     /* Left navigation rail */
     .sidebar {
@@ -65,9 +66,10 @@
     }
     .nav-item.active .nav-ico { opacity: 1; }
     /* Main content column */
-    .main { flex: 1; min-width: 0; }
+    .main { flex: 1; min-width: 0; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
     .view-head {
-      max-width: 1600px; margin: 0 auto; padding: 1.9rem 2.5rem .9rem;
+      max-width: 1600px; margin: 0 auto; width: 100%; flex-shrink: 0;
+      padding: 1.3rem 2.5rem .7rem;
       display: flex; align-items: center; gap: 1rem;
     }
     .view-ico {
@@ -80,7 +82,11 @@
     .view-ico svg { width: 25px; height: 25px; }
     .view-title { font-size: 1.6rem; margin: 0 0 .15rem; letter-spacing: -.015em; }
     .view-sub { color: var(--muted); margin: 0; font-size: .9rem; }
-    .wrap { max-width: 1600px; margin: 0 auto; padding: 1.1rem 2.5rem 3rem; }
+    .wrap {
+      max-width: 1600px; margin: 0 auto; width: 100%; padding: .4rem 2.5rem 1.25rem;
+      flex: 1; min-height: 0; display: flex; flex-direction: column;
+    }
+    .wrap > section:not([hidden]) { flex: 1; min-height: 0; display: flex; flex-direction: column; }
     @media (max-width: 760px) {
       body { flex-direction: column; }
       .sidebar {
@@ -99,8 +105,7 @@
     .stat b { font-size: 1.1rem; display: block; }
     .controls {
       display: flex; flex-wrap: wrap; gap: .6rem;
-      position: sticky; top: 0; z-index: 5;
-      background: var(--bg); padding: .55rem 0 .85rem;
+      flex-shrink: 0; padding: .2rem 0 .8rem;
     }
     input, select {
       background: var(--panel); color: var(--text);
@@ -112,14 +117,14 @@
       box-shadow: 0 0 0 3px rgba(88,166,255,.16);
     }
     .search { flex: 1 1 260px; min-width: 220px; }
-    .count { color: var(--muted); font-size: .85rem; margin: 0 0 .7rem; }
+    .count { color: var(--muted); font-size: .85rem; margin: 0 0 .5rem; flex-shrink: 0; }
     table { width: 100%; border-collapse: collapse; font-size: .85rem; }
     th, td {
       text-align: left; padding: .55rem .7rem;
       border-bottom: 1px solid var(--border); vertical-align: top;
     }
     th {
-      position: sticky; top: 0; z-index: 3; background: var(--panel);
+      position: sticky; top: var(--ch, 0); z-index: 3; background: var(--panel);
       cursor: pointer; user-select: none; white-space: nowrap;
       box-shadow: inset 0 -1px 0 var(--border);
     }
@@ -143,7 +148,7 @@
     #count { color: var(--muted); font-size: .85rem; margin-bottom: .5rem; }
     .err { color: #f87171; padding: 1rem; }
     .tablewrap {
-      overflow: auto; max-height: calc(100vh - 7rem);
+      overflow: auto; flex: 1; min-height: 0; position: relative;
       border: 1px solid var(--border); border-radius: 8px;
     }
     #prop-table td.num, #prop-table th.num { text-align: right; white-space: nowrap; }
@@ -220,7 +225,7 @@
       font-weight: 700; cursor: pointer; user-select: none;
     }
     .why-btn:hover { filter: brightness(1.2); }
-    .pager { display: flex; align-items: center; gap: .8rem; margin: .8rem 0; }
+    .pager { display: flex; align-items: center; gap: .8rem; margin: .7rem 0 0; flex-shrink: 0; }
     .pager button {
       background: var(--panel); color: var(--text); border: 1px solid var(--border);
       border-radius: 6px; padding: .45rem .9rem; font-size: .88rem; cursor: pointer;
@@ -228,8 +233,24 @@
     .pager button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
     .pager button:disabled { opacity: .4; cursor: default; }
     /* Schedule view */
-    .sched-summary { color: var(--muted); font-size: .9rem; margin: .1rem 0 1.2rem; }
-    .sched-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); align-items: start; }
+    .sched-summary { color: var(--muted); font-size: .9rem; margin: .1rem 0 .9rem; flex-shrink: 0; }
+    .sched-grid { display: flex; flex-direction: column; gap: .55rem; flex: 1; min-height: 0; overflow: auto; padding-right: .25rem; }
+    .sched-row {
+      display: flex; gap: 1rem; align-items: flex-start; justify-content: space-between;
+      background: var(--panel); border: 1px solid var(--border);
+      border-left: 3px solid var(--cc, var(--accent)); border-radius: 10px; padding: .85rem 1.1rem;
+    }
+    .sched-row-main { min-width: 0; }
+    .sched-row-top { display: flex; align-items: center; gap: .55rem; flex-wrap: wrap; margin-bottom: .3rem; }
+    .sched-pill {
+      font-size: .66rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+      color: var(--cc); background: color-mix(in srgb, var(--cc) 16%, transparent);
+      border-radius: 999px; padding: .13rem .6rem;
+    }
+    .sched-meta { text-align: right; font-size: .78rem; white-space: nowrap; flex-shrink: 0; }
+    .sched-meta > div { margin-bottom: .15rem; }
+    .sched-meta .lbl { color: var(--muted); text-transform: uppercase; letter-spacing: .05em; font-size: .6rem; margin-right: .35rem; }
+    .sched-meta b { color: var(--cc); }
     .sched-card {
       background: var(--panel); border: 1px solid var(--border);
       border-left: 3px solid var(--cc, var(--accent)); border-radius: 12px; overflow: hidden;
@@ -271,8 +292,8 @@
     </div>
     <div class="nav">
       <div class="nav-label">Views</div>
-      <button class="nav-item" data-tab="schedule" style="--c:#34d399"><span class="nav-ico" data-ico="schedule"></span><span>Schedule</span></button>
       <button class="nav-item" data-tab="uploads" style="--c:#58a6ff"><span class="nav-ico" data-ico="uploads"></span><span>Uploads</span></button>
+      <button class="nav-item" data-tab="schedule" style="--c:#34d399"><span class="nav-ico" data-ico="schedule"></span><span>Schedule</span></button>
       <button class="nav-item active" data-tab="features" style="--c:#a78bfa"><span class="nav-ico" data-ico="features"></span><span>Features</span></button>
       <button class="nav-item" data-tab="properties" style="--c:#2dd4bf"><span class="nav-ico" data-ico="properties"></span><span>Properties</span></button>
       <button class="nav-item" data-tab="defaults" style="--c:#fb923c"><span class="nav-ico" data-ico="defaults"></span><span>Defaults</span></button>
@@ -1074,17 +1095,6 @@
       rows.sort((a, b) => (b.captured_date || '').localeCompare(a.captured_date || ''));
       return rows[0] || null;
     }
-    function capRow(cap, uploads) {
-      const last = lastCaptured(uploads, cap.dataset);
-      const lastTxt = last ? `<span class="ok">✓</span> ${last.captured_date}` : 'not yet';
-      return `<div class="cap">
-        <div class="cap-top"><span class="cap-ds">${esc(cap.dataset)}</span>
-          <span class="cap-src">${esc(cap.source)}</span>
-          <span class="cap-last">last: ${lastTxt}</span></div>
-        <div class="cap-what">${esc(cap.what)}</div>
-        <div class="cap-why">${esc(cap.why)}</div>
-        ${cap.note ? `<div class="cap-note">${esc(cap.note)}</div>` : ''}</div>`;
-    }
     async function loadSchedule() {
       if (SCHED_LOADED) return;
       const err = document.getElementById('sched-error'); err.textContent = '';
@@ -1093,38 +1103,38 @@
           fetch('schedule.json').then(r => r.json()),
           fetch('uploads.json').then(r => r.ok ? r.json() : []).catch(() => []),
         ]);
-        const cadences = sched.cadences || [], backfills = sched.backfills || [];
-        const nDs = cadences.reduce((s, c) => s + c.captures.length, 0);
+        // One flat list of every scheduled capture (not grouped by cadence).
+        const rows = [];
+        for (const c of (sched.cadences || []))
+          for (const cap of c.captures)
+            rows.push({ ...cap, cadence: c.label, color: c.color, cron: c.cron });
+        for (const b of (sched.backfills || []))
+          rows.push({ ...b, cadence: 'One-time', color: '#8b949e', backfill: true });
+
         document.getElementById('sched-summary').innerHTML =
-          `<b>${cadences.length}</b> recurring schedules covering <b>${nDs}</b> datasets`
-          + (backfills.length ? `, plus <b>${backfills.length}</b> one-time backfill` : '')
-          + `. Next-run times are shown in your local timezone.`;
-        let html = '';
-        for (const c of cadences) {
-          html += `<div class="sched-card" style="--cc:${c.color}">
-            <div class="sched-head">
-              <div><div class="sched-cad"><span class="sched-dot"></span><b>${esc(c.label)}</b></div>
-                   <div class="sched-freq">${esc(c.freq)}</div></div>
-              <div class="sched-next"><span class="lbl">Next run</span><b>${fmtNext(nextCron(c.cron))}</b></div>
-            </div>${c.captures.map(cap => capRow(cap, uploads)).join('')}</div>`;
-        }
-        for (const b of backfills) {
-          const last = lastCaptured(uploads, 'violations') || lastCaptured(uploads, 'permit_detail');
-          html += `<div class="sched-card" style="--cc:var(--muted)">
-            <div class="sched-head">
-              <div><div class="sched-cad"><span class="sched-dot"></span><b>Backfill</b></div>
-                   <div class="sched-freq">Runs once, not recurring</div></div>
-              <span class="sched-tag">one-time</span>
+          `<b>${rows.length}</b> captures currently scheduled. Next-run times are shown in your local timezone.`;
+
+        document.getElementById('sched-grid').innerHTML = rows.map(r => {
+          let last = lastCaptured(uploads, r.dataset);
+          if (!last && r.backfill) last = lastCaptured(uploads, 'violations') || lastCaptured(uploads, 'permit_detail');
+          const next = r.cron ? fmtNext(nextCron(r.cron)) : 'one-time';
+          return `<div class="sched-row" style="--cc:${r.color}">
+            <div class="sched-row-main">
+              <div class="sched-row-top">
+                <span class="sched-pill">${esc(r.cadence)}</span>
+                <span class="cap-ds">${esc(r.dataset)}</span>
+                <span class="cap-src">${esc(r.source)}</span>
+              </div>
+              <div class="cap-what">${esc(r.what)}</div>
+              <div class="cap-why">${esc(r.why)}</div>
+              ${r.note ? `<div class="cap-note">${esc(r.note)}</div>` : ''}
             </div>
-            <div class="cap">
-              <div class="cap-top"><span class="cap-ds">${esc(b.dataset)}</span>
-                <span class="cap-src">${esc(b.source)}</span>
-                ${last ? `<span class="cap-last"><span class="ok">✓</span> ${last.captured_date}</span>` : ''}</div>
-              <div class="cap-what">${esc(b.what)}</div>
-              <div class="cap-why">${esc(b.why)}</div>
-              ${b.note ? `<div class="cap-note">${esc(b.note)}</div>` : ''}</div></div>`;
-        }
-        document.getElementById('sched-grid').innerHTML = html;
+            <div class="sched-meta">
+              <div><span class="lbl">Next</span><b>${next}</b></div>
+              <div><span class="lbl">Last</span>${last ? '<span style="color:#4ade80">✓</span> ' + last.captured_date : '—'}</div>
+            </div>
+          </div>`;
+        }).join('');
         SCHED_LOADED = true;
       } catch (e) {
         err.textContent = 'Could not load schedule (' + e.message + '). Make sure schedule.json sits next to index.html.';
@@ -1156,6 +1166,7 @@
       if (tab === 'defaults') loadDefaults();
       if (tab === 'uploads') loadUploads();
     }
+
     document.querySelectorAll('.nav-item').forEach(btn =>
       btn.addEventListener('click', () => selectTab(btn.dataset.tab)));
     selectTab('features');  // default view + its title on load
