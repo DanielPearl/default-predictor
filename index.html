@@ -115,8 +115,9 @@
       border-bottom: 1px solid var(--border); vertical-align: top;
     }
     th {
-      position: sticky; top: 0; background: var(--panel);
+      position: sticky; top: 0; z-index: 3; background: var(--panel);
       cursor: pointer; user-select: none; white-space: nowrap;
+      box-shadow: inset 0 -1px 0 var(--border);
     }
     th:hover { color: var(--accent); }
     tbody tr:hover { background: #1c2128; }
@@ -137,7 +138,10 @@
     td a:hover { text-decoration: underline; }
     #count { color: var(--muted); font-size: .85rem; margin-bottom: .5rem; }
     .err { color: #f87171; padding: 1rem; }
-    .tablewrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; }
+    .tablewrap {
+      overflow: auto; max-height: calc(100vh - 13rem);
+      border: 1px solid var(--border); border-radius: 8px;
+    }
     #prop-table td.num, #prop-table th.num { text-align: right; white-space: nowrap; }
     #up-table td.num, #up-table th.num { text-align: right; white-space: nowrap; }
     #up-table code { font-size: .78rem; }
@@ -259,19 +263,21 @@
           <option value="N">Not used</option>
         </select>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th data-key="feature_name">Feature</th>
-            <th data-key="category">Category</th>
-            <th data-key="description">Description</th>
-            <th data-key="source">Source</th>
-            <th data-key="derived">Derived</th>
-            <th data-key="used">Used</th>
-          </tr>
-        </thead>
-        <tbody id="rows"></tbody>
-      </table>
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr>
+              <th data-key="feature_name">Feature</th>
+              <th data-key="category">Category</th>
+              <th data-key="description">Description</th>
+              <th data-key="source">Source</th>
+              <th data-key="derived">Derived</th>
+              <th data-key="used">Used</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
       <div id="error"></div>
     </section>
 
