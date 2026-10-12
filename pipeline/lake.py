@@ -114,7 +114,9 @@ class RawWriter:
         self.filename = f"{dataset}.ndjson.gz"
         self.rel = relpath(source, dataset, captured_date)
         self.final = _abspath(self.rel)
-        self.part = self.final.with_suffix(self.final.suffix + ".part")
+        # Unique per process so two overlapping captures of the same partition
+        # never collide on (and delete out from under each other) one .part file.
+        self.part = self.final.with_suffix(self.final.suffix + f".{os.getpid()}.part")
         self.final.parent.mkdir(parents=True, exist_ok=True)
         self._gz = gzip.open(self.part, "wt", encoding="utf-8")
         self.rows = 0
