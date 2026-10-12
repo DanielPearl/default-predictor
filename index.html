@@ -234,23 +234,31 @@
     .pager button:disabled { opacity: .4; cursor: default; }
     /* Schedule view */
     .sched-summary { color: var(--muted); font-size: .9rem; margin: .1rem 0 .9rem; flex-shrink: 0; }
-    .sched-grid { display: flex; flex-direction: column; gap: .55rem; flex: 1; min-height: 0; overflow: auto; padding-right: .25rem; }
+    .sched-grid { display: flex; flex-direction: column; gap: .5rem; flex: 1; min-height: 0; overflow: auto; padding-right: .25rem; }
     .sched-row {
-      display: flex; gap: 1rem; align-items: flex-start; justify-content: space-between;
       background: var(--panel); border: 1px solid var(--border);
-      border-left: 3px solid var(--cc, var(--accent)); border-radius: 10px; padding: .85rem 1.1rem;
+      border-left: 3px solid var(--cc, var(--accent)); border-radius: 10px; overflow: hidden;
     }
-    .sched-row-main { min-width: 0; }
-    .sched-row-top { display: flex; align-items: center; gap: .55rem; flex-wrap: wrap; margin-bottom: .3rem; }
+    .sched-row-head { display: flex; align-items: center; gap: .65rem; padding: .7rem 1rem; cursor: pointer; }
+    .sched-row-head:hover { background: #1c2128; }
     .sched-pill {
-      font-size: .66rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+      font-size: .64rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
       color: var(--cc); background: color-mix(in srgb, var(--cc) 16%, transparent);
-      border-radius: 999px; padding: .13rem .6rem;
+      border-radius: 999px; padding: .13rem .55rem; flex-shrink: 0;
     }
-    .sched-meta { text-align: right; font-size: .78rem; white-space: nowrap; flex-shrink: 0; }
-    .sched-meta > div { margin-bottom: .15rem; }
-    .sched-meta .lbl { color: var(--muted); text-transform: uppercase; letter-spacing: .05em; font-size: .6rem; margin-right: .35rem; }
-    .sched-meta b { color: var(--cc); }
+    .sched-spacer { flex: 1; }
+    .sched-next-mini { color: var(--muted); font-size: .77rem; white-space: nowrap; }
+    .sched-next-mini b { color: var(--cc); font-weight: 600; }
+    .sched-chev { color: var(--muted); font-size: 1.2rem; line-height: 1; transition: transform .15s; flex-shrink: 0; }
+    .sched-row.open .sched-chev { transform: rotate(90deg); }
+    .sched-detail { display: none; padding: .8rem 1rem 1rem; border-top: 1px solid var(--border); }
+    .sched-row.open .sched-detail { display: block; }
+    .d-what { font-size: .88rem; margin-bottom: .3rem; }
+    .d-why { color: var(--muted); font-size: .82rem; }
+    .d-note { color: #fbbf24; font-size: .8rem; margin-top: .45rem; }
+    .sched-meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: .7rem 1rem; margin-top: .85rem; }
+    .m-lbl { color: var(--muted); font-size: .62rem; text-transform: uppercase; letter-spacing: .05em; margin-bottom: .12rem; }
+    .m-val { font-size: .85rem; }
     .sched-card {
       background: var(--panel); border: 1px solid var(--border);
       border-left: 3px solid var(--cc, var(--accent)); border-radius: 12px; overflow: hidden;
@@ -1103,38 +1111,46 @@
           fetch('schedule.json').then(r => r.json()),
           fetch('uploads.json').then(r => r.ok ? r.json() : []).catch(() => []),
         ]);
-        // One flat list of every scheduled capture (not grouped by cadence).
+        // One flat list of every scheduled capture; each row expands on click.
         const rows = [];
         for (const c of (sched.cadences || []))
           for (const cap of c.captures)
-            rows.push({ ...cap, cadence: c.label, color: c.color, cron: c.cron });
+            rows.push({ ...cap, cadence: c.label, color: c.color, cron: c.cron, freq: c.freq, runner: c.runner });
         for (const b of (sched.backfills || []))
-          rows.push({ ...b, cadence: 'One-time', color: '#8b949e', backfill: true });
+          rows.push({ ...b, cadence: 'One-time', color: '#8b949e', backfill: true, freq: 'One-time' });
 
         document.getElementById('sched-summary').innerHTML =
-          `<b>${rows.length}</b> captures currently scheduled. Next-run times are shown in your local timezone.`;
+          `<b>${rows.length}</b> captures currently scheduled — click any row for details. Times shown in your local timezone.`;
 
         document.getElementById('sched-grid').innerHTML = rows.map(r => {
           let last = lastCaptured(uploads, r.dataset);
           if (!last && r.backfill) last = lastCaptured(uploads, 'violations') || lastCaptured(uploads, 'permit_detail');
           const next = r.cron ? fmtNext(nextCron(r.cron)) : (r.backfill ? 'one-time' : 'always on');
+          const lastTxt = last ? '✓ ' + last.captured_date : '—';
           return `<div class="sched-row" style="--cc:${r.color}">
-            <div class="sched-row-main">
-              <div class="sched-row-top">
-                <span class="sched-pill">${esc(r.cadence)}</span>
-                <span class="cap-ds">${esc(r.dataset)}</span>
-                <span class="cap-src">${esc(r.source)}</span>
-              </div>
-              <div class="cap-what">${esc(r.what)}</div>
-              <div class="cap-why">${esc(r.why)}</div>
-              ${r.note ? `<div class="cap-note">${esc(r.note)}</div>` : ''}
+            <div class="sched-row-head">
+              <span class="sched-pill">${esc(r.cadence)}</span>
+              <span class="cap-ds">${esc(r.dataset)}</span>
+              <span class="cap-src">${esc(r.source)}</span>
+              <span class="sched-spacer"></span>
+              <span class="sched-next-mini">next&nbsp;<b>${next}</b></span>
+              <span class="sched-chev">›</span>
             </div>
-            <div class="sched-meta">
-              <div><span class="lbl">Next</span><b>${next}</b></div>
-              <div><span class="lbl">Last</span>${last ? '<span style="color:#4ade80">✓</span> ' + last.captured_date : '—'}</div>
+            <div class="sched-detail">
+              <div class="d-what">${esc(r.what)}</div>
+              <div class="d-why">${esc(r.why)}</div>
+              ${r.note ? `<div class="d-note">${esc(r.note)}</div>` : ''}
+              <div class="sched-meta-grid">
+                <div><div class="m-lbl">Cadence</div><div class="m-val">${esc(r.freq || r.cadence)}</div></div>
+                <div><div class="m-lbl">Next run</div><div class="m-val">${next}</div></div>
+                <div><div class="m-lbl">Last captured</div><div class="m-val">${lastTxt}</div></div>
+                <div><div class="m-lbl">Runner</div><div class="m-val">${esc(r.runner || '—')}</div></div>
+              </div>
             </div>
           </div>`;
         }).join('');
+        document.getElementById('sched-grid').querySelectorAll('.sched-row-head').forEach(h =>
+          h.addEventListener('click', () => h.parentElement.classList.toggle('open')));
         SCHED_LOADED = true;
       } catch (e) {
         err.textContent = 'Could not load schedule (' + e.message + '). Make sure schedule.json sits next to index.html.';
