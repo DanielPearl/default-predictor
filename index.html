@@ -1117,7 +1117,7 @@
         document.getElementById('sched-grid').innerHTML = rows.map(r => {
           let last = lastCaptured(uploads, r.dataset);
           if (!last && r.backfill) last = lastCaptured(uploads, 'violations') || lastCaptured(uploads, 'permit_detail');
-          const next = r.cron ? fmtNext(nextCron(r.cron)) : 'one-time';
+          const next = r.cron ? fmtNext(nextCron(r.cron)) : (r.backfill ? 'one-time' : 'always on');
           return `<div class="sched-row" style="--cc:${r.color}">
             <div class="sched-row-main">
               <div class="sched-row-top">

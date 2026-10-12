@@ -48,13 +48,19 @@ SCHEDULE = {
              {"source": "Oregon SoS", "dataset": "businesses",
               "what": "Active business registry — entity, status, addresses",
               "why": "Verify entity owners; a dissolved entity on a home is distress"}]},
+        {"id": "continuous", "label": "Continuous", "color": "#f472b6",
+         "cron": None, "freq": "Rolling refresh (~10-day cycle)",
+         "runner": "predictor-violations (daemon)",
+         "captures": [
+             {"source": "PortlandMaps", "dataset": "violations",
+              "what": "Per-property code-enforcement cases for every residential parcel",
+              "why": "Code violations are the strongest distress signal; no bulk source exists",
+              "note": "Each property is re-polled as its data ages past the refresh window, so new cases keep flowing in (~10 days for a full pass at 200 req / 15 min)"},
+             {"source": "PortlandMaps", "dataset": "permit_detail",
+              "what": "Per-property building permits captured alongside the violations poll",
+              "why": "Per-parcel permit history, refreshed on the same rolling cycle"}]},
     ],
-    "backfills": [
-        {"source": "PortlandMaps", "dataset": "violations + permit_detail",
-         "what": "Per-property code cases and permits for every residential parcel",
-         "why": "Code violations are the strongest distress signal and have no bulk source",
-         "note": "One-time per-property backfill (~10 days at 200 req / 15 min), not recurring"}
-    ],
+    "backfills": [],
 }
 
 

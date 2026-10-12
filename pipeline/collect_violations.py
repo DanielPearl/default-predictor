@@ -9,15 +9,20 @@ flushes two consolidated lake files:
   - violations.ndjson.gz    (the code-enforcement cases -- the distress signal)
   - permit_detail.ndjson.gz (the other permit records, captured free)
 
-~10 days for residential at the 200-req/15-min limit. RESUMABLE: every
-property's response is cached in data/violations_cache.db, so a restart skips
-what's already done. Safe to stop/start.
+There is no bulk source, so new violations/permits are only picked up by
+re-polling each property. This runs as a CONTINUOUS ROLLING REFRESH: it loops
+forever, each pass re-fetching every property whose cached copy is older than
+REFRESH_DAYS (missing ones first). A full pass is ~10 days at the 200-req/
+15-min limit, so each property is refreshed on roughly that cycle. RESUMABLE:
+responses are cached in data/violations_cache.db, so stop/start is safe.
 
-  python3 pipeline/collect_violations.py          # full residential backfill
-  LIMIT=50 python3 pipeline/collect_violations.py  # quick test
+  python3 pipeline/collect_violations.py           # continuous rolling refresh
+  ONCE=1 python3 pipeline/collect_violations.py     # single pass then exit
+  LIMIT=50 python3 pipeline/collect_violations.py   # quick test (implies ONCE)
 
-Env: LIMIT, FLUSH_EVERY (default 5000), CAPTURE_DATE, EXPORT_UPLOADS.
-Stdlib only.
+Env: REFRESH_DAYS (default 14), ONCE, LIMIT, FLUSH_EVERY (default 5000),
+CAPTURE_DATE, EXPORT_UPLOADS. Runs as the predictor-violations systemd service
+in production. Stdlib only.
 """
 import json
 import os
@@ -26,7 +31,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import catalog
@@ -121,27 +126,32 @@ def flush_to_lake(captured_date, status):
     return vf["rows"], pf["rows"], nprop
 
 
-def main():
-    captured_date = os.environ.get("CAPTURE_DATE") or lake.capture_date()
-    limit = int(os.environ.get("LIMIT", "0")) or None
-    flush_every = int(os.environ.get("FLUSH_EVERY", "5000"))
-    catalog.migrate()
+def _fresh_cutoff(days):
+    return (datetime.now(timezone.utc) - timedelta(days=days)).isoformat()
 
+
+def one_pass(ids, captured_date, refresh_days, flush_every, limit):
+    """Fetch every property whose cached copy is missing or older than
+    refresh_days (oldest first via INSERT-OR-REPLACE churn), then flush the
+    consolidated lake files for this pass. Returns rows fetched this pass."""
     cc = cache_conn()
-    done = {r[0] for r in cc.execute("SELECT property_id FROM cache")}
+    fresh = {r[0] for r in cc.execute(
+        "SELECT property_id FROM cache WHERE fetched_at >= ?", (_fresh_cutoff(refresh_days),))}
     cc.close()
-    ids = residential_ids()
-    todo = [p for p in ids if p not in done]
+    todo = [p for p in ids if p not in fresh]
     if limit:
         todo = todo[:limit]
-    print(f"residential: {len(ids):,}  cached: {len(done):,}  to do: {len(todo):,}", flush=True)
+    print(f"pass {captured_date}: residential {len(ids):,}  fresh {len(fresh):,}  "
+          f"to (re)fetch {len(todo):,}", flush=True)
+    if not todo:
+        return 0
 
     cc = cache_conn()
     new = 0
     for pid in todo:
         d = call({"property_id": pid})
         if d is None:
-            continue  # gave up on this one; retry next run
+            continue  # gave up on this one; next pass retries it
         recs = d.get("results") or []
         cc.execute("INSERT OR REPLACE INTO cache (property_id, fetched_at, records) VALUES (?,?,?)",
                    (pid, datetime.now(timezone.utc).isoformat(timespec="seconds"), json.dumps(recs)))
@@ -154,13 +164,33 @@ def main():
             print(f"  flushed: {v:,} violations, {p:,} permits from {n:,} properties", flush=True)
     cc.close()
 
-    complete = (not limit) and (len(done) + new) >= len(ids)
-    v, p, n = flush_to_lake(captured_date, "complete" if complete else "partial")
-    export = os.environ.get("EXPORT_UPLOADS")
-    if export:
-        catalog.export_json(export)
-    print(f"done: {v:,} violations, {p:,} permit records from {n:,} properties "
-          f"({'complete' if complete else 'partial'})", flush=True)
+    v, p, n = flush_to_lake(captured_date, "complete")
+    if os.environ.get("EXPORT_UPLOADS"):
+        catalog.export_json(os.environ["EXPORT_UPLOADS"])
+    print(f"pass complete ({captured_date}): {v:,} violations, {p:,} permit records "
+          f"from {n:,} properties", flush=True)
+    return new
+
+
+def main():
+    limit = int(os.environ.get("LIMIT", "0")) or None
+    flush_every = int(os.environ.get("FLUSH_EVERY", "5000"))
+    refresh_days = int(os.environ.get("REFRESH_DAYS", "14"))
+    once = os.environ.get("ONCE") == "1" or bool(limit)
+    catalog.migrate()
+    ids = residential_ids()
+
+    # Continuous rolling refresh: re-poll each property as its cached copy ages
+    # past refresh_days, so new code cases / permits are picked up every cycle.
+    # ONCE=1 (or LIMIT) runs a single pass, the original backfill behavior.
+    while True:
+        captured_date = os.environ.get("CAPTURE_DATE") or lake.capture_date()
+        did = one_pass(ids, captured_date, refresh_days, flush_every, limit)
+        if once:
+            break
+        if did == 0:
+            print("  everything fresh; sleeping 6h before re-checking", flush=True)
+            time.sleep(6 * 3600)
 
 
 if __name__ == "__main__":
