@@ -1216,6 +1216,7 @@
     const fmtNext = d => d ? d.toLocaleString(undefined,
       { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' }) : '—';
     const fmtDate = s => { if (!s) return '—'; const d = new Date(s + 'T00:00:00'); return isNaN(d) ? s : d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }); };
+    const fmtDateTime = s => { if (!s) return '—'; const d = new Date(s); return isNaN(d) ? s : d.toLocaleString(undefined, { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' }); };
     const fmtTime = j => { if (j.hour == null) return '—'; const h = j.hour, m = j.minute || 0; return `${((h + 11) % 12) + 1}:${String(m).padStart(2, '0')} ${h < 12 ? 'AM' : 'PM'}`; };
     const hhmm = j => (j.hour == null) ? '04:00' : String(j.hour).padStart(2, '0') + ':' + String(j.minute || 0).padStart(2, '0');
 
@@ -1253,7 +1254,7 @@
       const icoClass = !active ? 'inactive' : errored ? 'error' : 'active';
       const icoTitle = !active ? 'Inactive' : errored ? 'Last capture failed' : 'Active';
       const next = j.continuous ? 'always on' : (active ? fmtNext(nextRun(j)) : 'paused');
-      const lastTxt = last ? (errored ? '✗ ' : '✓ ') + fmtDate(last.captured_date) : '—';
+      const lastTxt = last ? (errored ? '✗ ' : '✓ ') + (last.fetched_at ? fmtDateTime(last.fetched_at) : fmtDate(last.captured_date)) : '—';
       return `<tr data-id="${esc(j.id)}" style="--cc:${j.color}" class="${active ? '' : 'off'}">
         <td class="st"><span class="sched-rico ${icoClass}" title="${icoTitle}">${ICONS.clock}</span></td>
         <td class="sname">${esc(j.name)}</td>
