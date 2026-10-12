@@ -15,7 +15,8 @@
           "why": "Owner bankruptcy is a pre-foreclosure life event",
           "note": "The RSS feed is a rolling ~24h window, so this must run daily",
           "name": "Bankruptcy Filings",
-          "source_url": "https://ecf.orb.uscourts.gov/cgi-bin/rss_outside.pl"
+          "source_url": "https://ecf.orb.uscourts.gov/cgi-bin/rss_outside.pl",
+          "active": true
         }
       ]
     },
@@ -33,7 +34,8 @@
           "what": "Residential building permits",
           "why": "Permit activity (or its absence) signals investment vs neglect",
           "name": "Building Permits",
-          "source_url": "https://www.portlandmaps.com/od/rest/services/COP_OpenData_PlanningDevelopment/MapServer/89/query"
+          "source_url": "https://www.portlandmaps.com/od/rest/services/COP_OpenData_PlanningDevelopment/MapServer/89/query",
+          "active": true
         },
         {
           "source": "PortlandMaps",
@@ -41,7 +43,8 @@
           "what": "Residential demolition permits",
           "why": "Demolition filings flag distress and redevelopment",
           "name": "Demolition Permits",
-          "source_url": "https://www.portlandmaps.com/od/rest/services/COP_OpenData_PlanningDevelopment/MapServer/126/query"
+          "source_url": "https://www.portlandmaps.com/od/rest/services/COP_OpenData_PlanningDevelopment/MapServer/126/query",
+          "active": true
         }
       ]
     },
@@ -59,7 +62,8 @@
           "what": "County assessor roll \u2014 owner, value, sale, legal, location",
           "why": "Core property, ownership, and the 3-year value trend",
           "name": "Assessor Roll",
-          "source_url": "https://www.portlandmaps.com/api/assessor/"
+          "source_url": "https://www.portlandmaps.com/api/assessor/",
+          "active": true
         },
         {
           "source": "PortlandMaps",
@@ -67,7 +71,8 @@
           "what": "Multnomah taxlots (parcel attributes)",
           "why": "Parcel base; owner mailing vs site address (absentee flag)",
           "name": "Taxlots",
-          "source_url": "https://www.portlandmaps.com/arcgis/rest/services/Public/Taxlots/MapServer/0/query"
+          "source_url": "https://www.portlandmaps.com/arcgis/rest/services/Public/Taxlots/MapServer/0/query",
+          "active": true
         }
       ]
     },
@@ -85,7 +90,8 @@
           "what": "Regulated/affordable rental portfolio (landlord/investment signal)",
           "why": "Regulated-rental ownership is a landlord/investor signal",
           "name": "Regulated Rentals",
-          "source_url": "https://www.portlandmaps.com/od/rest/services/COP_OpenData_PlanningDevelopment/MapServer/221/query"
+          "source_url": "https://www.portlandmaps.com/od/rest/services/COP_OpenData_PlanningDevelopment/MapServer/221/query",
+          "active": true
         },
         {
           "source": "Oregon SoS",
@@ -93,7 +99,8 @@
           "what": "Active business registry \u2014 entity, status, addresses",
           "why": "Verify entity owners; a dissolved entity on a home is distress",
           "name": "Business Registry",
-          "source_url": "https://data.oregon.gov/resource/tckn-sxa6"
+          "source_url": "https://data.oregon.gov/resource/tckn-sxa6",
+          "active": true
         }
       ]
     },
@@ -112,7 +119,8 @@
           "why": "Code violations are the strongest distress signal; no bulk source exists",
           "note": "Each property is re-polled as its data ages past the refresh window, so new cases keep flowing in (~10 days for a full pass at 200 req / 15 min)",
           "name": "Code Violations",
-          "source_url": "https://www.portlandmaps.com/api/permit/"
+          "source_url": "https://www.portlandmaps.com/api/permit/",
+          "active": true
         },
         {
           "source": "PortlandMaps",
@@ -120,7 +128,8 @@
           "what": "Per-property building permits captured alongside the violations poll",
           "why": "Per-parcel permit history, refreshed on the same rolling cycle",
           "name": "Permit Details",
-          "source_url": "https://www.portlandmaps.com/api/permit/"
+          "source_url": "https://www.portlandmaps.com/api/permit/",
+          "active": true
         }
       ]
     }

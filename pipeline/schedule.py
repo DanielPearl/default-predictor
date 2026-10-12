@@ -91,6 +91,7 @@ def main():
         for cap in c["captures"]:
             cap["name"] = NAMES.get(cap["dataset"], cap["dataset"].replace("_", " ").title())
             cap["source_url"] = URLS.get(cap["dataset"], "")
+            cap.setdefault("active", True)
     out = sys.argv[1] if len(sys.argv) > 1 else "schedule.json"
     with open(out, "w") as f:
         json.dump(SCHEDULE, f, indent=2)

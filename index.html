@@ -247,8 +247,11 @@
       border-radius: 999px; padding: .13rem .55rem; flex-shrink: 0;
     }
     .sched-spacer { flex: 1; }
-    .sched-rico { display: grid; place-items: center; width: 20px; height: 20px; color: var(--cc); flex-shrink: 0; }
+    .sched-rico { display: grid; place-items: center; width: 20px; height: 20px; color: var(--muted); flex-shrink: 0; }
     .sched-rico svg { width: 17px; height: 17px; }
+    .sched-rico.active { color: #4ade80; }
+    .sched-rico.inactive { color: var(--muted); opacity: .5; }
+    .sched-row.off { opacity: .6; }
     .sched-name { font-weight: 600; font-size: .92rem; }
     .sched-next-mini { color: var(--muted); font-size: .77rem; white-space: nowrap; display: inline-flex; align-items: center; gap: .3rem; }
     .sched-next-mini .m-ico { color: var(--muted); }
@@ -1129,9 +1132,10 @@
       if (SCHED_LOADED) return;
       const err = document.getElementById('sched-error'); err.textContent = '';
       try {
+        const bust = '?t=' + Date.now();
         const [sched, uploads] = await Promise.all([
-          fetch('schedule.json').then(r => r.json()),
-          fetch('uploads.json').then(r => r.ok ? r.json() : []).catch(() => []),
+          fetch('schedule.json' + bust).then(r => r.json()),
+          fetch('uploads.json' + bust).then(r => r.ok ? r.json() : []).catch(() => []),
         ]);
         // One flat list of every scheduled capture; each row expands on click.
         const rows = [];
@@ -1150,9 +1154,10 @@
           const next = r.cron ? fmtNext(nextCron(r.cron)) : (r.backfill ? 'one-time' : 'always on');
           const lastTxt = last ? '✓ ' + last.captured_date : '—';
           const name = r.name || (r.dataset || '').replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-          return `<div class="sched-row" style="--cc:${r.color}">
+          const active = r.active !== false;
+          return `<div class="sched-row${active ? '' : ' off'}" style="--cc:${r.color}">
             <div class="sched-row-head">
-              <span class="sched-rico">${srcIcon(r.source)}</span>
+              <span class="sched-rico ${active ? 'active' : 'inactive'}" title="${active ? 'Active' : 'Inactive'}">${ICONS.clock}</span>
               <span class="sched-name">${esc(name)}</span>
               <span class="cap-src">${esc(r.source)}</span>
               <span class="sched-spacer"></span>
