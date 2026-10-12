@@ -234,7 +234,7 @@
     .pager button:disabled { opacity: .4; cursor: default; }
     /* Schedule view */
     .sched-summary { color: var(--muted); font-size: .9rem; margin: .1rem 0 .9rem; flex-shrink: 0; }
-    .sched-grid { display: flex; flex-direction: column; gap: .5rem; flex: 1; min-height: 0; overflow: auto; padding-right: .25rem; }
+    .sched-grid { display: flex; flex-direction: column; gap: .5rem; flex: 1; min-height: 0; overflow: auto; padding: 0 .25rem .7rem; }
     .sched-row {
       background: var(--panel); border: 1px solid var(--border);
       border-left: 3px solid var(--cc, var(--accent)); border-radius: 10px; overflow: hidden;
@@ -250,6 +250,7 @@
     .sched-rico { display: grid; place-items: center; width: 20px; height: 20px; color: var(--muted); flex-shrink: 0; }
     .sched-rico svg { width: 17px; height: 17px; }
     .sched-rico.active { color: #4ade80; }
+    .sched-rico.error { color: #f87171; }
     .sched-rico.inactive { color: var(--muted); opacity: .5; }
     .sched-row.off { opacity: .6; }
     .sched-name { font-weight: 600; font-size: .92rem; }
@@ -1152,12 +1153,15 @@
           let last = lastCaptured(uploads, r.dataset);
           if (!last && r.backfill) last = lastCaptured(uploads, 'violations') || lastCaptured(uploads, 'permit_detail');
           const next = r.cron ? fmtNext(nextCron(r.cron)) : (r.backfill ? 'one-time' : 'always on');
-          const lastTxt = last ? '✓ ' + last.captured_date : '—';
+          const errored = !!(last && last.status === 'failed');
+          const lastTxt = last ? (errored ? '✗ ' : '✓ ') + last.captured_date : '—';
           const name = r.name || (r.dataset || '').replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
           const active = r.active !== false;
+          const icoClass = !active ? 'inactive' : errored ? 'error' : 'active';
+          const icoTitle = !active ? 'Inactive' : errored ? 'Last capture failed' : 'Active';
           return `<div class="sched-row${active ? '' : ' off'}" style="--cc:${r.color}">
             <div class="sched-row-head">
-              <span class="sched-rico ${active ? 'active' : 'inactive'}" title="${active ? 'Active' : 'Inactive'}">${ICONS.clock}</span>
+              <span class="sched-rico ${icoClass}" title="${icoTitle}">${ICONS.clock}</span>
               <span class="sched-name">${esc(name)}</span>
               <span class="cap-src">${esc(r.source)}</span>
               <span class="sched-spacer"></span>
@@ -1180,7 +1184,15 @@
           </div>`;
         }).join('');
         document.getElementById('sched-grid').querySelectorAll('.sched-row-head').forEach(h =>
-          h.addEventListener('click', () => h.parentElement.classList.toggle('open')));
+          h.addEventListener('click', () => {
+            const row = h.parentElement;
+            const wasOpen = row.classList.contains('open');
+            document.querySelectorAll('.sched-row.open').forEach(r => r.classList.remove('open'));
+            if (!wasOpen) {
+              row.classList.add('open');
+              requestAnimationFrame(() => row.scrollIntoView({ block: 'nearest', behavior: 'smooth' }));
+            }
+          }));
         SCHED_LOADED = true;
       } catch (e) {
         err.textContent = 'Could not load schedule (' + e.message + '). Make sure schedule.json sits next to index.html.';
