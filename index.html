@@ -277,7 +277,8 @@
     .m-val.mono { font-family: ui-monospace, monospace; font-size: .79rem; }
     .m-val a { color: var(--cc); text-decoration: none; word-break: break-all; }
     .m-val a:hover { text-decoration: underline; }
-    /* Scheduler table */
+    /* Scheduler table: size to content (last row = bottom) until it fills the space, then scroll */
+    #tab-schedule .tablewrap { flex: 0 1 auto; }
     #sched-table td.st, #sched-table th.st { width: 1%; white-space: nowrap; text-align: center; }
     #sched-table .sname { font-weight: 600; }
     #sched-table .mono2 { font-variant-numeric: tabular-nums; }
