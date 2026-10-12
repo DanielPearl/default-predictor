@@ -277,6 +277,40 @@
     .m-val.mono { font-family: ui-monospace, monospace; font-size: .79rem; }
     .m-val a { color: var(--cc); text-decoration: none; word-break: break-all; }
     .m-val a:hover { text-decoration: underline; }
+    /* Scheduler table */
+    #sched-table td.st, #sched-table th.st { width: 1%; white-space: nowrap; text-align: center; }
+    #sched-table .sname { font-weight: 600; }
+    #sched-table .mono2 { font-variant-numeric: tabular-nums; }
+    #sched-table td.nowrap { white-space: nowrap; }
+    #sched-table tbody tr { cursor: pointer; }
+    #sched-table tbody tr.off { opacity: .55; }
+    #sched-table .sched-rico { width: 18px; height: 18px; margin: 0 auto; }
+    #sched-table .sched-rico svg { width: 16px; height: 16px; }
+    .icon-btn { background: none; border: none; color: var(--muted); cursor: pointer; padding: .2rem; display: inline-grid; place-items: center; border-radius: 6px; }
+    .icon-btn svg { width: 16px; height: 16px; }
+    .icon-btn:hover { color: var(--accent); background: #1c2128; }
+    /* Scheduler detail/edit modal */
+    .sched-modal { width: 520px; max-width: 96vw; }
+    .sm-body { padding: 1.05rem 1.25rem; }
+    .sm-what { font-size: .95rem; margin-bottom: .35rem; }
+    .sm-why { color: var(--muted); font-size: .85rem; }
+    .sm-cont { color: var(--muted); font-size: .88rem; padding: .8rem; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; margin-top: .6rem; }
+    .sm-edit { display: flex; flex-direction: column; gap: .85rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+    .sm-field { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    .sm-field > label:first-child { color: var(--muted); font-size: .85rem; }
+    .sm-field select, .sm-field input[type=time] { min-width: 170px; }
+    .toggle { display: inline-flex; align-items: center; gap: .55rem; cursor: pointer; position: relative; }
+    .toggle input { position: absolute; opacity: 0; width: 0; height: 0; }
+    .toggle .track { width: 38px; height: 22px; border-radius: 999px; background: var(--border); position: relative; transition: background .15s; flex-shrink: 0; }
+    .toggle .track::after { content: ""; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%; background: #fff; transition: transform .15s; }
+    .toggle input:checked + .track { background: #4ade80; }
+    .toggle input:checked + .track::after { transform: translateX(16px); }
+    .modal-foot { display: flex; align-items: center; justify-content: flex-end; gap: 1rem; padding: .8rem 1.25rem; border-top: 1px solid var(--border); }
+    #sm-msg { color: var(--muted); font-size: .83rem; margin-right: auto; }
+    #sm-msg.bad { color: #f87171; }
+    #sm-msg.ok2 { color: #4ade80; }
+    .btn-primary { background: var(--accent); color: #0d1117; border: none; border-radius: 7px; padding: .5rem 1.1rem; font-size: .9rem; font-weight: 600; cursor: pointer; }
+    .btn-primary:hover { filter: brightness(1.1); }
     .sched-card {
       background: var(--panel); border: 1px solid var(--border);
       border-left: 3px solid var(--cc, var(--accent)); border-radius: 12px; overflow: hidden;
@@ -335,8 +369,28 @@
     </div>
     <div class="wrap">
     <section id="tab-schedule" hidden>
-      <div class="sched-summary" id="sched-summary"></div>
-      <div class="sched-grid" id="sched-grid"></div>
+      <div class="count sched-summary" id="sched-summary"></div>
+      <div class="controls">
+        <input class="search" id="sched-search" type="text" placeholder="Search schedulers by name, source, frequency…">
+        <select id="sched-fsrc"><option value="">All sources</option></select>
+        <select id="sched-ffreq">
+          <option value="">All frequencies</option>
+          <option value="daily">Daily</option>
+          <option value="weekly">Weekly</option>
+          <option value="monthly">Monthly</option>
+          <option value="quarterly">Quarterly</option>
+          <option value="continuous">Continuous</option>
+        </select>
+      </div>
+      <div class="tablewrap">
+        <table id="sched-table">
+          <thead><tr>
+            <th class="st"></th><th>Scheduler</th><th>Source</th><th>Frequency</th>
+            <th>Day</th><th>Time&nbsp;(PT)</th><th>Next run</th><th>Last</th><th class="st"></th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
       <div id="sched-error" class="err"></div>
     </section>
 
@@ -472,6 +526,55 @@
       <div id="preview-foot">
         <div id="preview-pager" class="pager"></div>
         <div id="preview-note"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-bk" id="sched-modal" hidden>
+    <div class="modal sched-modal">
+      <div class="modal-head">
+        <div>
+          <div class="modal-title" id="sm-title"></div>
+          <div class="modal-meta" id="sm-source"></div>
+        </div>
+        <button class="modal-close" id="sm-close" title="Close">×</button>
+      </div>
+      <div class="modal-body sm-body">
+        <div class="sm-what" id="sm-what"></div>
+        <div class="sm-why" id="sm-why"></div>
+        <div class="d-note" id="sm-note" hidden></div>
+        <div class="sm-cont" id="sm-cont" hidden></div>
+        <div class="sm-edit" id="sm-edit">
+          <div class="sm-field">
+            <label>Status</label>
+            <label class="toggle"><input type="checkbox" id="sm-enabled"><span class="track"></span><span id="sm-enabled-lbl">Active</span></label>
+          </div>
+          <div class="sm-field">
+            <label for="sm-cadence">Frequency</label>
+            <select id="sm-cadence">
+              <option value="daily">Daily</option>
+              <option value="weekly">Weekly</option>
+              <option value="monthly">Monthly</option>
+              <option value="quarterly">Quarterly</option>
+            </select>
+          </div>
+          <div class="sm-field" id="sm-dow-field">
+            <label for="sm-dow">Day of week</label>
+            <select id="sm-dow"></select>
+          </div>
+          <div class="sm-field" id="sm-dom-field">
+            <label for="sm-dom">Day of month</label>
+            <select id="sm-dom"></select>
+          </div>
+          <div class="sm-field">
+            <label for="sm-time">Time (PT)</label>
+            <input type="time" id="sm-time">
+          </div>
+        </div>
+      </div>
+      <div class="modal-foot" id="sm-foot">
+        <div id="sm-msg"></div>
+        <button class="btn-primary" id="sm-save">Save changes</button>
       </div>
     </div>
   </div>
@@ -1097,107 +1200,194 @@
       pin:        SVG('<path d="M12 21.5S19 15.6 19 10a7 7 0 1 0-14 0c0 5.6 7 11.5 7 11.5Z"/><circle cx="12" cy="10" r="2.6"/>'),
       scale:      SVG('<path d="M12 3.5v17"/><path d="M7 20.5h10"/><path d="M5.5 7.5h13"/><path d="M5.5 7.5 3 13a2.8 2.8 0 0 0 5 0L5.5 7.5Z"/><path d="M18.5 7.5 16 13a2.8 2.8 0 0 0 5 0l-2.5-5.5Z"/>'),
       landmark:   SVG('<path d="M3.5 20.5h17"/><path d="M5.5 20.5V10"/><path d="M9.5 20.5V10"/><path d="M14.5 20.5V10"/><path d="M18.5 20.5V10"/><path d="M12 3.5 20.5 8h-17L12 3.5Z"/>'),
+      edit:       SVG('<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"/>'),
     };
     const srcIcon = s => /pacer/i.test(s) ? ICONS.scale : /sos/i.test(s) ? ICONS.landmark : ICONS.pin;
     document.getElementById('brand-mark').innerHTML = ICONS.brand;
     document.querySelectorAll('.nav-ico[data-ico]').forEach(el => el.innerHTML = ICONS[el.dataset.ico] || '');
 
-    // ---- Schedule view: render schedule.json + next-run + last-captured ----
-    let SCHED_LOADED = false;
-    function nextCron(cron) {
-      // "min hour dom month dow" (UTC) with numbers, '*', and comma lists for month.
-      const [mn, hr, dom, mon, dow] = cron.split(/\s+/);
-      const M = mn === '*' ? 0 : +mn, H = hr === '*' ? 0 : +hr;
-      const DOM = dom === '*' ? null : +dom;
-      const MON = mon === '*' ? null : mon.split(',').map(Number);  // 1-12
-      const DOW = dow === '*' ? null : +dow;                        // 0=Sun
+    // ---- Schedule view: editable jobs table + detail/edit modal ----
+    let SCHED_JOBS = [], SCHED_UPLOADS = [];
+    const DOW_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const CAD_LABEL = { daily: 'Daily', weekly: 'Weekly', monthly: 'Monthly', quarterly: 'Quarterly', continuous: 'Continuous' };
+    const QMONTHS = [0, 3, 6, 9];  // Jan, Apr, Jul, Oct
+    const ord = n => { const s = ['th', 'st', 'nd', 'rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); };
+    const fmtNext = d => d ? d.toLocaleString(undefined,
+      { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) : '—';
+    const fmtTime = j => (j.hour == null) ? '—' : String(j.hour).padStart(2, '0') + ':' + String(j.minute || 0).padStart(2, '0');
+
+    function nextRun(j) {  // computed in the viewer's local time (= Pacific for this user)
+      if (j.continuous || j.enabled === false) return null;
       const now = new Date();
       for (let i = 0; i < 400; i++) {
-        const d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + i, H, M, 0));
+        const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + i, j.hour || 0, j.minute || 0, 0);
         if (d <= now) continue;
-        if (DOM !== null && d.getUTCDate() !== DOM) continue;
-        if (MON !== null && !MON.includes(d.getUTCMonth() + 1)) continue;
-        if (DOW !== null && d.getUTCDay() !== DOW) continue;
-        return d;
+        if (j.cadence === 'daily') return d;
+        if (j.cadence === 'weekly' && d.getDay() === j.dow) return d;
+        if (j.cadence === 'monthly' && d.getDate() === j.dom) return d;
+        if (j.cadence === 'quarterly' && d.getDate() === j.dom && QMONTHS.includes(d.getMonth())) return d;
       }
       return null;
     }
-    const fmtNext = d => d ? d.toLocaleString(undefined,
-      { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) : '—';
-    function lastCaptured(uploads, dataset) {
-      const rows = uploads.filter(r => r.dataset === dataset);
+    function dayLabel(j) {
+      if (j.continuous) return '—';
+      if (j.cadence === 'daily') return 'Every day';
+      if (j.cadence === 'weekly') return DOW_NAMES[j.dow] || '—';
+      if (j.cadence === 'monthly') return ord(j.dom) + ' of month';
+      if (j.cadence === 'quarterly') return ord(j.dom) + ' · Jan/Apr/Jul/Oct';
+      return '—';
+    }
+    function lastCaptured(dataset) {
+      const rows = SCHED_UPLOADS.filter(r => r.dataset === dataset);
       rows.sort((a, b) => (b.captured_date || '').localeCompare(a.captured_date || ''));
       return rows[0] || null;
     }
+
+    function schedRowHtml(j) {
+      const last = lastCaptured(j.dataset);
+      const errored = !!(last && last.status === 'failed');
+      const active = j.enabled !== false;
+      const icoClass = !active ? 'inactive' : errored ? 'error' : 'active';
+      const icoTitle = !active ? 'Inactive' : errored ? 'Last capture failed' : 'Active';
+      const next = j.continuous ? 'always on' : (active ? fmtNext(nextRun(j)) : 'paused');
+      const lastTxt = last ? (errored ? '✗ ' : '✓ ') + last.captured_date : '—';
+      return `<tr data-id="${esc(j.id)}" style="--cc:${j.color}" class="${active ? '' : 'off'}">
+        <td class="st"><span class="sched-rico ${icoClass}" title="${icoTitle}">${ICONS.clock}</span></td>
+        <td class="sname">${esc(j.name)}</td>
+        <td class="cap-src">${esc(j.source)}</td>
+        <td><span class="sched-pill">${esc(CAD_LABEL[j.cadence] || j.cadence)}</span></td>
+        <td>${esc(dayLabel(j))}</td>
+        <td class="mono2">${j.continuous ? '—' : esc(fmtTime(j))}</td>
+        <td class="nowrap">${next}</td>
+        <td class="nowrap">${lastTxt}</td>
+        <td class="st">${j.continuous ? '' : `<button class="icon-btn" title="Edit">${ICONS.edit}</button>`}</td>
+      </tr>`;
+    }
+    function renderSchedTable() {
+      const q = (document.getElementById('sched-search').value || '').toLowerCase().trim();
+      const fsrc = document.getElementById('sched-fsrc').value;
+      const ffreq = document.getElementById('sched-ffreq').value;
+      const jobs = SCHED_JOBS.filter(j => {
+        if (fsrc && j.source !== fsrc) return false;
+        if (ffreq && j.cadence !== ffreq) return false;
+        if (q && !(`${j.name} ${j.source} ${j.cadence} ${j.what || ''}`.toLowerCase().includes(q))) return false;
+        return true;
+      });
+      document.querySelector('#sched-table tbody').innerHTML = jobs.map(schedRowHtml).join('');
+      document.querySelectorAll('#sched-table tbody tr').forEach(tr =>
+        tr.addEventListener('click', () => openSchedModal(tr.dataset.id)));
+    }
+    document.getElementById('sched-search').addEventListener('input', debounce(renderSchedTable, 150));
+    ['sched-fsrc', 'sched-ffreq'].forEach(id =>
+      document.getElementById(id).addEventListener('change', renderSchedTable));
+
     async function loadSchedule() {
-      if (SCHED_LOADED) return;
       const err = document.getElementById('sched-error'); err.textContent = '';
       try {
         const bust = '?t=' + Date.now();
-        const [sched, uploads] = await Promise.all([
+        const [cfg, uploads] = await Promise.all([
           fetch('schedule.json' + bust).then(r => r.json()),
           fetch('uploads.json' + bust).then(r => r.ok ? r.json() : []).catch(() => []),
         ]);
-        // One flat list of every scheduled capture; each row expands on click.
-        const rows = [];
-        for (const c of (sched.cadences || []))
-          for (const cap of c.captures)
-            rows.push({ ...cap, cadence: c.label, color: c.color, cron: c.cron, freq: c.freq, runner: c.runner });
-        for (const b of (sched.backfills || []))
-          rows.push({ ...b, cadence: 'One-time', color: '#8b949e', backfill: true, freq: 'One-time' });
-
+        SCHED_JOBS = cfg.jobs || [];
+        SCHED_UPLOADS = uploads;
+        const nActive = SCHED_JOBS.filter(j => j.enabled !== false).length;
         document.getElementById('sched-summary').innerHTML =
-          `<b>${rows.length}</b> captures currently scheduled — click any row for details. Times shown in your local timezone.`;
-
-        document.getElementById('sched-grid').innerHTML = rows.map(r => {
-          let last = lastCaptured(uploads, r.dataset);
-          if (!last && r.backfill) last = lastCaptured(uploads, 'violations') || lastCaptured(uploads, 'permit_detail');
-          const next = r.cron ? fmtNext(nextCron(r.cron)) : (r.backfill ? 'one-time' : 'always on');
-          const errored = !!(last && last.status === 'failed');
-          const lastTxt = last ? (errored ? '✗ ' : '✓ ') + last.captured_date : '—';
-          const name = r.name || (r.dataset || '').replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-          const active = r.active !== false;
-          const icoClass = !active ? 'inactive' : errored ? 'error' : 'active';
-          const icoTitle = !active ? 'Inactive' : errored ? 'Last capture failed' : 'Active';
-          return `<div class="sched-row${active ? '' : ' off'}" style="--cc:${r.color}">
-            <div class="sched-row-head">
-              <span class="sched-rico ${icoClass}" title="${icoTitle}">${ICONS.clock}</span>
-              <span class="sched-name">${esc(name)}</span>
-              <span class="cap-src">${esc(r.source)}</span>
-              <span class="sched-spacer"></span>
-              <span class="sched-next-mini"><span class="m-ico">${ICONS.clock}</span>${next}</span>
-              <span class="sched-pill">${esc(r.cadence)}</span>
-              <span class="sched-chev">›</span>
-            </div>
-            <div class="sched-detail">
-              <div class="d-what">${esc(r.what)}</div>
-              <div class="d-why">${esc(r.why)}</div>
-              ${r.note ? `<div class="d-note">${esc(r.note)}</div>` : ''}
-              <div class="sched-meta-grid">
-                <div class="m-cell"><div class="m-lbl"><span class="m-ico">${srcIcon(r.source)}</span>Source</div><div class="m-val">${r.source_url ? `<a href="${esc(r.source_url)}" target="_blank" rel="noopener">${esc(r.source)}</a>` : esc(r.source)}</div></div>
-                <div class="m-cell"><div class="m-lbl"><span class="m-ico">${ICONS.repeat}</span>Cadence</div><div class="m-val">${esc(r.freq || r.cadence)}</div></div>
-                <div class="m-cell"><div class="m-lbl"><span class="m-ico">${ICONS.clock}</span>Next run</div><div class="m-val accent">${next}</div></div>
-                <div class="m-cell"><div class="m-lbl"><span class="m-ico">${ICONS.check}</span>Last captured</div><div class="m-val">${lastTxt}</div></div>
-                <div class="m-cell"><div class="m-lbl"><span class="m-ico">${ICONS.terminal}</span>Runner</div><div class="m-val mono">${esc(r.runner || '—')}</div></div>
-              </div>
-            </div>
-          </div>`;
-        }).join('');
-        document.getElementById('sched-grid').querySelectorAll('.sched-row-head').forEach(h =>
-          h.addEventListener('click', () => {
-            const row = h.parentElement;
-            const wasOpen = row.classList.contains('open');
-            document.querySelectorAll('.sched-row.open').forEach(r => r.classList.remove('open'));
-            if (!wasOpen) {
-              row.classList.add('open');
-              requestAnimationFrame(() => row.scrollIntoView({ block: 'nearest', behavior: 'smooth' }));
-            }
-          }));
-        SCHED_LOADED = true;
+          `<b>${SCHED_JOBS.length}</b> schedulers · <b>${nActive}</b> active — click a row to view or edit. Times are Pacific.`;
+        const srcSel = document.getElementById('sched-fsrc'), cur = srcSel.value;
+        const srcs = [...new Set(SCHED_JOBS.map(j => j.source))].sort();
+        srcSel.innerHTML = '<option value="">All sources</option>'
+          + srcs.map(s => `<option value="${esc(s)}">${esc(s)}</option>`).join('');
+        srcSel.value = cur;
+        renderSchedTable();
       } catch (e) {
-        err.textContent = 'Could not load schedule (' + e.message + '). Make sure schedule.json sits next to index.html.';
+        err.textContent = 'Could not load schedule (' + e.message + ').';
       }
     }
+
+    // ---- Scheduler detail / edit modal ----
+    const SM = document.getElementById('sched-modal');
+    let SM_JOB = null;
+    const ADMIN_KEY = 'dp_admin_token';
+    (function fillDaySelects() {
+      document.getElementById('sm-dow').innerHTML = DOW_NAMES.map((n, i) => `<option value="${i}">${n}</option>`).join('');
+      document.getElementById('sm-dom').innerHTML = Array.from({ length: 28 }, (_, i) => i + 1)
+        .map(d => `<option value="${d}">${ord(d)}</option>`).join('');
+    })();
+    function syncDayFields() {
+      const cad = document.getElementById('sm-cadence').value;
+      document.getElementById('sm-dow-field').hidden = cad !== 'weekly';
+      document.getElementById('sm-dom-field').hidden = !(cad === 'monthly' || cad === 'quarterly');
+    }
+    document.getElementById('sm-cadence').addEventListener('change', syncDayFields);
+    document.getElementById('sm-enabled').addEventListener('change', e =>
+      document.getElementById('sm-enabled-lbl').textContent = e.target.checked ? 'Active' : 'Paused');
+
+    function openSchedModal(i) {
+      const j = SCHED_JOBS[i]; if (!j) return;
+      SM_JOB = j;
+      document.getElementById('sm-title').textContent = j.name;
+      document.getElementById('sm-source').innerHTML = j.source_url
+        ? `${esc(j.source)} · <a href="${esc(j.source_url)}" target="_blank" rel="noopener">source ↗</a>` : esc(j.source);
+      document.getElementById('sm-what').textContent = j.what || '';
+      document.getElementById('sm-why').textContent = j.why || '';
+      document.getElementById('sm-note').hidden = true;  // no "why it's daily" note
+      const cont = document.getElementById('sm-cont'), edit = document.getElementById('sm-edit'), foot = document.getElementById('sm-foot');
+      if (j.continuous) {
+        cont.hidden = false; cont.textContent = 'Continuous rolling refresh — always on, no fixed schedule to edit.';
+        edit.hidden = true; foot.hidden = true;
+      } else {
+        cont.hidden = true; edit.hidden = false; foot.hidden = false;
+        document.getElementById('sm-enabled').checked = j.enabled !== false;
+        document.getElementById('sm-enabled-lbl').textContent = j.enabled !== false ? 'Active' : 'Paused';
+        document.getElementById('sm-cadence').value = j.cadence;
+        document.getElementById('sm-dow').value = (j.dow ?? 0);
+        document.getElementById('sm-dom').value = (j.dom ?? 1);
+        document.getElementById('sm-time').value = (j.hour == null) ? '04:00' : fmtTime(j);
+        syncDayFields();
+        document.getElementById('sm-msg').textContent = '';
+      }
+      SM.hidden = false;
+    }
+    function closeSchedModal() { SM.hidden = true; SM_JOB = null; }
+    document.getElementById('sm-close').addEventListener('click', closeSchedModal);
+    SM.addEventListener('click', e => { if (e.target === SM) closeSchedModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && !SM.hidden) closeSchedModal(); });
+
+    document.getElementById('sm-save').addEventListener('click', async () => {
+      if (!SM_JOB) return;
+      let token = localStorage.getItem(ADMIN_KEY);
+      if (!token) {
+        token = prompt('Admin password to change the schedule:');
+        if (!token) return;
+        localStorage.setItem(ADMIN_KEY, token);
+      }
+      const cad = document.getElementById('sm-cadence').value;
+      const [hh, mm] = (document.getElementById('sm-time').value || '04:00').split(':').map(Number);
+      const fields = {
+        enabled: document.getElementById('sm-enabled').checked,
+        cadence: cad, hour: hh, minute: mm,
+        dow: cad === 'weekly' ? +document.getElementById('sm-dow').value : null,
+        dom: (cad === 'monthly' || cad === 'quarterly') ? +document.getElementById('sm-dom').value : null,
+      };
+      const msg = document.getElementById('sm-msg');
+      msg.textContent = 'Saving…'; msg.className = '';
+      try {
+        const res = await fetch('/api/schedule', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-Admin-Token': token },
+          body: JSON.stringify({ id: SM_JOB.id, fields }),
+        });
+        if (res.status === 401) { localStorage.removeItem(ADMIN_KEY); msg.textContent = 'Wrong admin password — try again.'; msg.className = 'bad'; return; }
+        if (!res.ok) { msg.textContent = 'Save failed (' + res.status + ').'; msg.className = 'bad'; return; }
+        Object.assign(SM_JOB, fields);
+        msg.textContent = 'Saved ✓'; msg.className = 'ok2';
+        await loadSchedule();
+        setTimeout(closeSchedModal, 650);
+      } catch (e2) {
+        msg.textContent = 'Save failed: ' + e2.message; msg.className = 'bad';
+      }
+    });
 
     // Per-view title, subtitle, and accent color shown in the main header.
     const VIEW_META = {

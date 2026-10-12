@@ -13,3 +13,4 @@ uploads.json
 warehouse/target/
 warehouse/dbt_packages/
 warehouse/logs/
+schedule.json

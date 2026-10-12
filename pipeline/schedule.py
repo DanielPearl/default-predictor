@@ -1,101 +1,123 @@
 #!/usr/bin/env python3
 """
-Emit schedule.json -- what the pipeline is scheduled to download, and when.
+Seed schedule.json -- the editable scheduler config AND what the site shows.
 
-Mirrors the installed cron and each runner's collectors so the site's Schedule
-page shows the real plan. Blurbs for the ArcGIS layers come straight from
-collect_arcgis.DATASETS so they can't drift from the collectors.
+This is the single source of truth for scheduling: one flat list of jobs, each
+with its display info, its data source, the command it runs, and its timing
+(cadence + time of day + day). The site reads it to render the scheduler table;
+edits from the UI (via the API) rewrite it; apply_schedule.py turns it into the
+droplet crontab. Times are LOCAL (Pacific) -- the droplet's timezone is set to
+America/Los_Angeles so cron fires at the times shown.
+
+Running this RESEEDS the file from the definitions below (first-time setup, or
+to reset). After that, prefer editing via the UI so your changes aren't lost.
 
     python3 pipeline/schedule.py [out.json]      # default: schedule.json
 """
 import json
+import os
 import sys
 
 import collect_arcgis as ca
 
-AB = {k: v["about"] for k, v in ca.DATASETS.items()}  # dataset -> description
+EXPORT = "EXPORT_UPLOADS=/var/www/default-predictor/uploads.json"
+AB = {k: v["about"] for k, v in ca.DATASETS.items()}
 
-SCHEDULE = {
-    "cadences": [
-        {"id": "daily", "label": "Daily", "color": "#58a6ff",
-         "cron": "0 11 * * *", "freq": "Every day", "runner": "run_daily.sh",
-         "captures": [
-             {"source": "PACER (D. Oregon)", "dataset": "bankruptcy",
-              "what": "New bankruptcy filings — debtor, case, chapter, division (RSS feed)",
-              "why": "Owner bankruptcy is a pre-foreclosure life event",
-              "note": "The RSS feed is a rolling ~24h window, so this must run daily"}]},
-        {"id": "weekly", "label": "Weekly", "color": "#2dd4bf",
-         "cron": "0 3 * * 0", "freq": "Every Sunday", "runner": "run_weekly.sh",
-         "captures": [
-             {"source": "PortlandMaps", "dataset": "permits", "what": AB["permits"],
-              "why": "Permit activity (or its absence) signals investment vs neglect"},
-             {"source": "PortlandMaps", "dataset": "demolitions", "what": AB["demolitions"],
-              "why": "Demolition filings flag distress and redevelopment"}]},
-        {"id": "monthly", "label": "Monthly", "color": "#a78bfa",
-         "cron": "0 2 1 * *", "freq": "1st of each month", "runner": "run_monthly.sh",
-         "captures": [
-             {"source": "PortlandMaps", "dataset": "assessor",
-              "what": "County assessor roll — owner, value, sale, legal, location",
-              "why": "Core property, ownership, and the 3-year value trend"},
-             {"source": "PortlandMaps", "dataset": "taxlots", "what": AB["taxlots"],
-              "why": "Parcel base; owner mailing vs site address (absentee flag)"}]},
-        {"id": "quarterly", "label": "Quarterly", "color": "#fb923c",
-         "cron": "0 1 1 1,4,7,10 *", "freq": "1st of Jan, Apr, Jul, Oct",
-         "runner": "run_quarterly.sh",
-         "captures": [
-             {"source": "PortlandMaps", "dataset": "rental_portfolio", "what": AB["rental_portfolio"],
-              "why": "Regulated-rental ownership is a landlord/investor signal"},
-             {"source": "Oregon SoS", "dataset": "businesses",
-              "what": "Active business registry — entity, status, addresses",
-              "why": "Verify entity owners; a dissolved entity on a home is distress"}]},
-        {"id": "continuous", "label": "Continuous", "color": "#f472b6",
-         "cron": None, "freq": "Rolling refresh (~10-day cycle)",
-         "runner": "predictor-violations (daemon)",
-         "captures": [
-             {"source": "PortlandMaps", "dataset": "violations",
-              "what": "Per-property code-enforcement cases for every residential parcel",
-              "why": "Code violations are the strongest distress signal; no bulk source exists",
-              "note": "Each property is re-polled as its data ages past the refresh window, so new cases keep flowing in (~10 days for a full pass at 200 req / 15 min)"},
-             {"source": "PortlandMaps", "dataset": "permit_detail",
-              "what": "Per-property building permits captured alongside the violations poll",
-              "why": "Per-parcel permit history, refreshed on the same rolling cycle"}]},
-    ],
-    "backfills": [],
-}
+JOBS = [
+    {"id": "bankruptcy", "name": "Bankruptcy Filings", "dataset": "bankruptcy",
+     "source": "PACER (D. Oregon)", "color": "#58a6ff",
+     "source_url": "https://ecf.orb.uscourts.gov/cgi-bin/rss_outside.pl",
+     "cmd": f"{EXPORT} ONCE=1 python3 pipeline/collect_bankruptcy.py && "
+            "python3 pipeline/bankruptcy_candidates.py --out data/bankruptcy_candidates.csv && "
+            "python3 pipeline/bankruptcy_track.py export data/owner_bankruptcy.json",
+     "cadence": "daily", "hour": 4, "minute": 0, "dow": None, "dom": None,
+     "enabled": True, "continuous": False,
+     "what": "New bankruptcy filings — debtor, case, chapter, division (RSS feed)",
+     "why": "Owner bankruptcy is a pre-foreclosure life event",
+     "note": "The RSS feed is a rolling ~24h window, so daily keeps it complete"},
 
+    {"id": "permits", "name": "Building Permits", "dataset": "permits",
+     "source": "PortlandMaps", "color": "#2dd4bf",
+     "source_url": ca.DATASETS["permits"]["url"],
+     "cmd": f"{EXPORT} python3 pipeline/collect_arcgis.py permits",
+     "cadence": "weekly", "hour": 3, "minute": 0, "dow": 0, "dom": None,
+     "enabled": True, "continuous": False,
+     "what": AB["permits"], "why": "Permit activity (or its absence) signals investment vs neglect",
+     "note": ""},
 
-NAMES = {
-    "bankruptcy": "Bankruptcy Filings", "permits": "Building Permits",
-    "demolitions": "Demolition Permits", "assessor": "Assessor Roll",
-    "taxlots": "Taxlots", "rental_portfolio": "Regulated Rentals",
-    "businesses": "Business Registry", "violations": "Code Violations",
-    "permit_detail": "Permit Details",
-}
+    {"id": "demolitions", "name": "Demolition Permits", "dataset": "demolitions",
+     "source": "PortlandMaps", "color": "#2dd4bf",
+     "source_url": ca.DATASETS["demolitions"]["url"],
+     "cmd": f"{EXPORT} python3 pipeline/collect_arcgis.py demolitions",
+     "cadence": "weekly", "hour": 3, "minute": 0, "dow": 0, "dom": None,
+     "enabled": True, "continuous": False,
+     "what": AB["demolitions"], "why": "Demolition filings flag distress and redevelopment",
+     "note": ""},
 
-# Where each dataset actually comes from (the live endpoint we pull).
-URLS = {
-    "bankruptcy": "https://ecf.orb.uscourts.gov/cgi-bin/rss_outside.pl",
-    "assessor": "https://www.portlandmaps.com/api/assessor/",
-    "businesses": "https://data.oregon.gov/resource/tckn-sxa6",
-    "violations": "https://www.portlandmaps.com/api/permit/",
-    "permit_detail": "https://www.portlandmaps.com/api/permit/",
-    "permits": ca.DATASETS["permits"]["url"],
-    "demolitions": ca.DATASETS["demolitions"]["url"],
-    "taxlots": ca.DATASETS["taxlots"]["url"],
-    "rental_portfolio": ca.DATASETS["rental_portfolio"]["url"],
-}
+    {"id": "assessor", "name": "Assessor Roll", "dataset": "assessor",
+     "source": "PortlandMaps", "color": "#a78bfa",
+     "source_url": "https://www.portlandmaps.com/api/assessor/",
+     "cmd": f"{EXPORT} python3 pipeline/collect_portlandmaps.py",
+     "cadence": "monthly", "hour": 2, "minute": 0, "dow": None, "dom": 1,
+     "enabled": True, "continuous": False,
+     "what": "County assessor roll — owner, value, sale, legal, location",
+     "why": "Core property, ownership, and the 3-year value trend", "note": ""},
+
+    {"id": "taxlots", "name": "Taxlots", "dataset": "taxlots",
+     "source": "PortlandMaps", "color": "#a78bfa",
+     "source_url": ca.DATASETS["taxlots"]["url"],
+     "cmd": f"{EXPORT} python3 pipeline/collect_arcgis.py taxlots && "
+            "python3 pipeline/ingest_taxlots.py",
+     "cadence": "monthly", "hour": 2, "minute": 30, "dow": None, "dom": 1,
+     "enabled": True, "continuous": False,
+     "what": AB["taxlots"], "why": "Parcel base; owner mailing vs site address (absentee)",
+     "note": ""},
+
+    {"id": "rental_portfolio", "name": "Regulated Rentals", "dataset": "rental_portfolio",
+     "source": "PortlandMaps", "color": "#fb923c",
+     "source_url": ca.DATASETS["rental_portfolio"]["url"],
+     "cmd": f"{EXPORT} python3 pipeline/collect_arcgis.py rental_portfolio",
+     "cadence": "quarterly", "hour": 1, "minute": 0, "dow": None, "dom": 1,
+     "enabled": True, "continuous": False,
+     "what": AB["rental_portfolio"], "why": "Regulated-rental ownership is a landlord/investor signal",
+     "note": ""},
+
+    {"id": "businesses", "name": "Business Registry", "dataset": "businesses",
+     "source": "Oregon SoS", "color": "#fb923c",
+     "source_url": "https://data.oregon.gov/resource/tckn-sxa6",
+     "cmd": f"{EXPORT} python3 pipeline/collect_oregon_sos.py",
+     "cadence": "quarterly", "hour": 1, "minute": 0, "dow": None, "dom": 1,
+     "enabled": True, "continuous": False,
+     "what": "Active business registry — entity, status, addresses",
+     "why": "Verify entity owners; a dissolved entity on a home is distress", "note": ""},
+
+    {"id": "violations", "name": "Code Violations", "dataset": "violations",
+     "source": "PortlandMaps", "color": "#f472b6",
+     "source_url": "https://www.portlandmaps.com/api/permit/",
+     "cmd": "", "cadence": "continuous", "hour": None, "minute": None,
+     "dow": None, "dom": None, "enabled": True, "continuous": True,
+     "what": "Per-property code-enforcement cases for every residential parcel",
+     "why": "Code violations are the strongest distress signal; no bulk source exists",
+     "note": "Rolling refresh (~10-day cycle) via the predictor-violations daemon"},
+
+    {"id": "permit_detail", "name": "Permit Details", "dataset": "permit_detail",
+     "source": "PortlandMaps", "color": "#f472b6",
+     "source_url": "https://www.portlandmaps.com/api/permit/",
+     "cmd": "", "cadence": "continuous", "hour": None, "minute": None,
+     "dow": None, "dom": None, "enabled": True, "continuous": True,
+     "what": "Per-property building permits captured alongside the violations poll",
+     "why": "Per-parcel permit history, refreshed on the same rolling cycle",
+     "note": "Runs on the predictor-violations daemon, not a timed job"},
+]
 
 
 def main():
-    for c in SCHEDULE["cadences"]:
-        for cap in c["captures"]:
-            cap["name"] = NAMES.get(cap["dataset"], cap["dataset"].replace("_", " ").title())
-            cap["source_url"] = URLS.get(cap["dataset"], "")
-            cap.setdefault("active", True)
     out = sys.argv[1] if len(sys.argv) > 1 else "schedule.json"
+    if os.path.exists(out) and "--force" not in sys.argv:
+        sys.exit(f"{out} exists; pass --force to reseed (overwrites UI edits).")
     with open(out, "w") as f:
-        json.dump(SCHEDULE, f, indent=2)
-    print(f"wrote {out}")
+        json.dump({"jobs": JOBS}, f, indent=2)
+    print(f"seeded {out} with {len(JOBS)} jobs")
 
 
 if __name__ == "__main__":

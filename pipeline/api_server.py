@@ -16,7 +16,9 @@ import json
 import math
 import os
 import re
+import shutil
 import sqlite3
+import subprocess
 from datetime import date
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
@@ -151,6 +153,62 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/api/uploads":
             return self._uploads(u)
         self.send_error(404)
+
+    def do_POST(self):
+        if urlparse(self.path).path.rstrip("/") == "/api/schedule":
+            return self._schedule_update()
+        self.send_error(404)
+
+    def _admin_ok(self):
+        tok = (self.headers.get("X-Admin-Token") or "").strip()
+        try:
+            want = (ROOT / "Secret Keys" / "admin_token.txt").read_text().strip()
+        except Exception:  # noqa: BLE001
+            return False
+        return bool(want) and tok == want
+
+    def _schedule_update(self):
+        """Edit one job's timing/enabled (admin only), then regenerate cron and
+        republish the config the site reads."""
+        if not self._admin_ok():
+            self.send_error(401, "bad or missing admin token")
+            return
+        try:
+            n = int(self.headers.get("Content-Length") or 0)
+            body = json.loads(self.rfile.read(n) or b"{}")
+        except Exception:  # noqa: BLE001
+            self.send_error(400, "bad body")
+            return
+        jid, fields = body.get("id"), (body.get("fields") or {})
+        allowed = {"cadence", "hour", "minute", "dow", "dom", "enabled"}
+        cfg_path = ROOT / "schedule.json"
+        try:
+            cfg = json.loads(cfg_path.read_text())
+        except Exception:  # noqa: BLE001
+            self.send_error(500, "no config")
+            return
+        job = next((j for j in cfg.get("jobs", []) if j.get("id") == jid), None)
+        if not job:
+            self.send_error(404, "no such job")
+            return
+        if job.get("continuous"):
+            self.send_error(400, "continuous job timing is not editable")
+            return
+        for k, v in fields.items():
+            if k in allowed:
+                job[k] = v
+        cfg_path.write_text(json.dumps(cfg, indent=2))
+        try:
+            subprocess.run(["python3", str(ROOT / "pipeline" / "apply_schedule.py")],
+                           cwd=str(ROOT), check=True, capture_output=True, text=True)
+        except Exception:  # noqa: BLE001
+            self.send_error(500, "cron apply failed")
+            return
+        try:
+            shutil.copy(cfg_path, "/var/www/default-predictor/schedule.json")
+        except Exception:  # noqa: BLE001
+            pass
+        self._send_json({"ok": True, "job": job})
 
     def _uploads(self, u):
         try:
