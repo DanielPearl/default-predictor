@@ -14,3 +14,5 @@ warehouse/target/
 warehouse/dbt_packages/
 warehouse/logs/
 schedule.json
+orchestration/dagster_home/
+orchestration/__pycache__/

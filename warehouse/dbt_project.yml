@@ -17,7 +17,10 @@ vars:
 models:
   default_predictor:
     staging:
-      +materialized: view     # thin views straight over the raw lake files
+      # Tables, not views: each lake file (local or Spaces) is read ONCE into a
+      # staging table, so downstream core models read local tables instead of
+      # re-scanning the raw files (critical when the lake is on Spaces/S3).
+      +materialized: table
     core:
       +materialized: table    # conformed entities + events
     mart:

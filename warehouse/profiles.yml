@@ -5,3 +5,15 @@ default_predictor:
       type: duckdb
       path: "../data/warehouse.duckdb"   # the analytical DB, next to the lake
       threads: 4
+      # Read the lake from DigitalOcean Spaces when DBT_LAKE_PATH is an s3:// URL.
+      # Credentials come from env vars (set from Secret Keys/do_spaces.json) so no
+      # secret is committed. Harmless when reading the local lake (secret unused).
+      extensions:
+        - httpfs
+      secrets:
+        - type: s3
+          region: "nyc3"
+          endpoint: "nyc3.digitaloceanspaces.com"
+          url_style: "vhost"
+          key_id: "{{ env_var('DO_SPACES_KEY', '') }}"
+          secret: "{{ env_var('DO_SPACES_SECRET', '') }}"

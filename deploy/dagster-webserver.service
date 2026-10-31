@@ -1,0 +1,16 @@
+[Unit]
+Description=Dagster webserver (Default Predictor)
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/predictor
+Environment=DAGSTER_HOME=/root/predictor/orchestration/dagster_home
+# Bind to localhost only -- reach it via SSH tunnel, never exposed to the internet.
+ExecStart=/root/predictor/.venv/bin/dagster-webserver -h 127.0.0.1 -p 3000 -f orchestration/definitions.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
