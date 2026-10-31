@@ -57,6 +57,8 @@ def main(only=None):
         srcglob = f"{base}/{src}/{ds}/captured_date=*/*.ndjson.gz"
         out = f"{base}/parquet/{src}/{ds}"
         try:
+            if not base.startswith("s3://"):
+                Path(out).mkdir(parents=True, exist_ok=True)
             con.execute(f"""
                 COPY (SELECT * FROM read_json_auto('{srcglob}',
                            hive_partitioning=true, union_by_name=true, ignore_errors=true))
