@@ -24,10 +24,12 @@ from pathlib import Path
 
 from dagster import (
     AssetKey,
+    Backoff,
     Definitions,
     DefaultScheduleStatus,
     MaterializeResult,
     MetadataValue,
+    RetryPolicy,
     ScheduleDefinition,
     asset,
     define_asset_job,
@@ -43,6 +45,9 @@ DBT_MANIFEST = DBT_DIR / "target" / "manifest.json"
 DBT_EXE = str(Path(sys.executable).with_name("dbt"))
 PY = sys.executable
 TZ = "America/Los_Angeles"
+# External APIs are flaky (e.g. PortlandMaps paging giving up mid-pull), so give
+# every ingestion/convert step a few exponential-backoff retries.
+RETRY = RetryPolicy(max_retries=3, delay=30, backoff=Backoff.EXPONENTIAL)
 
 
 def _activate_spaces_for_dbt():
@@ -152,7 +157,8 @@ COLLECTORS = [
 
 
 def _make_collector_asset(name, dataset, argv, group, desc):
-    @asset(name=name, group_name=group, compute_kind="python", description=desc)
+    @asset(name=name, group_name=group, compute_kind="python", description=desc,
+           retry_policy=RETRY)
     def _a(context) -> MaterializeResult:
         return _run_collector(context, argv, dataset)
     return _a
@@ -166,6 +172,7 @@ collector_assets = {
 
 @asset(
     name="violations_permit_detail", group_name="portlandmaps", compute_kind="python",
+    retry_policy=RETRY,
     description="Per-parcel code violations + permit details (PortlandMaps). Normally a "
                 "continuous rolling refresh; here one pass per run via ONCE=1. Heavy -- "
                 "iterates many parcels, so schedule deliberately.",
@@ -181,6 +188,7 @@ def violations_permit_detail(context) -> MaterializeResult:
 # --------------------------------------------------------------------------
 @asset(
     name="lake_parquet", group_name="warehouse", compute_kind="duckdb",
+    retry_policy=RETRY,
     deps=[*collector_assets.values(), violations_permit_detail],
     description="Build the lake's Parquet silver layer from the raw NDJSON. dbt "
                 "staging reads Parquet, which is ~20x faster than gzipped JSON, "

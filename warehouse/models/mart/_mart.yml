@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: mart_property_week
+    description: >
+      One row per parcel per snapshot (the model's feature / training table).
+      Joins property attributes with violation, permit, and demolition aggregates
+      plus the assessed-value trend.
+    columns:
+      - name: property_id
+        description: Parcel id. Part of the (property_id, snapshot_date) grain.
+        data_tests: [not_null]
+      - name: snapshot_date
+        description: Capture date of this row's property snapshot.
+        data_tests: [not_null]
+      - name: violation_count
+        description: Total code-enforcement cases for the parcel.

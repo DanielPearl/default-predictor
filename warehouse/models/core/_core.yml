@@ -1,0 +1,81 @@
+version: 2
+
+models:
+  - name: core_property
+    description: >
+      Parcel hub: one row per property, latest capture, with physical and value
+      attributes. Grain is property_id.
+    columns:
+      - name: property_id
+        description: Multnomah County property account id (R-number). Primary key.
+        data_tests: [not_null, unique]
+      - name: state_id
+        description: State parcel id (STATE_ID); joins to demolitions.
+      - name: assessed_value
+        description: Latest total assessed value (TOTALVAL3).
+
+  - name: core_owner
+    description: Owner entity, one row per normalized owner name.
+    columns:
+      - name: owner_id
+        description: md5 of the normalized owner name. Primary key.
+        data_tests: [not_null, unique]
+      - name: is_entity
+        description: True when the owner name looks like an LLC/trust/corp/etc.
+
+  - name: core_business
+    description: Oregon SoS active business registry, one row per business.
+    columns:
+      - name: registry_number
+        description: Oregon SoS registry number. Primary key.
+        data_tests: [not_null, unique]
+
+  - name: core_ownership
+    description: Links each parcel to its primary owner, with owner-occupancy.
+    columns:
+      - name: property_id
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('core_property')
+              field: property_id
+              config: {severity: warn}
+      - name: owner_id
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('core_owner')
+              field: owner_id
+              config: {severity: warn}
+
+  - name: core_assessment
+    description: One row per parcel per assessment roll year (3 years carried in taxlots).
+    columns:
+      - name: property_id
+        data_tests: [not_null]
+
+  - name: core_permit
+    description: One row per building permit, keyed to its parcel.
+    columns:
+      - name: permit_id
+        description: FOLDERNUMB permit id.
+        data_tests: [not_null]
+      - name: property_id
+        data_tests: [not_null]
+
+  - name: core_violation
+    description: One row per code-enforcement case, classified into a violation_type.
+    columns:
+      - name: property_id
+        data_tests: [not_null]
+      - name: violation_type
+        description: Derived class of the case.
+        data_tests:
+          - accepted_values:
+              values: [vacant, trash, overgrowth, vehicle, zoning, noise, other]
+
+  - name: core_demolition
+    description: One row per residential demolition permit, keyed by state_id.
+    columns:
+      - name: state_id
+        data_tests: [not_null]
