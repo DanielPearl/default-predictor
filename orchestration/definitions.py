@@ -3,8 +3,11 @@ Dagster definitions for Default Predictor.
 
 ADDITIVE orchestration layer -- it does not change existing pipeline code. Each
 ingestion asset shells out to the existing collector exactly as cron does, then
-reads the lake manifest to surface row counts + a data preview in the UI. The
-warehouse/ dbt project is pulled in as assets via dagster-dbt.
+reads the lake manifest to surface rows, size, duration, and a data preview in
+the UI. The warehouse/ dbt project is pulled in as assets via dagster-dbt.
+
+Every asset and job is tagged with source / cadence / layer so the Runs list and
+Catalog are filterable and self-describing.
 
 cron still owns scheduling for now -- every schedule below ships STOPPED, so
 nothing fires from Dagster until you start it in the UI. Run both in parallel,
@@ -20,6 +23,7 @@ import json
 import os
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 from dagster import (
@@ -70,7 +74,7 @@ _activate_spaces_for_dbt()
 
 
 # --------------------------------------------------------------------------
-# Shared helpers: find the newest lake partition, pull rows + a preview
+# Shared helpers: find the newest lake partition, pull rows/size + a preview
 # --------------------------------------------------------------------------
 def _latest_partition(dataset: str):
     """Newest captured_date=* dir for a dataset, regardless of source slug."""
@@ -78,7 +82,7 @@ def _latest_partition(dataset: str):
     return parts[-1] if parts else None
 
 
-def _manifest_rows(part: Path, dataset: str):
+def _manifest_field(part: Path, dataset: str, field: str):
     man = part / "_manifest.json"
     if not man.exists():
         return None
@@ -86,7 +90,7 @@ def _manifest_rows(part: Path, dataset: str):
     files = m.get("files") or ([m["file"]] if "file" in m else [])
     for f in files:
         if f.get("dataset") == dataset:
-            return f.get("rows")
+            return f.get(field)
     return None
 
 
@@ -104,16 +108,24 @@ def _sample_raw(gz: Path, n: int = 3):
     return out
 
 
-def _collect_metadata(part: Path, dataset: str, stdout: str) -> dict:
+def _collect_metadata(part: Path, dataset: str, stdout: str, duration_s=None) -> dict:
+    """Visibility metadata shown on each materialization: when the data is for
+    (captured_date), how much (rows, size), how long the step took, a preview,
+    and the log tail."""
     meta = {}
+    if duration_s is not None:
+        meta["duration_s"] = MetadataValue.float(round(duration_s, 1))
     tail = (stdout or "").strip()[-1500:]
     if tail:
         meta["log_tail"] = MetadataValue.md("```\n" + tail + "\n```")
     if part:
         meta["captured_date"] = part.name.split("=")[-1]
-        rows = _manifest_rows(part, dataset)
+        rows = _manifest_field(part, dataset, "rows")
         if rows is not None:
             meta["rows"] = MetadataValue.int(rows)
+        nbytes = _manifest_field(part, dataset, "bytes")
+        if nbytes:
+            meta["size_mb"] = MetadataValue.float(round(nbytes / 1e6, 2))
         gz = part / f"{dataset}.ndjson.gz"
         if gz.exists():
             meta["lake_file"] = MetadataValue.path(str(gz))
@@ -123,56 +135,61 @@ def _collect_metadata(part: Path, dataset: str, stdout: str) -> dict:
 
 def _run_collector(context, argv: list[str], dataset: str, extra_env: dict | None = None):
     env = {**os.environ, **(extra_env or {})}
+    t0 = time.time()
     proc = subprocess.run(
         [PY, *argv], cwd=str(ROOT), capture_output=True, text=True, env=env,
     )
+    dur = time.time() - t0
     if proc.stdout:
         context.log.info(proc.stdout)
     if proc.returncode != 0:
         context.log.error(proc.stderr or "(no stderr)")
         raise RuntimeError(f"{' '.join(argv)} exited {proc.returncode}")
-    return MaterializeResult(metadata=_collect_metadata(_latest_partition(dataset), dataset, proc.stdout))
+    return MaterializeResult(
+        metadata=_collect_metadata(_latest_partition(dataset), dataset, proc.stdout, dur))
 
 
 # --------------------------------------------------------------------------
 # Ingestion assets -- each wraps an existing collector, unchanged
 # --------------------------------------------------------------------------
-# name, dataset, argv (after python), source group, description
+# name, dataset, argv (after python), source group, cadence, description
 COLLECTORS = [
-    ("bankruptcy", "bankruptcy", ["pipeline/collect_bankruptcy.py"], "pacer",
+    ("bankruptcy", "bankruptcy", ["pipeline/collect_bankruptcy.py"], "pacer", "daily",
      "Daily D. Oregon bankruptcy filings (CM/ECF RSS). Deduped by RSS guid."),
-    ("permits", "permits", ["pipeline/collect_arcgis.py", "permits"], "portlandmaps",
+    ("permits", "permits", ["pipeline/collect_arcgis.py", "permits"], "portlandmaps", "weekly",
      "Building permits (ArcGIS feature service) -> lake."),
-    ("demolitions", "demolitions", ["pipeline/collect_arcgis.py", "demolitions"], "portlandmaps",
+    ("demolitions", "demolitions", ["pipeline/collect_arcgis.py", "demolitions"], "portlandmaps", "weekly",
      "Demolition permits (ArcGIS feature service) -> lake."),
-    ("taxlots", "taxlots", ["pipeline/collect_arcgis.py", "taxlots"], "portlandmaps",
+    ("taxlots", "taxlots", ["pipeline/collect_arcgis.py", "taxlots"], "portlandmaps", "monthly",
      "Taxlots parcel base (ArcGIS feature service) -> lake."),
-    ("rental_portfolio", "rental_portfolio", ["pipeline/collect_arcgis.py", "rental_portfolio"], "portlandmaps",
+    ("rental_portfolio", "rental_portfolio", ["pipeline/collect_arcgis.py", "rental_portfolio"], "portlandmaps", "quarterly",
      "Regulated rental portfolio (ArcGIS feature service) -> lake."),
-    ("assessor", "assessor", ["pipeline/collect_portlandmaps.py"], "portlandmaps",
+    ("assessor", "assessor", ["pipeline/collect_portlandmaps.py"], "portlandmaps", "monthly",
      "County assessor roll (PortlandMaps API) -> lake."),
-    ("businesses", "businesses", ["pipeline/collect_oregon_sos.py"], "oregon_sos",
+    ("businesses", "businesses", ["pipeline/collect_oregon_sos.py"], "oregon_sos", "quarterly",
      "Active business registry (Oregon Secretary of State) -> lake."),
 ]
 
 
-def _make_collector_asset(name, dataset, argv, group, desc):
+def _make_collector_asset(name, dataset, argv, group, cadence, desc):
     @asset(name=name, group_name=group, compute_kind="python", description=desc,
-           retry_policy=RETRY)
+           retry_policy=RETRY,
+           tags={"source": group, "cadence": cadence, "layer": "bronze"})
     def _a(context) -> MaterializeResult:
         return _run_collector(context, argv, dataset)
     return _a
 
 
 collector_assets = {
-    name: _make_collector_asset(name, dataset, argv, group, desc)
-    for (name, dataset, argv, group, desc) in COLLECTORS
+    name: _make_collector_asset(name, dataset, argv, group, cadence, desc)
+    for (name, dataset, argv, group, cadence, desc) in COLLECTORS
 }
 
 
 @asset(
     name="violations_permit_detail", group_name="portlandmaps", compute_kind="python",
     retry_policy=RETRY,
+    tags={"source": "portlandmaps", "cadence": "continuous", "layer": "bronze"},
     description="Per-parcel code violations + permit details (PortlandMaps). Normally a "
                 "continuous rolling refresh; here one pass per run via ONCE=1. Heavy -- "
                 "iterates many parcels, so schedule deliberately.",
@@ -189,23 +206,28 @@ def violations_permit_detail(context) -> MaterializeResult:
 @asset(
     name="lake_parquet", group_name="warehouse", compute_kind="duckdb",
     retry_policy=RETRY,
+    tags={"layer": "silver"},
     deps=[*collector_assets.values(), violations_permit_detail],
     description="Build the lake's Parquet silver layer from the raw NDJSON. dbt "
                 "staging reads Parquet, which is ~20x faster than gzipped JSON, "
                 "especially over Spaces. Wraps pipeline/lake_to_parquet.py.",
 )
 def lake_parquet(context) -> MaterializeResult:
+    t0 = time.time()
     proc = subprocess.run(
         [PY, "pipeline/lake_to_parquet.py"], cwd=str(ROOT), capture_output=True, text=True,
     )
+    dur = time.time() - t0
     if proc.stdout:
         context.log.info(proc.stdout)
     if proc.returncode != 0:
         context.log.error(proc.stderr or "(no stderr)")
         raise RuntimeError(f"lake_to_parquet.py exited {proc.returncode}")
+    meta = {"duration_s": MetadataValue.float(round(dur, 1))}
     tail = (proc.stdout or "").strip()[-1500:]
-    return MaterializeResult(
-        metadata={"log_tail": MetadataValue.md("```\n" + tail + "\n```")} if tail else {})
+    if tail:
+        meta["log_tail"] = MetadataValue.md("```\n" + tail + "\n```")
+    return MaterializeResult(metadata=meta)
 
 
 # --------------------------------------------------------------------------
@@ -232,6 +254,7 @@ def dbt_warehouse(context, dbt: DbtCliResource):
 
 # --------------------------------------------------------------------------
 # Jobs + schedules, by cadence (mirror the cron runners). All STOPPED.
+# Jobs carry a cadence tag so their runs are identifiable in the Runs list.
 # --------------------------------------------------------------------------
 def _sched(name, job, cron):
     return ScheduleDefinition(
@@ -240,14 +263,19 @@ def _sched(name, job, cron):
     )
 
 
-daily_job = define_asset_job("daily_ingest", selection=[collector_assets["bankruptcy"]])
+daily_job = define_asset_job(
+    "daily_ingest", selection=[collector_assets["bankruptcy"]], tags={"cadence": "daily"})
 weekly_job = define_asset_job(
-    "weekly_ingest", selection=[collector_assets["permits"], collector_assets["demolitions"]])
+    "weekly_ingest", selection=[collector_assets["permits"], collector_assets["demolitions"]],
+    tags={"cadence": "weekly"})
 monthly_job = define_asset_job(
-    "monthly_ingest", selection=[collector_assets["taxlots"], collector_assets["assessor"]])
+    "monthly_ingest", selection=[collector_assets["taxlots"], collector_assets["assessor"]],
+    tags={"cadence": "monthly"})
 quarterly_job = define_asset_job(
-    "quarterly_ingest", selection=[collector_assets["rental_portfolio"], collector_assets["businesses"]])
-dbt_build_job = define_asset_job("dbt_build", selection=[lake_parquet, dbt_warehouse])
+    "quarterly_ingest", selection=[collector_assets["rental_portfolio"], collector_assets["businesses"]],
+    tags={"cadence": "quarterly"})
+dbt_build_job = define_asset_job(
+    "dbt_build", selection=[lake_parquet, dbt_warehouse], tags={"stage": "warehouse"})
 
 schedules = [
     _sched("daily_ingest_schedule", daily_job, "0 4 * * *"),         # 4:00 AM PT
